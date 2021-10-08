@@ -42,6 +42,8 @@
     "clientPackageManager": "npm",
     "clientThemeVariant": "",
     "languages": ["en"],
-    "enableGradleEnterprise": false
+    "enableGradleEnterprise": false,
+    "entities": ["Customer", "Invoice", "OrderedItem", "Product", "ProductCategory", "ProductOrder", "Shipment", "Vendor"],
+    "lastLiquibaseTimestamp": 1633640683000
   }
 }

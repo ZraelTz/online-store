@@ -1,0 +1,114 @@
+entity Customer {
+  firstName String required
+  lastName String required
+  gender Gender required
+  email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+  phone String required
+  addressLine1 String required
+  addressLine2 String
+  city String required
+  countryState String required
+}
+entity Invoice {
+  date Instant required
+  details String
+  status InvoiceStatus required
+  paymentMethod PaymentMethod required
+  paymentDate Instant required
+  paymentAmount BigDecimal required
+  code String
+}
+entity OrderedItem {
+  quantity Integer required min(0)
+  totalPrice BigDecimal required min(0)
+  status OrderedItemStatus required
+}
+entity Product {
+  name String required
+  material String
+  description String
+  price BigDecimal required min(0)
+  productSize ProductSize required
+  image ImageBlob
+}
+entity ProductCategory {
+  name String required
+  description String
+}
+entity ProductOrder {
+  placedDate Instant required
+  status OrderStatus required
+  code String required
+}
+entity Shipment {
+  trackingCode String
+  date Instant required
+  details String
+}
+entity Vendor {
+  firstName String required
+  lastName String required
+  gender Gender required
+  email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+  phone String required
+  phone2 String
+  addressLine1 String required
+  addressLine2 String
+  city String required
+  country String required
+  storeName String required
+  businessAccountNumber Long required
+}
+enum Gender {
+  MALE,
+  FEMALE,
+  OTHER
+}
+enum InvoiceStatus {
+  PAID,
+  ISSUED,
+  CANCELLED
+}
+enum PaymentMethod {
+  CREDIT_CARD,
+  CASH_ON_DELIVERY,
+  BANK_TRANSFER,
+  USSD,
+  OFFLINE_PAYMENT
+}
+enum OrderedItemStatus {
+  AVAILABLE,
+  OUT_OF_STOCK,
+  BACK_ORDER
+}
+enum ProductSize {
+  S,
+  M,
+  L,
+  XL,
+  XXL,
+  XXXL
+}
+enum OrderStatus {
+  COMPLETED,
+  PENDING,
+  CANCELLED
+}
+
+relationship OneToOne {
+  Customer{user(login) required} to User
+  Vendor{user(login) required} to User
+}
+relationship OneToMany {
+  ProductOrder{invoice} to Invoice{order(code) required}
+  ProductOrder{orderedItem} to OrderedItem{order(code) required}
+  ProductCategory{product} to Product{productCategory(name)}
+  Customer{order} to ProductOrder{customer(email) required}
+  Invoice{shipment} to Shipment{invoice(code) required}
+}
+relationship ManyToOne {
+  OrderedItem{product(name)} to Product
+}
+
+paginate Customer, Invoice, OrderedItem, Product, ProductOrder, Shipment with pagination
+service Customer, Invoice, OrderedItem, Product, ProductCategory, ProductOrder, Shipment, Vendor with serviceClass

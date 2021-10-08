@@ -1,0 +1,12 @@
+{
+  "storeApp": {
+    "PaymentMethod": {
+      "null": "",
+      "CREDIT_CARD": "CREDIT_CARD",
+      "CASH_ON_DELIVERY": "CASH_ON_DELIVERY",
+      "BANK_TRANSFER": "BANK_TRANSFER",
+      "USSD": "USSD",
+      "OFFLINE_PAYMENT": "OFFLINE_PAYMENT"
+    }
+  }
+}

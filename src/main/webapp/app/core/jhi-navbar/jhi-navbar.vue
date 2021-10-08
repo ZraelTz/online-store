@@ -29,6 +29,38 @@
             <font-awesome-icon icon="th-list" />
             <span class="no-bold" v-text="$t('global.menu.entities.main')">Entities</span>
           </span>
+          <b-dropdown-item to="/customer">
+            <font-awesome-icon icon="asterisk" />
+            <span v-text="$t('global.menu.entities.customer')">Customer</span>
+          </b-dropdown-item>
+          <b-dropdown-item to="/invoice">
+            <font-awesome-icon icon="asterisk" />
+            <span v-text="$t('global.menu.entities.invoice')">Invoice</span>
+          </b-dropdown-item>
+          <b-dropdown-item to="/ordered-item">
+            <font-awesome-icon icon="asterisk" />
+            <span v-text="$t('global.menu.entities.orderedItem')">Ordered Item</span>
+          </b-dropdown-item>
+          <b-dropdown-item to="/product">
+            <font-awesome-icon icon="asterisk" />
+            <span v-text="$t('global.menu.entities.product')">Product</span>
+          </b-dropdown-item>
+          <b-dropdown-item to="/product-category">
+            <font-awesome-icon icon="asterisk" />
+            <span v-text="$t('global.menu.entities.productCategory')">Product Category</span>
+          </b-dropdown-item>
+          <b-dropdown-item to="/product-order">
+            <font-awesome-icon icon="asterisk" />
+            <span v-text="$t('global.menu.entities.productOrder')">Product Order</span>
+          </b-dropdown-item>
+          <b-dropdown-item to="/shipment">
+            <font-awesome-icon icon="asterisk" />
+            <span v-text="$t('global.menu.entities.shipment')">Shipment</span>
+          </b-dropdown-item>
+          <b-dropdown-item to="/vendor">
+            <font-awesome-icon icon="asterisk" />
+            <span v-text="$t('global.menu.entities.vendor')">Vendor</span>
+          </b-dropdown-item>
           <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
         </b-nav-item-dropdown>
         <b-nav-item-dropdown
