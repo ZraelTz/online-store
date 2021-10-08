@@ -91,7 +91,10 @@ test {
     testLogging {
         events 'FAILED', 'SKIPPED'
     }
-    jvmArgs += '-Djava.security.egd=file:/dev/./urandom -Xmx256m'
+    jvmArgs += [
+        "-Djava.security.egd=file:/dev/./urandom -Xmx256m",
+        "-XX:+AllowRedefinitionToAddDeleteMethods"
+    ]
     // uncomment if the tests reports are not generated
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
     // ignoreFailures true
@@ -111,7 +114,10 @@ task integrationTest(type: Test) {
     testLogging {
         events 'FAILED', 'SKIPPED'
     }
-    jvmArgs += '-Djava.security.egd=file:/dev/./urandom -Xmx256m'
+    jvmArgs += [
+        "-Djava.security.egd=file:/dev/./urandom -Xmx256m",
+        "-XX:+AllowRedefinitionToAddDeleteMethods"
+    ]
     if (project.hasProperty('testcontainers')) {
         environment 'SPRING_PROFILES_ACTIVE', 'testcontainers'
     }

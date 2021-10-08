@@ -32,6 +32,9 @@ public interface ProductOrderRepository extends R2dbcRepository<ProductOrder, Lo
 
     @Override
     <S extends ProductOrder> Mono<S> save(S entity);
+
+    Flux<ProductOrder> findAllByCustomerUserLogin(Mono<String> currentUserLogin,
+            Pageable pageable);
 }
 
 interface ProductOrderRepositoryInternal {

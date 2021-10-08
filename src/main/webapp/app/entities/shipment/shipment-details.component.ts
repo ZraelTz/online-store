@@ -2,9 +2,11 @@ import { Component, Vue, Inject } from 'vue-property-decorator';
 
 import { IShipment } from '@/shared/model/shipment.model';
 import ShipmentService from './shipment.service';
+import AccountService from '@/account/account.service';
 
 @Component
 export default class ShipmentDetails extends Vue {
+  @Inject('accountService') private accountService: () => AccountService;
   @Inject('shipmentService') private shipmentService: () => ShipmentService;
   public shipment: IShipment = {};
 
@@ -14,6 +16,10 @@ export default class ShipmentDetails extends Vue {
         vm.retrieveShipment(to.params.shipmentId);
       }
     });
+  }
+
+  public hasAnyAuthority(auhtorities: any): boolean {
+    return this.accountService().hasAnyAuthority(auhtorities);
   }
 
   public retrieveShipment(shipmentId) {

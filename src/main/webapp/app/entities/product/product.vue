@@ -10,6 +10,7 @@
         <router-link :to="{ name: 'ProductCreate' }" custom v-slot="{ navigate }">
           <button
             @click="navigate"
+            v-if="hasAnyAuthority('ROLE_ADMIN')"
             id="jh-create-entity"
             data-cy="entityCreateButton"
             class="btn btn-primary jh-create-entity create-product"
@@ -99,13 +100,19 @@
                   </button>
                 </router-link>
                 <router-link :to="{ name: 'ProductEdit', params: { productId: product.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                  <button
+                    @click="navigate"
+                    v-if="hasAnyAuthority('ROLE_ADMIN')"
+                    class="btn btn-primary btn-sm edit"
+                    data-cy="entityEditButton"
+                  >
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline" v-text="$t('entity.action.edit')">Edit</span>
                   </button>
                 </router-link>
                 <b-button
                   v-on:click="prepareRemove(product)"
+                  v-if="hasAnyAuthority('ROLE_ADMIN')"
                   variant="danger"
                   class="btn btn-sm"
                   data-cy="entityDeleteButton"

@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import TranslationService from '@/locale/translation.service';
 
 export default class AccountService {
+  hasAnyAuthorityValue: any;
   constructor(private store: Store<any>, private translationService: TranslationService, private router: VueRouter) {
     this.init();
   }
@@ -79,6 +80,13 @@ export default class AccountService {
     }
 
     return Promise.resolve(false);
+  }
+
+  public hasAnyAuthority(authorities: any): boolean {
+    this.hasAnyAuthorityAndCheckAuth(authorities).then(value => {
+      this.hasAnyAuthorityValue = value;
+    });
+    return this.hasAnyAuthorityValue;
   }
 
   public get authenticated(): boolean {

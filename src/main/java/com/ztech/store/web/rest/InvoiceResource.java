@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -62,6 +63,7 @@ public class InvoiceResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new invoice, or with status {@code 400 (Bad Request)} if the invoice has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/invoices")
     public Mono<ResponseEntity<Invoice>> createInvoice(@Valid @RequestBody Invoice invoice) throws URISyntaxException {
         log.debug("REST request to save Invoice : {}", invoice);
@@ -92,6 +94,7 @@ public class InvoiceResource {
      * or with status {@code 500 (Internal Server Error)} if the invoice couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/invoices/{id}")
     public Mono<ResponseEntity<Invoice>> updateInvoice(
         @PathVariable(value = "id", required = false) final Long id,
@@ -135,6 +138,7 @@ public class InvoiceResource {
      * or with status {@code 500 (Internal Server Error)} if the invoice couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping(value = "/invoices/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<Invoice>> partialUpdateInvoice(
         @PathVariable(value = "id", required = false) final Long id,
@@ -200,6 +204,7 @@ public class InvoiceResource {
      * @param id the id of the invoice to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the invoice, or with status {@code 404 (Not Found)}.
      */
+
     @GetMapping("/invoices/{id}")
     public Mono<ResponseEntity<Invoice>> getInvoice(@PathVariable Long id) {
         log.debug("REST request to get Invoice : {}", id);
@@ -213,6 +218,7 @@ public class InvoiceResource {
      * @param id the id of the invoice to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/invoices/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> deleteInvoice(@PathVariable Long id) {

@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -62,6 +63,7 @@ public class ProductOrderResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new productOrder, or with status {@code 400 (Bad Request)} if the productOrder has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/product-orders")
     public Mono<ResponseEntity<ProductOrder>> createProductOrder(@Valid @RequestBody ProductOrder productOrder) throws URISyntaxException {
         log.debug("REST request to save ProductOrder : {}", productOrder);
@@ -92,6 +94,7 @@ public class ProductOrderResource {
      * or with status {@code 500 (Internal Server Error)} if the productOrder couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/product-orders/{id}")
     public Mono<ResponseEntity<ProductOrder>> updateProductOrder(
         @PathVariable(value = "id", required = false) final Long id,
@@ -135,6 +138,7 @@ public class ProductOrderResource {
      * or with status {@code 500 (Internal Server Error)} if the productOrder couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping(value = "/product-orders/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<ProductOrder>> partialUpdateProductOrder(
         @PathVariable(value = "id", required = false) final Long id,
@@ -213,6 +217,7 @@ public class ProductOrderResource {
      * @param id the id of the productOrder to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/product-orders/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> deleteProductOrder(@PathVariable Long id) {

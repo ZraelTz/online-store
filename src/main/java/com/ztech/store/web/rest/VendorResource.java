@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
@@ -54,6 +55,7 @@ public class VendorResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new vendor, or with status {@code 400 (Bad Request)} if the vendor has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/vendors")
     public Mono<ResponseEntity<Vendor>> createVendor(@Valid @RequestBody Vendor vendor) throws URISyntaxException {
         log.debug("REST request to save Vendor : {}", vendor);
@@ -84,6 +86,7 @@ public class VendorResource {
      * or with status {@code 500 (Internal Server Error)} if the vendor couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/vendors/{id}")
     public Mono<ResponseEntity<Vendor>> updateVendor(
         @PathVariable(value = "id", required = false) final Long id,
@@ -127,6 +130,7 @@ public class VendorResource {
      * or with status {@code 500 (Internal Server Error)} if the vendor couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping(value = "/vendors/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<Vendor>> partialUpdateVendor(
         @PathVariable(value = "id", required = false) final Long id,
@@ -165,6 +169,7 @@ public class VendorResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of vendors in body.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/vendors")
     public Mono<List<Vendor>> getAllVendors() {
         log.debug("REST request to get all Vendors");
@@ -175,6 +180,7 @@ public class VendorResource {
      * {@code GET  /vendors} : get all the vendors as a stream.
      * @return the {@link Flux} of vendors.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/vendors", produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<Vendor> getAllVendorsAsStream() {
         log.debug("REST request to get all Vendors as a stream");
@@ -187,6 +193,7 @@ public class VendorResource {
      * @param id the id of the vendor to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the vendor, or with status {@code 404 (Not Found)}.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/vendors/{id}")
     public Mono<ResponseEntity<Vendor>> getVendor(@PathVariable Long id) {
         log.debug("REST request to get Vendor : {}", id);
@@ -200,6 +207,7 @@ public class VendorResource {
      * @param id the id of the vendor to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/vendors/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> deleteVendor(@PathVariable Long id) {

@@ -29,7 +29,7 @@
             <font-awesome-icon icon="th-list" />
             <span class="no-bold" v-text="$t('global.menu.entities.main')">Entities</span>
           </span>
-          <b-dropdown-item to="/customer">
+          <b-dropdown-item to="/customer" v-if="hasAnyAuthority('ROLE_ADMIN')">
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.customer')">Customer</span>
           </b-dropdown-item>
@@ -45,7 +45,7 @@
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.product')">Product</span>
           </b-dropdown-item>
-          <b-dropdown-item to="/product-category">
+          <b-dropdown-item to="/product-category" v-if="hasAnyAuthority('ROLE_ADMIN')">
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.productCategory')">Product Category</span>
           </b-dropdown-item>
@@ -57,7 +57,7 @@
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.shipment')">Shipment</span>
           </b-dropdown-item>
-          <b-dropdown-item to="/vendor">
+          <b-dropdown-item to="/vendor" v-if="hasAnyAuthority('ROLE_ADMIN')">
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.vendor')">Vendor</span>
           </b-dropdown-item>
