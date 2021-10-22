@@ -77,7 +77,6 @@ public class ProductOrderService {
     @Transactional(readOnly = true)
     public Flux<ProductOrder> findAll(Pageable pageable) {
         log.debug("Request to get all ProductOrders");
-        
         return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
                         .flatMapMany(result -> {
                             if(result){
@@ -90,7 +89,6 @@ public class ProductOrderService {
                                 });
                             }
                         });
-                
     }
 
     /**
