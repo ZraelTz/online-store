@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
@@ -54,6 +55,7 @@ public class ProductCategoryResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new productCategory, or with status {@code 400 (Bad Request)} if the productCategory has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/product-categories")
     public Mono<ResponseEntity<ProductCategory>> createProductCategory(@Valid @RequestBody ProductCategory productCategory)
         throws URISyntaxException {
@@ -85,6 +87,7 @@ public class ProductCategoryResource {
      * or with status {@code 500 (Internal Server Error)} if the productCategory couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/product-categories/{id}")
     public Mono<ResponseEntity<ProductCategory>> updateProductCategory(
         @PathVariable(value = "id", required = false) final Long id,
@@ -128,6 +131,7 @@ public class ProductCategoryResource {
      * or with status {@code 500 (Internal Server Error)} if the productCategory couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping(value = "/product-categories/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<ProductCategory>> partialUpdateProductCategory(
         @PathVariable(value = "id", required = false) final Long id,
@@ -166,6 +170,7 @@ public class ProductCategoryResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of productCategories in body.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/product-categories")
     public Mono<List<ProductCategory>> getAllProductCategories() {
         log.debug("REST request to get all ProductCategories");
@@ -176,6 +181,7 @@ public class ProductCategoryResource {
      * {@code GET  /product-categories} : get all the productCategories as a stream.
      * @return the {@link Flux} of productCategories.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/product-categories", produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<ProductCategory> getAllProductCategoriesAsStream() {
         log.debug("REST request to get all ProductCategories as a stream");
@@ -188,6 +194,7 @@ public class ProductCategoryResource {
      * @param id the id of the productCategory to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the productCategory, or with status {@code 404 (Not Found)}.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/product-categories/{id}")
     public Mono<ResponseEntity<ProductCategory>> getProductCategory(@PathVariable Long id) {
         log.debug("REST request to get ProductCategory : {}", id);
@@ -201,6 +208,7 @@ public class ProductCategoryResource {
      * @param id the id of the productCategory to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/product-categories/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> deleteProductCategory(@PathVariable Long id) {

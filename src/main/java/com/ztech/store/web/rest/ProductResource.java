@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -62,6 +63,7 @@ public class ProductResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new product, or with status {@code 400 (Bad Request)} if the product has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/products")
     public Mono<ResponseEntity<Product>> createProduct(@Valid @RequestBody Product product) throws URISyntaxException {
         log.debug("REST request to save Product : {}", product);
@@ -92,6 +94,7 @@ public class ProductResource {
      * or with status {@code 500 (Internal Server Error)} if the product couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/products/{id}")
     public Mono<ResponseEntity<Product>> updateProduct(
         @PathVariable(value = "id", required = false) final Long id,
@@ -135,6 +138,7 @@ public class ProductResource {
      * or with status {@code 500 (Internal Server Error)} if the product couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping(value = "/products/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<Product>> partialUpdateProduct(
         @PathVariable(value = "id", required = false) final Long id,
@@ -213,6 +217,7 @@ public class ProductResource {
      * @param id the id of the product to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/products/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> deleteProduct(@PathVariable Long id) {
