@@ -25,7 +25,7 @@ public interface InvoiceRepository extends R2dbcRepository<Invoice, Long>, Invoi
     @Query("SELECT * FROM invoice entity WHERE entity.product_order_id IS NULL")
     Flux<Invoice> findAllWhereProductOrderIsNull();
 
-    @Query("select * from invoice i cross join product_order po cross join customer c cross join jhi_user u where i.order_id=po.id and po.customer_id=c.id and c.user_id=u.id and u.login=:login")
+    @Query("select * from invoice i cross join product_order po cross join customer c cross join jhi_user u where i.product_order_id=po.id and po.customer_id=c.id and c.user_id=u.id and u.login=:login")
     Flux<Invoice> findAllByOrderCustomerUserLogin(String currentUserLogin, Pageable pageable);
 
     // just to avoid having unambigous methods
