@@ -179,7 +179,7 @@ public class ProductOrderResource {
      * @param request a {@link ServerHttpRequest} request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of productOrders in body.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')") 
+
     @GetMapping("/product-orders")
     public Mono<ResponseEntity<List<ProductOrder>>> getAllProductOrders(Pageable pageable, ServerHttpRequest request) {
         log.debug("REST request to get a page of ProductOrders");
