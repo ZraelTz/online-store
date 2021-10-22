@@ -65,6 +65,7 @@
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.productRating')">Product Rating</span>
           </b-dropdown-item>
+<<<<<<< HEAD
           <b-dropdown-item to="/cart">
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.cart')">Cart</span>
@@ -78,6 +79,8 @@
             <span v-text="$t('global.menu.entities.checkout')">Checkout</span>
           </b-dropdown-item>
         </b-nav-item-dropdown>
+=======
+>>>>>>> 52e1efe (cherry pick from commit e89b4a2)
         <b-nav-item-dropdown
           right
           id="admin-menu"
