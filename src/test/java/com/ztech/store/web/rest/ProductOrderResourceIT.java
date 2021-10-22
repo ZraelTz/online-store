@@ -33,7 +33,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 @IntegrationTest
 @AutoConfigureWebTestClient
-@WithMockUser
+@WithMockUser(username="admin", authorities={"ROLE_ADMIN"},
+password = "admin")
 class ProductOrderResourceIT {
 
     private static final Instant DEFAULT_PLACED_DATE = Instant.ofEpochMilli(0L);
