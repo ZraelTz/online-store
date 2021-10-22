@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -62,6 +63,7 @@ public class ShipmentResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new shipment, or with status {@code 400 (Bad Request)} if the shipment has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/shipments")
     public Mono<ResponseEntity<Shipment>> createShipment(@Valid @RequestBody Shipment shipment) throws URISyntaxException {
         log.debug("REST request to save Shipment : {}", shipment);
@@ -92,6 +94,7 @@ public class ShipmentResource {
      * or with status {@code 500 (Internal Server Error)} if the shipment couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/shipments/{id}")
     public Mono<ResponseEntity<Shipment>> updateShipment(
         @PathVariable(value = "id", required = false) final Long id,
@@ -135,6 +138,7 @@ public class ShipmentResource {
      * or with status {@code 500 (Internal Server Error)} if the shipment couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping(value = "/shipments/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<Shipment>> partialUpdateShipment(
         @PathVariable(value = "id", required = false) final Long id,
@@ -200,6 +204,7 @@ public class ShipmentResource {
      * @param id the id of the shipment to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the shipment, or with status {@code 404 (Not Found)}.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/shipments/{id}")
     public Mono<ResponseEntity<Shipment>> getShipment(@PathVariable Long id) {
         log.debug("REST request to get Shipment : {}", id);
@@ -213,6 +218,7 @@ public class ShipmentResource {
      * @param id the id of the shipment to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/shipments/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> deleteShipment(@PathVariable Long id) {
