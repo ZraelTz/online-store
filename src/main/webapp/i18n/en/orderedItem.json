@@ -22,7 +22,7 @@
       "totalPrice": "Total Price",
       "status": "Status",
       "product": "Product",
-      "order": "Order"
+      "productOrder": "Product Order"
     }
   }
 }

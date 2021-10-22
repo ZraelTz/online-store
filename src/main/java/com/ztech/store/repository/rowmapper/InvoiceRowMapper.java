@@ -37,7 +37,7 @@ public class InvoiceRowMapper implements BiFunction<Row, String, Invoice> {
         entity.setPaymentDate(converter.fromRow(row, prefix + "_payment_date", Instant.class));
         entity.setPaymentAmount(converter.fromRow(row, prefix + "_payment_amount", BigDecimal.class));
         entity.setCode(converter.fromRow(row, prefix + "_code", String.class));
-        entity.setOrderId(converter.fromRow(row, prefix + "_order_id", Long.class));
+        entity.setProductOrderId(converter.fromRow(row, prefix + "_product_order_id", Long.class));
         return entity;
     }
 }

@@ -32,7 +32,7 @@ public class Shipment implements Serializable {
     private String details;
 
     @Transient
-    @JsonIgnoreProperties(value = { "shipments", "order" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "shipments", "productOrder" }, allowSetters = true)
     private Invoice invoice;
 
     @Column("invoice_id")

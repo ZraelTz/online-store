@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.is;
 
 import com.ztech.store.IntegrationTest;
 import com.ztech.store.domain.Product;
+import com.ztech.store.domain.ProductCategory;
 import com.ztech.store.domain.enumeration.ProductSize;
 import com.ztech.store.repository.ProductRepository;
 import com.ztech.store.service.EntityManager;
@@ -88,6 +89,10 @@ class ProductResourceIT {
             .productSize(DEFAULT_PRODUCT_SIZE)
             .image(DEFAULT_IMAGE)
             .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE);
+        // Add required entity
+        ProductCategory productCategory;
+        productCategory = em.insert(ProductCategoryResourceIT.createEntity(em)).block();
+        product.setProductCategory(productCategory);
         return product;
     }
 
@@ -106,6 +111,10 @@ class ProductResourceIT {
             .productSize(UPDATED_PRODUCT_SIZE)
             .image(UPDATED_IMAGE)
             .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
+        // Add required entity
+        ProductCategory productCategory;
+        productCategory = em.insert(ProductCategoryResourceIT.createUpdatedEntity(em)).block();
+        product.setProductCategory(productCategory);
         return product;
     }
 
@@ -115,6 +124,7 @@ class ProductResourceIT {
         } catch (Exception e) {
             // It can fail, if other entities are still referring this - it will be removed later.
         }
+        ProductCategoryResourceIT.deleteEntities(em);
     }
 
     @AfterEach

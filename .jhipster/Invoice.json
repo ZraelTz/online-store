@@ -49,7 +49,7 @@
       "otherEntityName": "productOrder",
       "otherEntityRelationshipName": "invoice",
       "relationshipValidateRules": "required",
-      "relationshipName": "order",
+      "relationshipName": "productOrder",
       "otherEntityField": "code"
     }
   ],

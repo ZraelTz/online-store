@@ -25,6 +25,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "product",
       "otherEntityRelationshipName": "orderedItem",
+      "relationshipValidateRules": "required",
       "relationshipName": "product",
       "otherEntityField": "name"
     },
@@ -33,7 +34,7 @@
       "otherEntityName": "productOrder",
       "otherEntityRelationshipName": "orderedItem",
       "relationshipValidateRules": "required",
-      "relationshipName": "order",
+      "relationshipName": "productOrder",
       "otherEntityField": "code"
     }
   ],

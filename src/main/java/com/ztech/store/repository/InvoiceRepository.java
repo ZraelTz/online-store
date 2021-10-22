@@ -1,8 +1,6 @@
 package com.ztech.store.repository;
 
 import com.ztech.store.domain.Invoice;
-
-import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
@@ -19,14 +17,11 @@ import reactor.core.publisher.Mono;
 public interface InvoiceRepository extends R2dbcRepository<Invoice, Long>, InvoiceRepositoryInternal {
     Flux<Invoice> findAllBy(Pageable pageable);
 
-    @Query("SELECT * FROM invoice entity WHERE entity.order_id = :id")
-    Flux<Invoice> findByOrder(Long id);
+    @Query("SELECT * FROM invoice entity WHERE entity.product_order_id = :id")
+    Flux<Invoice> findByProductOrder(Long id);
 
-    @Query("SELECT * FROM invoice entity WHERE entity.order_id IS NULL")
-    Flux<Invoice> findAllWhereOrderIsNull();
-
-    @Query("select * from invoice i cross join product_order po cross join customer c cross join jhi_user u where i.order_id=po.id and po.customer_id=c.id and c.user_id=u.id and u.login=:login")
-    Flux<Invoice> findAllByOrderCustomerUserLogin(String currentUserLogin, Pageable pageable);
+    @Query("SELECT * FROM invoice entity WHERE entity.product_order_id IS NULL")
+    Flux<Invoice> findAllWhereProductOrderIsNull();
 
     // just to avoid having unambigous methods
     @Override
@@ -37,8 +32,6 @@ public interface InvoiceRepository extends R2dbcRepository<Invoice, Long>, Invoi
 
     @Override
     <S extends Invoice> Mono<S> save(S entity);
-
-    
 }
 
 interface InvoiceRepositoryInternal {

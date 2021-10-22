@@ -10,7 +10,6 @@
         <router-link :to="{ name: 'OrderedItemCreate' }" custom v-slot="{ navigate }">
           <button
             @click="navigate"
-            v-if="hasAnyAuthority('ROLE_ADMIN')"
             id="jh-create-entity"
             data-cy="entityCreateButton"
             class="btn btn-primary jh-create-entity create-ordered-item"
@@ -49,9 +48,9 @@
               <span v-text="$t('storeApp.orderedItem.product')">Product</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'product.name'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('order.code')">
-              <span v-text="$t('storeApp.orderedItem.order')">Order</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'order.code'"></jhi-sort-indicator>
+            <th scope="row" v-on:click="changeOrder('productOrder.code')">
+              <span v-text="$t('storeApp.orderedItem.productOrder')">Product Order</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'productOrder.code'"></jhi-sort-indicator>
             </th>
             <th scope="row"></th>
           </tr>
@@ -72,9 +71,9 @@
               </div>
             </td>
             <td>
-              <div v-if="orderedItem.order">
-                <router-link :to="{ name: 'ProductOrderView', params: { productOrderId: orderedItem.order.id } }">{{
-                  orderedItem.order.code
+              <div v-if="orderedItem.productOrder">
+                <router-link :to="{ name: 'ProductOrderView', params: { productOrderId: orderedItem.productOrder.id } }">{{
+                  orderedItem.productOrder.code
                 }}</router-link>
               </div>
             </td>
@@ -87,19 +86,13 @@
                   </button>
                 </router-link>
                 <router-link :to="{ name: 'OrderedItemEdit', params: { orderedItemId: orderedItem.id } }" custom v-slot="{ navigate }">
-                  <button
-                    @click="navigate"
-                    v-if="hasAnyAuthority('ROLE_ADMIN')"
-                    class="btn btn-primary btn-sm edit"
-                    data-cy="entityEditButton"
-                  >
+                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline" v-text="$t('entity.action.edit')">Edit</span>
                   </button>
                 </router-link>
                 <b-button
                   v-on:click="prepareRemove(orderedItem)"
-                  v-if="hasAnyAuthority('ROLE_ADMIN')"
                   variant="danger"
                   class="btn btn-sm"
                   data-cy="entityDeleteButton"

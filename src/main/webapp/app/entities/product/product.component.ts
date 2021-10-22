@@ -7,13 +7,11 @@ import { IProduct } from '@/shared/model/product.model';
 import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import ProductService from './product.service';
-import AccountService from '@/account/account.service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
 export default class Product extends mixins(JhiDataUtils) {
-  @Inject('accountService') private accountService: () => AccountService;
   @Inject('productService') private productService: () => ProductService;
   private removeId: number = null;
   public itemsPerPage = 20;
@@ -35,10 +33,6 @@ export default class Product extends mixins(JhiDataUtils) {
   public clear(): void {
     this.page = 1;
     this.retrieveAllProducts();
-  }
-
-  public hasAnyAuthority(auhtorities: any): boolean {
-    return this.accountService().hasAnyAuthority(auhtorities);
   }
 
   public retrieveAllProducts(): void {

@@ -49,12 +49,12 @@
             <span>{{ invoice.code }}</span>
           </dd>
           <dt>
-            <span v-text="$t('storeApp.invoice.order')">Order</span>
+            <span v-text="$t('storeApp.invoice.productOrder')">Product Order</span>
           </dt>
           <dd>
-            <div v-if="invoice.order">
-              <router-link :to="{ name: 'ProductOrderView', params: { productOrderId: invoice.order.id } }">{{
-                invoice.order.code
+            <div v-if="invoice.productOrder">
+              <router-link :to="{ name: 'ProductOrderView', params: { productOrderId: invoice.productOrder.id } }">{{
+                invoice.productOrder.code
               }}</router-link>
             </div>
           </dd>
@@ -63,7 +63,7 @@
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="$t('entity.action.back')"> Back</span>
         </button>
         <router-link v-if="invoice.id" :to="{ name: 'InvoiceEdit', params: { invoiceId: invoice.id } }" custom v-slot="{ navigate }">
-          <button @click="navigate" class="btn btn-primary" v-if="hasAnyAuthority('ROLE_ADMIN')">
+          <button @click="navigate" class="btn btn-primary">
             <font-awesome-icon icon="pencil-alt"></font-awesome-icon>&nbsp;<span v-text="$t('entity.action.edit')"> Edit</span>
           </button>
         </router-link>

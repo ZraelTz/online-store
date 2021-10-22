@@ -32,7 +32,7 @@ public class OrderedItemRowMapper implements BiFunction<Row, String, OrderedItem
         entity.setTotalPrice(converter.fromRow(row, prefix + "_total_price", BigDecimal.class));
         entity.setStatus(converter.fromRow(row, prefix + "_status", OrderedItemStatus.class));
         entity.setProductId(converter.fromRow(row, prefix + "_product_id", Long.class));
-        entity.setOrderId(converter.fromRow(row, prefix + "_order_id", Long.class));
+        entity.setProductOrderId(converter.fromRow(row, prefix + "_product_order_id", Long.class));
         return entity;
     }
 }

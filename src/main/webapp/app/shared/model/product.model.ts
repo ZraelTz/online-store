@@ -10,7 +10,7 @@ export interface IProduct {
   productSize?: ProductSize;
   imageContentType?: string | null;
   image?: string | null;
-  productCategory?: IProductCategory | null;
+  productCategory?: IProductCategory;
 }
 
 export class Product implements IProduct {
@@ -23,6 +23,6 @@ export class Product implements IProduct {
     public productSize?: ProductSize,
     public imageContentType?: string | null,
     public image?: string | null,
-    public productCategory?: IProductCategory | null
+    public productCategory?: IProductCategory
   ) {}
 }

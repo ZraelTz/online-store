@@ -1,15 +1,7 @@
 package com.ztech.store.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.ArrayList;
-
-
 import com.ztech.store.domain.ProductOrder;
 import com.ztech.store.repository.ProductOrderRepository;
-import com.ztech.store.security.AuthoritiesConstants;
-import com.ztech.store.security.SecurityUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -53,19 +45,22 @@ public class ProductOrderService {
     public Mono<ProductOrder> partialUpdate(ProductOrder productOrder) {
         log.debug("Request to partially update ProductOrder : {}", productOrder);
 
-        return productOrderRepository.findById(productOrder.getId()).map(existingProductOrder -> {
-            if (productOrder.getPlacedDate() != null) {
-                existingProductOrder.setPlacedDate(productOrder.getPlacedDate());
-            }
-            if (productOrder.getStatus() != null) {
-                existingProductOrder.setStatus(productOrder.getStatus());
-            }
-            if (productOrder.getCode() != null) {
-                existingProductOrder.setCode(productOrder.getCode());
-            }
+        return productOrderRepository
+            .findById(productOrder.getId())
+            .map(existingProductOrder -> {
+                if (productOrder.getPlacedDate() != null) {
+                    existingProductOrder.setPlacedDate(productOrder.getPlacedDate());
+                }
+                if (productOrder.getStatus() != null) {
+                    existingProductOrder.setStatus(productOrder.getStatus());
+                }
+                if (productOrder.getCode() != null) {
+                    existingProductOrder.setCode(productOrder.getCode());
+                }
 
-            return existingProductOrder;
-        }).flatMap(productOrderRepository::save);
+                return existingProductOrder;
+            })
+            .flatMap(productOrderRepository::save);
     }
 
     /**
@@ -77,25 +72,11 @@ public class ProductOrderService {
     @Transactional(readOnly = true)
     public Flux<ProductOrder> findAll(Pageable pageable) {
         log.debug("Request to get all ProductOrders");
-        
-        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
-                        .flatMapMany(result -> {
-                            if(result){
-                                return productOrderRepository.findAllBy(pageable); 
-                            } else {
-                                return SecurityUtils.getCurrentUserLogin()
-                                .flatMapMany(currentUserLogin -> {
-                                    return productOrderRepository
-                                    .findAllByCustomerUserLogin(currentUserLogin, pageable);
-                                });
-                            }
-                        });
-                
+        return productOrderRepository.findAllBy(pageable);
     }
 
     /**
      * Returns the number of productOrders available.
-     * 
      * @return the number of entities in the database.
      *
      */
