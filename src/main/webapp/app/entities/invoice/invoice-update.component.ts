@@ -33,7 +33,7 @@ const validations: any = {
       decimal,
     },
     code: {},
-    order: {
+    productOrder: {
       required,
     },
   },

@@ -22,13 +22,13 @@
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "invoice",
-      "otherEntityRelationshipName": "order",
+      "otherEntityRelationshipName": "productOrder",
       "relationshipName": "invoice"
     },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "orderedItem",
-      "otherEntityRelationshipName": "order",
+      "otherEntityRelationshipName": "productOrder",
       "relationshipName": "orderedItem"
     },
     {

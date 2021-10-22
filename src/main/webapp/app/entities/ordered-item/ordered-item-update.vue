@@ -87,8 +87,8 @@
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="$t('storeApp.orderedItem.product')" for="ordered-item-product">Product</label>
-            <select class="form-control" id="ordered-item-product" data-cy="product" name="product" v-model="orderedItem.product">
-              <option v-bind:value="null"></option>
+            <select class="form-control" id="ordered-item-product" data-cy="product" name="product" v-model="orderedItem.product" required>
+              <option v-if="!orderedItem.product" v-bind:value="null" selected></option>
               <option
                 v-bind:value="orderedItem.product && productOption.id === orderedItem.product.id ? orderedItem.product : productOption"
                 v-for="productOption in products"
@@ -98,12 +98,30 @@
               </option>
             </select>
           </div>
+          <div v-if="$v.orderedItem.product.$anyDirty && $v.orderedItem.product.$invalid">
+            <small class="form-text text-danger" v-if="!$v.orderedItem.product.required" v-text="$t('entity.validation.required')">
+              This field is required.
+            </small>
+          </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="$t('storeApp.orderedItem.order')" for="ordered-item-order">Order</label>
-            <select class="form-control" id="ordered-item-order" data-cy="order" name="order" v-model="orderedItem.order" required>
-              <option v-if="!orderedItem.order" v-bind:value="null" selected></option>
+            <label class="form-control-label" v-text="$t('storeApp.orderedItem.productOrder')" for="ordered-item-productOrder"
+              >Product Order</label
+            >
+            <select
+              class="form-control"
+              id="ordered-item-productOrder"
+              data-cy="productOrder"
+              name="productOrder"
+              v-model="orderedItem.productOrder"
+              required
+            >
+              <option v-if="!orderedItem.productOrder" v-bind:value="null" selected></option>
               <option
-                v-bind:value="orderedItem.order && productOrderOption.id === orderedItem.order.id ? orderedItem.order : productOrderOption"
+                v-bind:value="
+                  orderedItem.productOrder && productOrderOption.id === orderedItem.productOrder.id
+                    ? orderedItem.productOrder
+                    : productOrderOption
+                "
                 v-for="productOrderOption in productOrders"
                 :key="productOrderOption.id"
               >
@@ -111,8 +129,8 @@
               </option>
             </select>
           </div>
-          <div v-if="$v.orderedItem.order.$anyDirty && $v.orderedItem.order.$invalid">
-            <small class="form-text text-danger" v-if="!$v.orderedItem.order.required" v-text="$t('entity.validation.required')">
+          <div v-if="$v.orderedItem.productOrder.$anyDirty && $v.orderedItem.productOrder.$invalid">
+            <small class="form-text text-danger" v-if="!$v.orderedItem.productOrder.required" v-text="$t('entity.validation.required')">
               This field is required.
             </small>
           </div>

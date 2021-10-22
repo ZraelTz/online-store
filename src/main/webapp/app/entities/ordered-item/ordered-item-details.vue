@@ -35,12 +35,12 @@
             </div>
           </dd>
           <dt>
-            <span v-text="$t('storeApp.orderedItem.order')">Order</span>
+            <span v-text="$t('storeApp.orderedItem.productOrder')">Product Order</span>
           </dt>
           <dd>
-            <div v-if="orderedItem.order">
-              <router-link :to="{ name: 'ProductOrderView', params: { productOrderId: orderedItem.order.id } }">{{
-                orderedItem.order.code
+            <div v-if="orderedItem.productOrder">
+              <router-link :to="{ name: 'ProductOrderView', params: { productOrderId: orderedItem.productOrder.id } }">{{
+                orderedItem.productOrder.code
               }}</router-link>
             </div>
           </dd>
@@ -54,7 +54,7 @@
           custom
           v-slot="{ navigate }"
         >
-          <button @click="navigate" v-if="hasAnyAuthority('ROLE_ADMIN')" class="btn btn-primary">
+          <button @click="navigate" class="btn btn-primary">
             <font-awesome-icon icon="pencil-alt"></font-awesome-icon>&nbsp;<span v-text="$t('entity.action.edit')"> Edit</span>
           </button>
         </router-link>

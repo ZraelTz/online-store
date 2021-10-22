@@ -3,7 +3,6 @@ import { mixins } from 'vue-class-component';
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
 import { ICustomer } from '@/shared/model/customer.model';
-import AccountService from '@/account/account.service';
 
 import CustomerService from './customer.service';
 
@@ -11,7 +10,6 @@ import CustomerService from './customer.service';
   mixins: [Vue2Filters.mixin],
 })
 export default class Customer extends Vue {
-  @Inject('accountService') private accountService: () => AccountService;
   @Inject('customerService') private customerService: () => CustomerService;
   private removeId: number = null;
   public itemsPerPage = 20;
@@ -84,10 +82,6 @@ export default class Customer extends Vue {
         this.retrieveAllCustomers();
         this.closeDialog();
       });
-  }
-
-  public hasAnyAuthority(auhtorities: any): boolean {
-    return this.accountService().hasAnyAuthority(auhtorities);
   }
 
   public sort(): Array<any> {

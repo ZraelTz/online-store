@@ -37,11 +37,11 @@ public class ProductOrder implements Serializable {
     private String code;
 
     @Transient
-    @JsonIgnoreProperties(value = { "shipments", "order" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "shipments", "productOrder" }, allowSetters = true)
     private Set<Invoice> invoices = new HashSet<>();
 
     @Transient
-    @JsonIgnoreProperties(value = { "product", "order" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "product", "productOrder" }, allowSetters = true)
     private Set<OrderedItem> orderedItems = new HashSet<>();
 
     @Transient
@@ -111,10 +111,10 @@ public class ProductOrder implements Serializable {
 
     public void setInvoices(Set<Invoice> invoices) {
         if (this.invoices != null) {
-            this.invoices.forEach(i -> i.setOrder(null));
+            this.invoices.forEach(i -> i.setProductOrder(null));
         }
         if (invoices != null) {
-            invoices.forEach(i -> i.setOrder(this));
+            invoices.forEach(i -> i.setProductOrder(this));
         }
         this.invoices = invoices;
     }
@@ -126,13 +126,13 @@ public class ProductOrder implements Serializable {
 
     public ProductOrder addInvoice(Invoice invoice) {
         this.invoices.add(invoice);
-        invoice.setOrder(this);
+        invoice.setProductOrder(this);
         return this;
     }
 
     public ProductOrder removeInvoice(Invoice invoice) {
         this.invoices.remove(invoice);
-        invoice.setOrder(null);
+        invoice.setProductOrder(null);
         return this;
     }
 
@@ -142,10 +142,10 @@ public class ProductOrder implements Serializable {
 
     public void setOrderedItems(Set<OrderedItem> orderedItems) {
         if (this.orderedItems != null) {
-            this.orderedItems.forEach(i -> i.setOrder(null));
+            this.orderedItems.forEach(i -> i.setProductOrder(null));
         }
         if (orderedItems != null) {
-            orderedItems.forEach(i -> i.setOrder(this));
+            orderedItems.forEach(i -> i.setProductOrder(this));
         }
         this.orderedItems = orderedItems;
     }
@@ -157,13 +157,13 @@ public class ProductOrder implements Serializable {
 
     public ProductOrder addOrderedItem(OrderedItem orderedItem) {
         this.orderedItems.add(orderedItem);
-        orderedItem.setOrder(this);
+        orderedItem.setProductOrder(this);
         return this;
     }
 
     public ProductOrder removeOrderedItem(OrderedItem orderedItem) {
         this.orderedItems.remove(orderedItem);
-        orderedItem.setOrder(null);
+        orderedItem.setProductOrder(null);
         return this;
     }
 

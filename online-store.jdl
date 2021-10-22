@@ -100,14 +100,14 @@ relationship OneToOne {
   Vendor{user(login) required} to User
 }
 relationship OneToMany {
-  ProductOrder{invoice} to Invoice{order(code) required}
-  ProductOrder{orderedItem} to OrderedItem{order(code) required}
-  ProductCategory{product} to Product{productCategory(name)}
+  ProductOrder{invoice} to Invoice{productOrder(code) required}
+  ProductOrder{orderedItem} to OrderedItem{productOrder(code) required}
+  ProductCategory{product} to Product{productCategory(name) required}
   Customer{order} to ProductOrder{customer(email) required}
   Invoice{shipment} to Shipment{invoice(code) required}
 }
 relationship ManyToOne {
-  OrderedItem{product(name)} to Product
+  OrderedItem{product(name) required} to Product
 }
 
 paginate Customer, Invoice, OrderedItem, Product, ProductOrder, Shipment with pagination

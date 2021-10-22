@@ -58,10 +58,10 @@ public class Invoice implements Serializable {
 
     @Transient
     @JsonIgnoreProperties(value = { "invoices", "orderedItems", "customer" }, allowSetters = true)
-    private ProductOrder order;
+    private ProductOrder productOrder;
 
-    @Column("order_id")
-    private Long orderId;
+    @Column("product_order_id")
+    private Long productOrderId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -200,26 +200,26 @@ public class Invoice implements Serializable {
         return this;
     }
 
-    public ProductOrder getOrder() {
-        return this.order;
+    public ProductOrder getProductOrder() {
+        return this.productOrder;
     }
 
-    public void setOrder(ProductOrder productOrder) {
-        this.order = productOrder;
-        this.orderId = productOrder != null ? productOrder.getId() : null;
+    public void setProductOrder(ProductOrder productOrder) {
+        this.productOrder = productOrder;
+        this.productOrderId = productOrder != null ? productOrder.getId() : null;
     }
 
-    public Invoice order(ProductOrder productOrder) {
-        this.setOrder(productOrder);
+    public Invoice productOrder(ProductOrder productOrder) {
+        this.setProductOrder(productOrder);
         return this;
     }
 
-    public Long getOrderId() {
-        return this.orderId;
+    public Long getProductOrderId() {
+        return this.productOrderId;
     }
 
-    public void setOrderId(Long productOrder) {
-        this.orderId = productOrder;
+    public void setProductOrderId(Long productOrder) {
+        this.productOrderId = productOrder;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

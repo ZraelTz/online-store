@@ -47,7 +47,7 @@ class OrderedItemRepositoryInternalImpl implements OrderedItemRepositoryInternal
 
     private static final Table entityTable = Table.aliased("ordered_item", EntityManager.ENTITY_ALIAS);
     private static final Table productTable = Table.aliased("product", "product");
-    private static final Table orderTable = Table.aliased("product_order", "e_order");
+    private static final Table productOrderTable = Table.aliased("product_order", "productOrder");
 
     public OrderedItemRepositoryInternalImpl(
         R2dbcEntityTemplate template,
@@ -77,7 +77,7 @@ class OrderedItemRepositoryInternalImpl implements OrderedItemRepositoryInternal
     RowsFetchSpec<OrderedItem> createQuery(Pageable pageable, Criteria criteria) {
         List<Expression> columns = OrderedItemSqlHelper.getColumns(entityTable, EntityManager.ENTITY_ALIAS);
         columns.addAll(ProductSqlHelper.getColumns(productTable, "product"));
-        columns.addAll(ProductOrderSqlHelper.getColumns(orderTable, "order"));
+        columns.addAll(ProductOrderSqlHelper.getColumns(productOrderTable, "productOrder"));
         SelectFromAndJoinCondition selectFrom = Select
             .builder()
             .select(columns)
@@ -85,9 +85,9 @@ class OrderedItemRepositoryInternalImpl implements OrderedItemRepositoryInternal
             .leftOuterJoin(productTable)
             .on(Column.create("product_id", entityTable))
             .equals(Column.create("id", productTable))
-            .leftOuterJoin(orderTable)
-            .on(Column.create("order_id", entityTable))
-            .equals(Column.create("id", orderTable));
+            .leftOuterJoin(productOrderTable)
+            .on(Column.create("product_order_id", entityTable))
+            .equals(Column.create("id", productOrderTable));
 
         String select = entityManager.createSelect(selectFrom, OrderedItem.class, pageable, criteria);
         String alias = entityTable.getReferenceName().getReference();
@@ -120,7 +120,7 @@ class OrderedItemRepositoryInternalImpl implements OrderedItemRepositoryInternal
     private OrderedItem process(Row row, RowMetadata metadata) {
         OrderedItem entity = ordereditemMapper.apply(row, "e");
         entity.setProduct(productMapper.apply(row, "product"));
-        entity.setOrder(productorderMapper.apply(row, "order"));
+        entity.setProductOrder(productorderMapper.apply(row, "productOrder"));
         return entity;
     }
 
@@ -161,7 +161,7 @@ class OrderedItemSqlHelper {
         columns.add(Column.aliased("status", table, columnPrefix + "_status"));
 
         columns.add(Column.aliased("product_id", table, columnPrefix + "_product_id"));
-        columns.add(Column.aliased("order_id", table, columnPrefix + "_order_id"));
+        columns.add(Column.aliased("product_order_id", table, columnPrefix + "_product_order_id"));
         return columns;
     }
 }

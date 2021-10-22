@@ -164,11 +164,20 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="$t('storeApp.invoice.order')" for="invoice-order">Order</label>
-            <select class="form-control" id="invoice-order" data-cy="order" name="order" v-model="invoice.order" required>
-              <option v-if="!invoice.order" v-bind:value="null" selected></option>
+            <label class="form-control-label" v-text="$t('storeApp.invoice.productOrder')" for="invoice-productOrder">Product Order</label>
+            <select
+              class="form-control"
+              id="invoice-productOrder"
+              data-cy="productOrder"
+              name="productOrder"
+              v-model="invoice.productOrder"
+              required
+            >
+              <option v-if="!invoice.productOrder" v-bind:value="null" selected></option>
               <option
-                v-bind:value="invoice.order && productOrderOption.id === invoice.order.id ? invoice.order : productOrderOption"
+                v-bind:value="
+                  invoice.productOrder && productOrderOption.id === invoice.productOrder.id ? invoice.productOrder : productOrderOption
+                "
                 v-for="productOrderOption in productOrders"
                 :key="productOrderOption.id"
               >
@@ -176,8 +185,8 @@
               </option>
             </select>
           </div>
-          <div v-if="$v.invoice.order.$anyDirty && $v.invoice.order.$invalid">
-            <small class="form-text text-danger" v-if="!$v.invoice.order.required" v-text="$t('entity.validation.required')">
+          <div v-if="$v.invoice.productOrder.$anyDirty && $v.invoice.productOrder.$invalid">
+            <small class="form-text text-danger" v-if="!$v.invoice.productOrder.required" v-text="$t('entity.validation.required')">
               This field is required.
             </small>
           </div>

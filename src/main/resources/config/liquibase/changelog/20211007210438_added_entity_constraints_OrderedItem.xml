@@ -14,9 +14,9 @@
                                  referencedColumnNames="id"
                                  referencedTableName="product"/>
 
-        <addForeignKeyConstraint baseColumnNames="order_id"
+        <addForeignKeyConstraint baseColumnNames="product_order_id"
                                  baseTableName="ordered_item"
-                                 constraintName="fk_ordered_item__order_id"
+                                 constraintName="fk_ordered_item__product_order_id"
                                  referencedColumnNames="id"
                                  referencedTableName="product_order"/>
     </changeSet>
