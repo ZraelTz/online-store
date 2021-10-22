@@ -31,39 +31,39 @@
           <tr>
             <th scope="row" v-on:click="changeOrder('id')">
               <span v-text="$t('global.field.id')">ID</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('date')">
               <span v-text="$t('storeApp.invoice.date')">Date</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'date'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'date'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('details')">
               <span v-text="$t('storeApp.invoice.details')">Details</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'details'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'details'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('status')">
               <span v-text="$t('storeApp.invoice.status')">Status</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'status'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'status'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('paymentMethod')">
               <span v-text="$t('storeApp.invoice.paymentMethod')">Payment Method</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'paymentMethod'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'paymentMethod'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('paymentDate')">
               <span v-text="$t('storeApp.invoice.paymentDate')">Payment Date</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'paymentDate'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'paymentDate'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('paymentAmount')">
               <span v-text="$t('storeApp.invoice.paymentAmount')">Payment Amount</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'paymentAmount'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'paymentAmount'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('code')">
               <span v-text="$t('storeApp.invoice.code')">Code</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'code'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'code'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('order.code')">
+            <th scope="row" v-on:click="changeOrder('productOrder.code')">
               <span v-text="$t('storeApp.invoice.productOrder')">Order</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'order.code'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'productOrder.code'"></jhi-sort-indicator>
             </th>
             <th scope="row"></th>
           </tr>
@@ -81,9 +81,9 @@
             <td>{{ invoice.paymentAmount }}</td>
             <td>{{ invoice.code }}</td>
             <td>
-              <div v-if="invoice.order">
-                <router-link :to="{ name: 'ProductOrderView', params: { productOrderId: invoice.order.id } }">{{
-                  invoice.order.code
+              <div v-if="invoice.productOrder">
+                <router-link :to="{ name: 'ProductOrderView', params: { productOrderId: invoice.productOrder.id } }">{{
+                  invoice.productOrder.code
                 }}</router-link>
               </div>
             </td>
