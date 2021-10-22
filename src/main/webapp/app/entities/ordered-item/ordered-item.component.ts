@@ -5,13 +5,11 @@ import Vue2Filters from 'vue2-filters';
 import { IOrderedItem } from '@/shared/model/ordered-item.model';
 
 import OrderedItemService from './ordered-item.service';
-import AccountService from '@/account/account.service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
 export default class OrderedItem extends Vue {
-  @Inject('accountService') private accountService: () => AccountService;
   @Inject('orderedItemService') private orderedItemService: () => OrderedItemService;
   private removeId: number = null;
   public itemsPerPage = 20;
@@ -33,10 +31,6 @@ export default class OrderedItem extends Vue {
   public clear(): void {
     this.page = 1;
     this.retrieveAllOrderedItems();
-  }
-
-  public hasAnyAuthority(auhtorities: any): boolean {
-    return this.accountService().hasAnyAuthority(auhtorities);
   }
 
   public retrieveAllOrderedItems(): void {

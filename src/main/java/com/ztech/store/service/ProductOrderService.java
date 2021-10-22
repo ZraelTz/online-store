@@ -53,19 +53,22 @@ public class ProductOrderService {
     public Mono<ProductOrder> partialUpdate(ProductOrder productOrder) {
         log.debug("Request to partially update ProductOrder : {}", productOrder);
 
-        return productOrderRepository.findById(productOrder.getId()).map(existingProductOrder -> {
-            if (productOrder.getPlacedDate() != null) {
-                existingProductOrder.setPlacedDate(productOrder.getPlacedDate());
-            }
-            if (productOrder.getStatus() != null) {
-                existingProductOrder.setStatus(productOrder.getStatus());
-            }
-            if (productOrder.getCode() != null) {
-                existingProductOrder.setCode(productOrder.getCode());
-            }
+        return productOrderRepository
+            .findById(productOrder.getId())
+            .map(existingProductOrder -> {
+                if (productOrder.getPlacedDate() != null) {
+                    existingProductOrder.setPlacedDate(productOrder.getPlacedDate());
+                }
+                if (productOrder.getStatus() != null) {
+                    existingProductOrder.setStatus(productOrder.getStatus());
+                }
+                if (productOrder.getCode() != null) {
+                    existingProductOrder.setCode(productOrder.getCode());
+                }
 
-            return existingProductOrder;
-        }).flatMap(productOrderRepository::save);
+                return existingProductOrder;
+            })
+            .flatMap(productOrderRepository::save);
     }
 
     /**
@@ -95,7 +98,6 @@ public class ProductOrderService {
 
     /**
      * Returns the number of productOrders available.
-     * 
      * @return the number of entities in the database.
      *
      */

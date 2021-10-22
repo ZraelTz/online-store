@@ -95,7 +95,7 @@ class InvoiceResourceIT {
         // Add required entity
         ProductOrder productOrder;
         productOrder = em.insert(ProductOrderResourceIT.createEntity(em)).block();
-        invoice.setOrder(productOrder);
+        invoice.setProductOrder(productOrder);
         return invoice;
     }
 
@@ -117,7 +117,7 @@ class InvoiceResourceIT {
         // Add required entity
         ProductOrder productOrder;
         productOrder = em.insert(ProductOrderResourceIT.createUpdatedEntity(em)).block();
-        invoice.setOrder(productOrder);
+        invoice.setProductOrder(productOrder);
         return invoice;
     }
 

@@ -23,11 +23,11 @@ public interface OrderedItemRepository extends R2dbcRepository<OrderedItem, Long
     @Query("SELECT * FROM ordered_item entity WHERE entity.product_id IS NULL")
     Flux<OrderedItem> findAllWhereProductIsNull();
 
-    @Query("SELECT * FROM ordered_item entity WHERE entity.order_id = :id")
-    Flux<OrderedItem> findByOrder(Long id);
+    @Query("SELECT * FROM ordered_item entity WHERE entity.product_order_id = :id")
+    Flux<OrderedItem> findByProductOrder(Long id);
 
-    @Query("SELECT * FROM ordered_item entity WHERE entity.order_id IS NULL")
-    Flux<OrderedItem> findAllWhereOrderIsNull();
+    @Query("SELECT * FROM ordered_item entity WHERE entity.product_order_id IS NULL")
+    Flux<OrderedItem> findAllWhereProductOrderIsNull();
 
     //@Query("select * from invoice i cross join product_order po cross join customer c cross join jhi_user u where i.order_id=po.id and po.customer_id=c.id and c.user_id=u.id and u.login=:login")
     //Flux<OrderedItem> findAllByOrderCustomerUserLogin(String currentUserLogin, Pageable pageable);

@@ -46,7 +46,7 @@ class InvoiceRepositoryInternalImpl implements InvoiceRepositoryInternal {
     private final InvoiceRowMapper invoiceMapper;
 
     private static final Table entityTable = Table.aliased("invoice", EntityManager.ENTITY_ALIAS);
-    private static final Table orderTable = Table.aliased("product_order", "e_order");
+    private static final Table productOrderTable = Table.aliased("product_order", "productOrder");
 
     public InvoiceRepositoryInternalImpl(
         R2dbcEntityTemplate template,
@@ -73,14 +73,14 @@ class InvoiceRepositoryInternalImpl implements InvoiceRepositoryInternal {
 
     RowsFetchSpec<Invoice> createQuery(Pageable pageable, Criteria criteria) {
         List<Expression> columns = InvoiceSqlHelper.getColumns(entityTable, EntityManager.ENTITY_ALIAS);
-        columns.addAll(ProductOrderSqlHelper.getColumns(orderTable, "order"));
+        columns.addAll(ProductOrderSqlHelper.getColumns(productOrderTable, "productOrder"));
         SelectFromAndJoinCondition selectFrom = Select
             .builder()
             .select(columns)
             .from(entityTable)
-            .leftOuterJoin(orderTable)
-            .on(Column.create("order_id", entityTable))
-            .equals(Column.create("id", orderTable));
+            .leftOuterJoin(productOrderTable)
+            .on(Column.create("product_order_id", entityTable))
+            .equals(Column.create("id", productOrderTable));
 
         String select = entityManager.createSelect(selectFrom, Invoice.class, pageable, criteria);
         String alias = entityTable.getReferenceName().getReference();
@@ -112,7 +112,7 @@ class InvoiceRepositoryInternalImpl implements InvoiceRepositoryInternal {
 
     private Invoice process(Row row, RowMetadata metadata) {
         Invoice entity = invoiceMapper.apply(row, "e");
-        entity.setOrder(productorderMapper.apply(row, "order"));
+        entity.setProductOrder(productorderMapper.apply(row, "productOrder"));
         return entity;
     }
 
@@ -156,7 +156,7 @@ class InvoiceSqlHelper {
         columns.add(Column.aliased("payment_amount", table, columnPrefix + "_payment_amount"));
         columns.add(Column.aliased("code", table, columnPrefix + "_code"));
 
-        columns.add(Column.aliased("order_id", table, columnPrefix + "_order_id"));
+        columns.add(Column.aliased("product_order_id", table, columnPrefix + "_product_order_id"));
         return columns;
     }
 }

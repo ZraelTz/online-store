@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.is;
 
 import com.ztech.store.IntegrationTest;
 import com.ztech.store.domain.OrderedItem;
+import com.ztech.store.domain.Product;
 import com.ztech.store.domain.ProductOrder;
 import com.ztech.store.domain.enumeration.OrderedItemStatus;
 import com.ztech.store.repository.OrderedItemRepository;
@@ -71,9 +72,13 @@ class OrderedItemResourceIT {
     public static OrderedItem createEntity(EntityManager em) {
         OrderedItem orderedItem = new OrderedItem().quantity(DEFAULT_QUANTITY).totalPrice(DEFAULT_TOTAL_PRICE).status(DEFAULT_STATUS);
         // Add required entity
+        Product product;
+        product = em.insert(ProductResourceIT.createEntity(em)).block();
+        orderedItem.setProduct(product);
+        // Add required entity
         ProductOrder productOrder;
         productOrder = em.insert(ProductOrderResourceIT.createEntity(em)).block();
-        orderedItem.setOrder(productOrder);
+        orderedItem.setProductOrder(productOrder);
         return orderedItem;
     }
 
@@ -86,9 +91,13 @@ class OrderedItemResourceIT {
     public static OrderedItem createUpdatedEntity(EntityManager em) {
         OrderedItem orderedItem = new OrderedItem().quantity(UPDATED_QUANTITY).totalPrice(UPDATED_TOTAL_PRICE).status(UPDATED_STATUS);
         // Add required entity
+        Product product;
+        product = em.insert(ProductResourceIT.createUpdatedEntity(em)).block();
+        orderedItem.setProduct(product);
+        // Add required entity
         ProductOrder productOrder;
         productOrder = em.insert(ProductOrderResourceIT.createUpdatedEntity(em)).block();
-        orderedItem.setOrder(productOrder);
+        orderedItem.setProductOrder(productOrder);
         return orderedItem;
     }
 
@@ -98,6 +107,7 @@ class OrderedItemResourceIT {
         } catch (Exception e) {
             // It can fail, if other entities are still referring this - it will be removed later.
         }
+        ProductResourceIT.deleteEntities(em);
         ProductOrderResourceIT.deleteEntities(em);
     }
 
