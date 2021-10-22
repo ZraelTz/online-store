@@ -34,7 +34,8 @@ import org.springframework.util.Base64Utils;
  */
 @IntegrationTest
 @AutoConfigureWebTestClient
-@WithMockUser
+@WithMockUser(username="admin", authorities={"ROLE_ADMIN"},
+password = "admin")
 class ProductResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
