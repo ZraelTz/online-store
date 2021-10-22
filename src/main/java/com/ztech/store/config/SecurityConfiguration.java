@@ -1,7 +1,6 @@
 package com.ztech.store.config;
 
 import static org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers.pathMatchers;
-
 import com.ztech.store.security.AuthoritiesConstants;
 import com.ztech.store.security.jwt.JWTFilter;
 import com.ztech.store.security.jwt.TokenProvider;
