@@ -36,11 +36,8 @@ public interface ProductOrderRepository extends R2dbcRepository<ProductOrder, Lo
 
     @Override
     <S extends ProductOrder> Mono<S> save(S entity);
-<<<<<<< HEAD
-=======
 
 
->>>>>>> bb6eb39 (updated authorizations and data access based on user login)
 }
 
 interface ProductOrderRepositoryInternal {
