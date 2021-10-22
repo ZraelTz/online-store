@@ -1,5 +1,10 @@
 package com.ztech.store.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.ArrayList;
+
+
 import com.ztech.store.domain.ProductOrder;
 import com.ztech.store.repository.ProductOrderRepository;
 import org.slf4j.Logger;
@@ -72,7 +77,24 @@ public class ProductOrderService {
     @Transactional(readOnly = true)
     public Flux<ProductOrder> findAll(Pageable pageable) {
         log.debug("Request to get all ProductOrders");
+<<<<<<< HEAD
         return productOrderRepository.findAllBy(pageable);
+=======
+        
+        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
+                        .flatMapMany(result -> {
+                            if(result){
+                                return productOrderRepository.findAllBy(pageable); 
+                            } else {
+                                return SecurityUtils.getCurrentUserLogin()
+                                .flatMapMany(currentUserLogin -> {
+                                    return productOrderRepository
+                                    .findAllByCustomerUserLogin(currentUserLogin, pageable);
+                                });
+                            }
+                        });
+                
+>>>>>>> bb6eb39 (updated authorizations and data access based on user login)
     }
 
     /**
