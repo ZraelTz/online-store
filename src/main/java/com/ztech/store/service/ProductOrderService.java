@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 import com.ztech.store.domain.ProductOrder;
 import com.ztech.store.repository.ProductOrderRepository;
+import com.ztech.store.security.AuthoritiesConstants;
+import com.ztech.store.security.SecurityUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -77,6 +80,7 @@ public class ProductOrderService {
     @Transactional(readOnly = true)
     public Flux<ProductOrder> findAll(Pageable pageable) {
         log.debug("Request to get all ProductOrders");
+        
         return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
                         .flatMapMany(result -> {
                             if(result){
@@ -89,6 +93,7 @@ public class ProductOrderService {
                                 });
                             }
                         });
+                
     }
 
     /**
