@@ -5,11 +5,13 @@ import Vue2Filters from 'vue2-filters';
 import { IProductOrder } from '@/shared/model/product-order.model';
 
 import ProductOrderService from './product-order.service';
+import AccountService from '@/account/account.service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
 export default class ProductOrder extends Vue {
+  @Inject('accountService') private accountService: () => AccountService;
   @Inject('productOrderService') private productOrderService: () => ProductOrderService;
   private removeId: number = null;
   public itemsPerPage = 20;
@@ -31,6 +33,10 @@ export default class ProductOrder extends Vue {
   public clear(): void {
     this.page = 1;
     this.retrieveAllProductOrders();
+  }
+
+  public hasAnyAuthority(auhtorities: any): boolean {
+    return this.accountService().hasAnyAuthority(auhtorities);
   }
 
   public retrieveAllProductOrders(): void {

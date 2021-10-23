@@ -27,9 +27,6 @@ const validations: any = {
       required,
     },
     image: {},
-    productCategory: {
-      required,
-    },
   },
 };
 

@@ -160,9 +160,8 @@
               data-cy="productCategory"
               name="productCategory"
               v-model="product.productCategory"
-              required
             >
-              <option v-if="!product.productCategory" v-bind:value="null" selected></option>
+              <option v-bind:value="null"></option>
               <option
                 v-bind:value="
                   product.productCategory && productCategoryOption.id === product.productCategory.id
@@ -175,11 +174,6 @@
                 {{ productCategoryOption.name }}
               </option>
             </select>
-          </div>
-          <div v-if="$v.product.productCategory.$anyDirty && $v.product.productCategory.$invalid">
-            <small class="form-text text-danger" v-if="!$v.product.productCategory.required" v-text="$t('entity.validation.required')">
-              This field is required.
-            </small>
           </div>
         </div>
         <div>
