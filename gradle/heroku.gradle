@@ -1,7 +1,7 @@
 apply plugin: "com.heroku.sdk.heroku-gradle"
 
 heroku {
-    appName = "cloud-mart-store"
+    appName = "cloud-mart-app"
     buildpacks = ["heroku/jvm"]
 }
 
