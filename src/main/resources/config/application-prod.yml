@@ -40,6 +40,19 @@ spring:
     port: 587
     username: testhospitalmanagement@yahoo.com
     password: mxdgqxqqepdngthn
+        
+    properties:
+      mail:
+        smtp:
+          ssl:
+            port: 465
+            trust: "*" 
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
   r2dbc:
     url: r2dbc:mysql://localhost:3306/store?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
