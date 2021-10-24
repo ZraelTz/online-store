@@ -198,7 +198,7 @@ public class ProductResource {
             });
     }
 
-    @GetMapping("/allProducts")
+    @GetMapping("/all-products")
     public Mono<ResponseEntity<List<Product>>> getAllProductsUnauthenticated(Pageable pageable, ServerHttpRequest request) {
         log.debug("REST request to get a page of Products Unauthenticated");
         return productService
