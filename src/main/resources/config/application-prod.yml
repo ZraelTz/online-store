@@ -54,9 +54,15 @@ spring:
           timeout: 5000
           writetimeout: 5000
   r2dbc:
+<<<<<<< HEAD
     url: r2dbc:mysql://be925c7634cb32:89992d9b@us-cdbr-east-04.cleardb.com/heroku_431d193730120a6?reconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: 
     password:
+=======
+    url: postgres://gnjblniywjucmg:bfda9b65539377a7b41cd5bfbd45de8f80e61e575d69e48b170d3d10bb674110@ec2-54-160-96-70.compute-1.amazonaws.com:5432/d5i5vhouop5pia
+    username: gnjblniywjucmg
+    password: bfda9b65539377a7b41cd5bfbd45de8f80e61e575d69e48b170d3d10bb674110
+>>>>>>> cf8ffa9 (update few configurations)
   thymeleaf:
     cache: true
   sleuth:
