@@ -47,6 +47,9 @@
     "lastLiquibaseTimestamp": 1633640683000,
     "gradleEnterpriseHost": "",
     "packageFolder": "com/ztech/store",
-    "applicationIndex": 0
+    "applicationIndex": 0,
+    "herokuAppName": "cloud-mart-store",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "14"
   }
 }
