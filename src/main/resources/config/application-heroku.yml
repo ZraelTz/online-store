@@ -12,7 +12,7 @@
 
 eureka:
   instance:
-    hostname: cloud-mart-app.herokuapp.com
+    hostname: cloud-mart-store.herokuapp.com
     non-secure-port: 80
     prefer-ip-address: false
 

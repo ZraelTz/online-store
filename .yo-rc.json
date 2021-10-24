@@ -48,7 +48,7 @@
     "gradleEnterpriseHost": "",
     "packageFolder": "com/ztech/store",
     "applicationIndex": 0,
-    "herokuAppName": "cloud-mart-app",
+    "herokuAppName": "cloud-mart-store",
     "herokuDeployType": "git",
     "herokuJavaVersion": "14"
   }
