@@ -25,7 +25,7 @@
     "enableHibernateCache": false,
     "databaseType": "sql",
     "devDatabaseType": "h2Disk",
-    "prodDatabaseType": "postgresql",
+    "prodDatabaseType": "mysql",
     "buildTool": "gradle",
     "serverSideOptions": [],
     "websocket": false,
