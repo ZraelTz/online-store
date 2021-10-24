@@ -34,7 +34,7 @@ spring:
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod, faker
-    url: mysql://be925c7634cb32:89992d9b@us-cdbr-east-04.cleardb.com/heroku_431d193730120a6?reconnect=true?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: mysql://be925c7634cb32:89992d9b@us-cdbr-east-04.cleardb.com/heroku_431d193730120a6?reconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
   mail:
     host: smtp.mail.yahoo.com
     port: 587
@@ -54,7 +54,7 @@ spring:
           timeout: 5000
           writetimeout: 5000
   r2dbc:
-    url: mysql://be925c7634cb32:89992d9b@us-cdbr-east-04.cleardb.com/heroku_431d193730120a6?reconnect=true?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: mysql://be925c7634cb32:89992d9b@us-cdbr-east-04.cleardb.com/heroku_431d193730120a6?reconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: 
     password:
   thymeleaf:
