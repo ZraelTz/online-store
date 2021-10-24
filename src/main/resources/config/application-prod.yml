@@ -36,10 +36,10 @@ spring:
     contexts: prod
     url: jdbc:mysql://localhost:3306/store?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.mail.yahoo.com
+    port: 587
+    username: testhospitalmanagement@yahoo.com
+    password: mxdgqxqqepdngthn
   r2dbc:
     url: r2dbc:mysql://localhost:3306/store?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
