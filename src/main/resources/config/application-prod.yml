@@ -27,7 +27,7 @@ management:
 
 spring:
   profiles:
-    active: prod,swagger
+    active: swagger
   devtools:
     restart:
       enabled: false
