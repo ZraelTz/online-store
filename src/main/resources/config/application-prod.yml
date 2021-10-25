@@ -26,8 +26,6 @@ management:
         enabled: false
 
 spring:
-  profiles:
-    active: swagger
   devtools:
     restart:
       enabled: false
