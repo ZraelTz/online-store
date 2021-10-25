@@ -31,11 +31,6 @@ spring:
       enabled: false
     livereload:
       enabled: false
-
-  profiles:
-    active: prod
-    include:
-        - swagger
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod, faker
