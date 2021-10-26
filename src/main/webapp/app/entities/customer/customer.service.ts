@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import buildPaginationQueryOpts from '@/shared/sort/sorts';
+
 import { ICustomer } from '@/shared/model/customer.model';
 
 const baseApiUrl = 'api/customers';

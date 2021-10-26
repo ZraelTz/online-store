@@ -39,7 +39,7 @@
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span v-text="$t('entity.action.back')"> Back</span>
         </button>
         <router-link v-if="shipment.id" :to="{ name: 'ShipmentEdit', params: { shipmentId: shipment.id } }" custom v-slot="{ navigate }">
-          <button @click="navigate" v-if="hasAnyAuthority('ROLE_ADMIN')" class="btn btn-primary">
+          <button @click="navigate" class="btn btn-primary">
             <font-awesome-icon icon="pencil-alt"></font-awesome-icon>&nbsp;<span v-text="$t('entity.action.edit')"> Edit</span>
           </button>
         </router-link>

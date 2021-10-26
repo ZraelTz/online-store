@@ -5,13 +5,11 @@ import Vue2Filters from 'vue2-filters';
 import { IShipment } from '@/shared/model/shipment.model';
 
 import ShipmentService from './shipment.service';
-import AccountService from '@/account/account.service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
 export default class Shipment extends Vue {
-  @Inject('accountService') private accountService: () => AccountService;
   @Inject('shipmentService') private shipmentService: () => ShipmentService;
   private removeId: number = null;
   public itemsPerPage = 20;
@@ -33,10 +31,6 @@ export default class Shipment extends Vue {
   public clear(): void {
     this.page = 1;
     this.retrieveAllShipments();
-  }
-
-  public hasAnyAuthority(auhtorities: any): boolean {
-    return this.accountService().hasAnyAuthority(auhtorities);
   }
 
   public retrieveAllShipments(): void {
