@@ -15,6 +15,7 @@
         "productOrder": "Product Order",
         "shipment": "Shipment",
         "vendor": "Vendor",
+        "productRating": "Product Rating",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

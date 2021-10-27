@@ -50,6 +50,12 @@ const Vendor = () => import('@/entities/vendor/vendor.vue');
 const VendorUpdate = () => import('@/entities/vendor/vendor-update.vue');
 // prettier-ignore
 const VendorDetails = () => import('@/entities/vendor/vendor-details.vue');
+// prettier-ignore
+const ProductRating = () => import('@/entities/product-rating/product-rating.vue');
+// prettier-ignore
+const ProductRatingUpdate = () => import('@/entities/product-rating/product-rating-update.vue');
+// prettier-ignore
+const ProductRatingDetails = () => import('@/entities/product-rating/product-rating-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default [
@@ -243,6 +249,30 @@ export default [
     path: '/vendor/:vendorId/view',
     name: 'VendorView',
     component: VendorDetails,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/product-rating',
+    name: 'ProductRating',
+    component: ProductRating,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/product-rating/new',
+    name: 'ProductRatingCreate',
+    component: ProductRatingUpdate,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/product-rating/:productRatingId/edit',
+    name: 'ProductRatingEdit',
+    component: ProductRatingUpdate,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/product-rating/:productRatingId/view',
+    name: 'ProductRatingView',
+    component: ProductRatingDetails,
     meta: { authorities: [Authority.USER] },
   },
   // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

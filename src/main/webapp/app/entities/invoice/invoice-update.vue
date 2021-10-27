@@ -164,11 +164,20 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="$t('storeApp.invoice.productOrder')" for="invoice-productOrder">Order</label>
-            <select class="form-control" id="invoice-productOrder" data-cy="productOrder" name="productOrder" v-model="invoice.productOrder" required>
+            <label class="form-control-label" v-text="$t('storeApp.invoice.productOrder')" for="invoice-productOrder">Product Order</label>
+            <select
+              class="form-control"
+              id="invoice-productOrder"
+              data-cy="productOrder"
+              name="productOrder"
+              v-model="invoice.productOrder"
+              required
+            >
               <option v-if="!invoice.productOrder" v-bind:value="null" selected></option>
               <option
-                v-bind:value="invoice.productOrder && productOrderOption.id === invoice.productOrder.id ? invoice.productOrder : productOrderOption"
+                v-bind:value="
+                  invoice.productOrder && productOrderOption.id === invoice.productOrder.id ? invoice.productOrder : productOrderOption
+                "
                 v-for="productOrderOption in productOrders"
                 :key="productOrderOption.id"
               >

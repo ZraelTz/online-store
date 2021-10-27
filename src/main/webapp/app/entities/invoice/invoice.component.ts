@@ -5,13 +5,11 @@ import Vue2Filters from 'vue2-filters';
 import { IInvoice } from '@/shared/model/invoice.model';
 
 import InvoiceService from './invoice.service';
-import AccountService from '@/account/account.service';
 
 @Component({
   mixins: [Vue2Filters.mixin],
 })
 export default class Invoice extends Vue {
-  @Inject('accountService') private accountService: () => AccountService;
   @Inject('invoiceService') private invoiceService: () => InvoiceService;
   private removeId: number = null;
   public itemsPerPage = 20;
@@ -33,10 +31,6 @@ export default class Invoice extends Vue {
   public clear(): void {
     this.page = 1;
     this.retrieveAllInvoices();
-  }
-
-  public hasAnyAuthority(auhtorities: any): boolean {
-    return this.accountService().hasAnyAuthority(auhtorities);
   }
 
   public retrieveAllInvoices(): void {

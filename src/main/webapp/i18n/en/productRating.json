@@ -1,0 +1,28 @@
+{
+  "storeApp": {
+    "productRating": {
+      "home": {
+        "title": "Product Ratings",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Product Rating",
+        "createOrEditLabel": "Create or edit a Product Rating",
+        "notFound": "No Product Ratings found"
+      },
+      "created": "A new Product Rating is created with identifier {{ param }}",
+      "updated": "A Product Rating is updated with identifier {{ param }}",
+      "deleted": "A Product Rating is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Product Rating {{ id }}?"
+      },
+      "detail": {
+        "title": "Product Rating"
+      },
+      "id": "ID",
+      "value": "Value",
+      "productId": "Product Id",
+      "userId": "User Id",
+      "productRating": "Product Rating",
+      "rating": "Rating"
+    }
+  }
+}
