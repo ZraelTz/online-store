@@ -43,6 +43,7 @@
     "clientThemeVariant": "",
     "languages": ["en"],
     "enableGradleEnterprise": false,
+<<<<<<< HEAD
     "entities": ["Customer", "Invoice", "OrderedItem", "Product", "ProductCategory", "ProductOrder", "Shipment", "Vendor", "ProductRating"],
     "lastLiquibaseTimestamp": 1635337490000,
     "gradleEnterpriseHost": "",
@@ -51,5 +52,12 @@
     "herokuAppName": "cloud-mart-store",
     "herokuDeployType": "git",
     "herokuJavaVersion": "14"
+=======
+    "entities": ["Customer", "Invoice", "OrderedItem", "Product", "ProductCategory", "ProductOrder", "Shipment", "Vendor"],
+    "lastLiquibaseTimestamp": 1633640683000,
+    "gradleEnterpriseHost": "",
+    "packageFolder": "com/ztech/store",
+    "applicationIndex": 0
+>>>>>>> 30f143a (updated entity relationships from jdl file)
   }
 }

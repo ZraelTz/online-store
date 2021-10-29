@@ -61,10 +61,13 @@
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.vendor')">Vendor</span>
           </b-dropdown-item>
+<<<<<<< HEAD
           <b-dropdown-item to="/product-rating">
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.productRating')">Product Rating</span>
           </b-dropdown-item>
+=======
+>>>>>>> 30f143a (updated entity relationships from jdl file)
           <b-dropdown-item to="/customer">
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.customer')">Customer</span>
