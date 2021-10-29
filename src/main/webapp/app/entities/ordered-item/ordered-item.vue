@@ -10,6 +10,7 @@
         <router-link :to="{ name: 'OrderedItemCreate' }" custom v-slot="{ navigate }">
           <button
             @click="navigate"
+            v-if="hasAnyAuthority('ROLE_ADMIN')"
             id="jh-create-entity"
             data-cy="entityCreateButton"
             class="btn btn-primary jh-create-entity create-ordered-item"
@@ -30,27 +31,27 @@
           <tr>
             <th scope="row" v-on:click="changeOrder('id')">
               <span v-text="$t('global.field.id')">ID</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('quantity')">
               <span v-text="$t('storeApp.orderedItem.quantity')">Quantity</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'quantity'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'quantity'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('totalPrice')">
               <span v-text="$t('storeApp.orderedItem.totalPrice')">Total Price</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'totalPrice'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'totalPrice'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('status')">
               <span v-text="$t('storeApp.orderedItem.status')">Status</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'status'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'status'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('product.name')">
               <span v-text="$t('storeApp.orderedItem.product')">Product</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'product.name'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'product.name'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('productOrder.code')">
-              <span v-text="$t('storeApp.orderedItem.productOrder')">Product Order</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'productOrder.code'"></jhi-sort-indicator>
+              <span v-text="$t('storeApp.orderedItem.productOrder')">Order</span>
+              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'productOrder.code'"></jhi-sort-indicator>
             </th>
             <th scope="row"></th>
           </tr>
@@ -86,13 +87,19 @@
                   </button>
                 </router-link>
                 <router-link :to="{ name: 'OrderedItemEdit', params: { orderedItemId: orderedItem.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                  <button
+                    @click="navigate"
+                    v-if="hasAnyAuthority('ROLE_ADMIN')"
+                    class="btn btn-primary btn-sm edit"
+                    data-cy="entityEditButton"
+                  >
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline" v-text="$t('entity.action.edit')">Edit</span>
                   </button>
                 </router-link>
                 <b-button
                   v-on:click="prepareRemove(orderedItem)"
+                  v-if="hasAnyAuthority('ROLE_ADMIN')"
                   variant="danger"
                   class="btn btn-sm"
                   data-cy="entityDeleteButton"

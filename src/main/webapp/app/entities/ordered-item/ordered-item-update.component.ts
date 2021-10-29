@@ -26,9 +26,6 @@ const validations: any = {
     status: {
       required,
     },
-    product: {
-      required,
-    },
     productOrder: {
       required,
     },

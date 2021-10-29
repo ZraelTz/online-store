@@ -23,7 +23,7 @@
     <include file="config/liquibase/changelog/20211007210441_added_entity_ProductOrder.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211007210442_added_entity_Shipment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211007210443_added_entity_Vendor.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20211026231019_added_entity_ProductRating.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211027122450_added_entity_ProductRating.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20211007210436_added_entity_constraints_Customer.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211007210437_added_entity_constraints_Invoice.xml" relativeToChangelogFile="false"/>
@@ -32,7 +32,7 @@
     <include file="config/liquibase/changelog/20211007210441_added_entity_constraints_ProductOrder.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211007210442_added_entity_constraints_Shipment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211007210443_added_entity_constraints_Vendor.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20211026231019_added_entity_constraints_ProductRating.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211027122450_added_entity_constraints_ProductRating.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>
