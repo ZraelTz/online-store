@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity ProductRating.
     -->
-    <changeSet id="20211026231019-2" author="jhipster">
+    <changeSet id="20211027122450-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="product_rating_id"
                                  baseTableName="product_rating"

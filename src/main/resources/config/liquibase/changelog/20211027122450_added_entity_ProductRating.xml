@@ -9,7 +9,7 @@
     <!--
         Added the entity ProductRating.
     -->
-    <changeSet id="20211026231019-1" author="jhipster">
+    <changeSet id="20211027122450-1" author="jhipster">
         <createTable tableName="product_rating">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -43,7 +43,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20211026231019-1-data" author="jhipster" context="faker">
+    <changeSet id="20211027122450-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/product_rating.csv"
                   separator=";"
