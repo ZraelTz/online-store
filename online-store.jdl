@@ -40,10 +40,21 @@ entity ProductOrder {
   status OrderStatus required
   code String required
 }
+entity ProductRating {
+  rating Float required min(0) max(5)
+  date Instant required
+}
 entity Shipment {
   trackingCode String
   date Instant required
   details String
+}
+entity Cart {
+  quantity Integer required
+  date Instant required
+}
+entity CartItem {
+  quantity Integer required 
 }
 entity Vendor {
   firstName String required
@@ -97,7 +108,10 @@ enum OrderStatus {
 
 relationship OneToOne {
   Customer{user(login) required} to User
+  ProductRating{user(login) required} to User
   Vendor{user(login) required} to User
+  Cart{user(login) required} to User
+  CartItem{product(name) required} to Product
 }
 relationship OneToMany {
   ProductOrder{invoice} to Invoice{productOrder(code) required}
@@ -105,10 +119,12 @@ relationship OneToMany {
   ProductCategory{product} to Product{productCategory(name) required}
   Customer{order} to ProductOrder{customer(email) required}
   Invoice{shipment} to Shipment{invoice(code) required}
+  Cart{item(quantity) required} to CartItem
 }
 relationship ManyToOne {
   OrderedItem{product(name) required} to Product
+  ProductRating{product(name) required} to Product
 }
 
 paginate Customer, Invoice, OrderedItem, Product, ProductOrder, Shipment with pagination
-service Customer, Invoice, OrderedItem, Product, ProductCategory, ProductOrder, Shipment, Vendor with serviceClass
+service Customer, Invoice, OrderedItem, Product, ProductCategory, ProductOrder, ProductRating, Cart, CartItem, Shipment, Vendor with serviceClass

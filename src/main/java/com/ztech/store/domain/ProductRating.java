@@ -2,6 +2,7 @@ package com.ztech.store.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.Instant;
 import javax.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -23,29 +24,25 @@ public class ProductRating implements Serializable {
     @NotNull(message = "must not be null")
     @DecimalMin(value = "0")
     @DecimalMax(value = "5")
-    @Column("value")
-    private Float value;
+    @Column("rating")
+    private Float rating;
 
     @NotNull(message = "must not be null")
-    @Column("product_id")
-    private Long productId;
+    @Column("date")
+    private Instant date;
 
-    @NotNull(message = "must not be null")
-    @Column("user_id")
-    private Long userId;
+    @Transient
+    private User user;
 
     @Transient
     @JsonIgnoreProperties(value = { "productCategory" }, allowSetters = true)
-    private Product productRating;
+    private Product product;
 
-    @Transient
-    private User rating;
+    @Column("user_id")
+    private Long userId;
 
-    @Column("product_rating_id")
-    private Long productRatingId;
-
-    @Column("rating_id")
-    private Long ratingId;
+    @Column("product_id")
+    private Long productId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -62,87 +59,74 @@ public class ProductRating implements Serializable {
         this.id = id;
     }
 
-    public Float getValue() {
-        return this.value;
+    public Float getRating() {
+        return this.rating;
     }
 
-    public ProductRating value(Float value) {
-        this.setValue(value);
+    public ProductRating rating(Float rating) {
+        this.setRating(rating);
         return this;
     }
 
-    public void setValue(Float value) {
-        this.value = value;
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 
-    public Long getProductId() {
-        return this.productId;
+    public Instant getDate() {
+        return this.date;
     }
 
-    public ProductRating productId(Long productId) {
-        this.setProductId(productId);
+    public ProductRating date(Instant date) {
+        this.setDate(date);
         return this;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setDate(Instant date) {
+        this.date = date;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        this.userId = user != null ? user.getId() : null;
+    }
+
+    public ProductRating user(User user) {
+        this.setUser(user);
+        return this;
+    }
+
+    public Product getProduct() {
+        return this.product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+        this.productId = product != null ? product.getId() : null;
+    }
+
+    public ProductRating product(Product product) {
+        this.setProduct(product);
+        return this;
     }
 
     public Long getUserId() {
         return this.userId;
     }
 
-    public ProductRating userId(Long userId) {
-        this.setUserId(userId);
-        return this;
+    public void setUserId(Long user) {
+        this.userId = user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public Long getProductId() {
+        return this.productId;
     }
 
-    public Product getProductRating() {
-        return this.productRating;
-    }
-
-    public void setProductRating(Product product) {
-        this.productRating = product;
-        this.productRatingId = product != null ? product.getId() : null;
-    }
-
-    public ProductRating productRating(Product product) {
-        this.setProductRating(product);
-        return this;
-    }
-
-    public User getRating() {
-        return this.rating;
-    }
-
-    public void setRating(User user) {
-        this.rating = user;
-        this.ratingId = user != null ? user.getId() : null;
-    }
-
-    public ProductRating rating(User user) {
-        this.setRating(user);
-        return this;
-    }
-
-    public Long getProductRatingId() {
-        return this.productRatingId;
-    }
-
-    public void setProductRatingId(Long product) {
-        this.productRatingId = product;
-    }
-
-    public Long getRatingId() {
-        return this.ratingId;
-    }
-
-    public void setRatingId(Long user) {
-        this.ratingId = user;
+    public void setProductId(Long product) {
+        this.productId = product;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -169,9 +153,8 @@ public class ProductRating implements Serializable {
     public String toString() {
         return "ProductRating{" +
             "id=" + getId() +
-            ", value=" + getValue() +
-            ", productId=" + getProductId() +
-            ", userId=" + getUserId() +
+            ", rating=" + getRating() +
+            ", date='" + getDate() + "'" +
             "}";
     }
 }

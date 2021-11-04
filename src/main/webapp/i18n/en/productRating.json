@@ -18,11 +18,10 @@
         "title": "Product Rating"
       },
       "id": "ID",
-      "value": "Value",
-      "productId": "Product Id",
-      "userId": "User Id",
-      "productRating": "Product Rating",
-      "rating": "Rating"
+      "rating": "Rating",
+      "date": "Date",
+      "user": "User",
+      "product": "Product"
     }
   }
 }

@@ -1,0 +1,37 @@
+{
+  "name": "CartItem",
+  "fields": [
+    {
+      "fieldName": "quantity",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "cartItem",
+      "relationshipValidateRules": "required",
+      "relationshipName": "product",
+      "otherEntityField": "name",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "cart",
+      "otherEntityRelationshipName": "item",
+      "relationshipName": "cart"
+    }
+  ],
+  "entityTableName": "cart_item",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20211104132945"
+}

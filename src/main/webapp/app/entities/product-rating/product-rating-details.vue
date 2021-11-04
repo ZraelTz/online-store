@@ -7,38 +7,32 @@
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="$t('storeApp.productRating.value')">Value</span>
-          </dt>
-          <dd>
-            <span>{{ productRating.value }}</span>
-          </dd>
-          <dt>
-            <span v-text="$t('storeApp.productRating.productId')">Product Id</span>
-          </dt>
-          <dd>
-            <span>{{ productRating.productId }}</span>
-          </dd>
-          <dt>
-            <span v-text="$t('storeApp.productRating.userId')">User Id</span>
-          </dt>
-          <dd>
-            <span>{{ productRating.userId }}</span>
-          </dd>
-          <dt>
-            <span v-text="$t('storeApp.productRating.productRating')">Product Rating</span>
-          </dt>
-          <dd>
-            <div v-if="productRating.productRating">
-              <router-link :to="{ name: 'ProductView', params: { productId: productRating.productRating.id } }">{{
-                productRating.productRating.id
-              }}</router-link>
-            </div>
-          </dd>
-          <dt>
             <span v-text="$t('storeApp.productRating.rating')">Rating</span>
           </dt>
           <dd>
-            {{ productRating.rating ? productRating.rating.login : '' }}
+            <span>{{ productRating.rating }}</span>
+          </dd>
+          <dt>
+            <span v-text="$t('storeApp.productRating.date')">Date</span>
+          </dt>
+          <dd>
+            <span v-if="productRating.date">{{ $d(Date.parse(productRating.date), 'long') }}</span>
+          </dd>
+          <dt>
+            <span v-text="$t('storeApp.productRating.user')">User</span>
+          </dt>
+          <dd>
+            {{ productRating.user ? productRating.user.login : '' }}
+          </dd>
+          <dt>
+            <span v-text="$t('storeApp.productRating.product')">Product</span>
+          </dt>
+          <dd>
+            <div v-if="productRating.product">
+              <router-link :to="{ name: 'ProductView', params: { productId: productRating.product.id } }">{{
+                productRating.product.name
+              }}</router-link>
+            </div>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
