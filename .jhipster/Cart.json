@@ -2,11 +2,6 @@
   "name": "Cart",
   "fields": [
     {
-      "fieldName": "quantity",
-      "fieldType": "Integer",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "date",
       "fieldType": "Instant",
       "fieldValidateRules": ["required"]
@@ -23,12 +18,18 @@
       "ownerSide": true
     },
     {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "checkout",
+      "otherEntityRelationshipName": "cart",
+      "relationshipName": "checkout",
+      "otherEntityField": "totalPrice",
+      "ownerSide": true
+    },
+    {
       "relationshipType": "one-to-many",
       "otherEntityName": "cartItem",
       "otherEntityRelationshipName": "cart",
-      "relationshipValidateRules": "required",
-      "relationshipName": "item",
-      "otherEntityField": "quantity"
+      "relationshipName": "cartItem"
     }
   ],
   "entityTableName": "cart",

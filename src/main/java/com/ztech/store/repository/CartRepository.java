@@ -21,6 +21,12 @@ public interface CartRepository extends R2dbcRepository<Cart, Long>, CartReposit
     @Query("SELECT * FROM cart entity WHERE entity.user_id IS NULL")
     Flux<Cart> findAllWhereUserIsNull();
 
+    @Query("SELECT * FROM cart entity WHERE entity.checkout_id = :id")
+    Flux<Cart> findByCheckout(Long id);
+
+    @Query("SELECT * FROM cart entity WHERE entity.checkout_id IS NULL")
+    Flux<Cart> findAllWhereCheckoutIsNull();
+
     // just to avoid having unambigous methods
     @Override
     Flux<Cart> findAll();

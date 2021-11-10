@@ -73,6 +73,10 @@
             <font-awesome-icon icon="asterisk" />
             <span v-text="$t('global.menu.entities.cartItem')">Cart Item</span>
           </b-dropdown-item>
+          <b-dropdown-item to="/checkout">
+            <font-awesome-icon icon="asterisk" />
+            <span v-text="$t('global.menu.entities.checkout')">Checkout</span>
+          </b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item-dropdown
           right

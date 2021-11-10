@@ -68,6 +68,12 @@ const CartItem = () => import('@/entities/cart-item/cart-item.vue');
 const CartItemUpdate = () => import('@/entities/cart-item/cart-item-update.vue');
 // prettier-ignore
 const CartItemDetails = () => import('@/entities/cart-item/cart-item-details.vue');
+// prettier-ignore
+const Checkout = () => import('@/entities/checkout/checkout.vue');
+// prettier-ignore
+const CheckoutUpdate = () => import('@/entities/checkout/checkout-update.vue');
+// prettier-ignore
+const CheckoutDetails = () => import('@/entities/checkout/checkout-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default [
@@ -333,6 +339,30 @@ export default [
     path: '/cart-item/:cartItemId/view',
     name: 'CartItemView',
     component: CartItemDetails,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: Checkout,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/checkout/new',
+    name: 'CheckoutCreate',
+    component: CheckoutUpdate,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/checkout/:checkoutId/edit',
+    name: 'CheckoutEdit',
+    component: CheckoutUpdate,
+    meta: { authorities: [Authority.USER] },
+  },
+  {
+    path: '/checkout/:checkoutId/view',
+    name: 'CheckoutView',
+    component: CheckoutDetails,
     meta: { authorities: [Authority.USER] },
   },
   // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

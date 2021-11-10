@@ -1,4 +1,5 @@
 import { IProductCategory } from '@/shared/model/product-category.model';
+import { IProductRating } from '@/shared/model/product-rating.model';
 
 import { ProductSize } from '@/shared/model/enumerations/product-size.model';
 export interface IProduct {
@@ -11,6 +12,7 @@ export interface IProduct {
   imageContentType?: string | null;
   image?: string | null;
   productCategory?: IProductCategory;
+  ratings?: IProductRating[] | null;
 }
 
 export class Product implements IProduct {
@@ -23,6 +25,7 @@ export class Product implements IProduct {
     public productSize?: ProductSize,
     public imageContentType?: string | null,
     public image?: string | null,
-    public productCategory?: IProductCategory
+    public productCategory?: IProductCategory,
+    public ratings?: IProductRating[] | null
   ) {}
 }

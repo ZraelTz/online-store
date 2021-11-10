@@ -37,7 +37,7 @@ public class OrderedItem implements Serializable {
     private OrderedItemStatus status;
 
     @Transient
-    @JsonIgnoreProperties(value = { "productCategory" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "productCategory", "ratings" }, allowSetters = true)
     private Product product;
 
     @Transient

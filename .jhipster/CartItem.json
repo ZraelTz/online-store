@@ -4,7 +4,8 @@
     {
       "fieldName": "quantity",
       "fieldType": "Integer",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
     }
   ],
   "relationships": [
@@ -20,7 +21,7 @@
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "cart",
-      "otherEntityRelationshipName": "item",
+      "otherEntityRelationshipName": "cartItem",
       "relationshipName": "cart"
     }
   ],

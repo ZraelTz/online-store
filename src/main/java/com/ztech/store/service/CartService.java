@@ -48,9 +48,6 @@ public class CartService {
         return cartRepository
             .findById(cart.getId())
             .map(existingCart -> {
-                if (cart.getQuantity() != null) {
-                    existingCart.setQuantity(cart.getQuantity());
-                }
                 if (cart.getDate() != null) {
                     existingCart.setDate(cart.getDate());
                 }

@@ -11,27 +11,6 @@
             <input type="text" class="form-control" id="id" name="id" v-model="cart.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="$t('storeApp.cart.quantity')" for="cart-quantity">Quantity</label>
-            <input
-              type="number"
-              class="form-control"
-              name="quantity"
-              id="cart-quantity"
-              data-cy="quantity"
-              :class="{ valid: !$v.cart.quantity.$invalid, invalid: $v.cart.quantity.$invalid }"
-              v-model.number="$v.cart.quantity.$model"
-              required
-            />
-            <div v-if="$v.cart.quantity.$anyDirty && $v.cart.quantity.$invalid">
-              <small class="form-text text-danger" v-if="!$v.cart.quantity.required" v-text="$t('entity.validation.required')">
-                This field is required.
-              </small>
-              <small class="form-text text-danger" v-if="!$v.cart.quantity.numeric" v-text="$t('entity.validation.number')">
-                This field should be a number.
-              </small>
-            </div>
-          </div>
-          <div class="form-group">
             <label class="form-control-label" v-text="$t('storeApp.cart.date')" for="cart-date">Date</label>
             <div class="d-flex">
               <input
@@ -77,10 +56,18 @@
               This field is required.
             </small>
           </div>
-          <div v-if="$v.cart.item.$anyDirty && $v.cart.item.$invalid">
-            <small class="form-text text-danger" v-if="!$v.cart.item.required" v-text="$t('entity.validation.required')">
-              This field is required.
-            </small>
+          <div class="form-group">
+            <label class="form-control-label" v-text="$t('storeApp.cart.checkout')" for="cart-checkout">Checkout</label>
+            <select class="form-control" id="cart-checkout" data-cy="checkout" name="checkout" v-model="cart.checkout">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="cart.checkout && checkoutOption.id === cart.checkout.id ? cart.checkout : checkoutOption"
+                v-for="checkoutOption in checkouts"
+                :key="checkoutOption.id"
+              >
+                {{ checkoutOption.totalPrice }}
+              </option>
+            </select>
           </div>
         </div>
         <div>

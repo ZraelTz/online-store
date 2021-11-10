@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ztech.store.domain.enumeration.ProductSize;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -50,6 +52,10 @@ public class Product implements Serializable {
     @Transient
     @JsonIgnoreProperties(value = { "products" }, allowSetters = true)
     private ProductCategory productCategory;
+
+    @Transient
+    @JsonIgnoreProperties(value = { "user", "product" }, allowSetters = true)
+    private Set<ProductRating> ratings = new HashSet<>();
 
     @Column("product_category_id")
     private Long productCategoryId;
@@ -171,6 +177,37 @@ public class Product implements Serializable {
 
     public Product productCategory(ProductCategory productCategory) {
         this.setProductCategory(productCategory);
+        return this;
+    }
+
+    public Set<ProductRating> getRatings() {
+        return this.ratings;
+    }
+
+    public void setRatings(Set<ProductRating> productRatings) {
+        if (this.ratings != null) {
+            this.ratings.forEach(i -> i.setProduct(null));
+        }
+        if (productRatings != null) {
+            productRatings.forEach(i -> i.setProduct(this));
+        }
+        this.ratings = productRatings;
+    }
+
+    public Product ratings(Set<ProductRating> productRatings) {
+        this.setRatings(productRatings);
+        return this;
+    }
+
+    public Product addRating(ProductRating productRating) {
+        this.ratings.add(productRating);
+        productRating.setProduct(this);
+        return this;
+    }
+
+    public Product removeRating(ProductRating productRating) {
+        this.ratings.remove(productRating);
+        productRating.setProduct(null);
         return this;
     }
 

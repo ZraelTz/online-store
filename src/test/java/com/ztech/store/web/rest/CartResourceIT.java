@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.is;
 
 import com.ztech.store.IntegrationTest;
 import com.ztech.store.domain.Cart;
-import com.ztech.store.domain.CartItem;
 import com.ztech.store.domain.User;
 import com.ztech.store.repository.CartRepository;
 import com.ztech.store.service.EntityManager;
@@ -36,9 +35,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @WithMockUser
 class CartResourceIT {
 
-    private static final Integer DEFAULT_QUANTITY = 1;
-    private static final Integer UPDATED_QUANTITY = 2;
-
     private static final Instant DEFAULT_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -66,14 +62,10 @@ class CartResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Cart createEntity(EntityManager em) {
-        Cart cart = new Cart().quantity(DEFAULT_QUANTITY).date(DEFAULT_DATE);
+        Cart cart = new Cart().date(DEFAULT_DATE);
         // Add required entity
         User user = em.insert(UserResourceIT.createEntity(em)).block();
         cart.setUser(user);
-        // Add required entity
-        CartItem cartItem;
-        cartItem = em.insert(CartItemResourceIT.createEntity(em)).block();
-        cart.getItems().add(cartItem);
         return cart;
     }
 
@@ -84,14 +76,10 @@ class CartResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Cart createUpdatedEntity(EntityManager em) {
-        Cart cart = new Cart().quantity(UPDATED_QUANTITY).date(UPDATED_DATE);
+        Cart cart = new Cart().date(UPDATED_DATE);
         // Add required entity
         User user = em.insert(UserResourceIT.createEntity(em)).block();
         cart.setUser(user);
-        // Add required entity
-        CartItem cartItem;
-        cartItem = em.insert(CartItemResourceIT.createUpdatedEntity(em)).block();
-        cart.getItems().add(cartItem);
         return cart;
     }
 
@@ -102,7 +90,6 @@ class CartResourceIT {
             // It can fail, if other entities are still referring this - it will be removed later.
         }
         UserResourceIT.deleteEntities(em);
-        CartItemResourceIT.deleteEntities(em);
     }
 
     @AfterEach
@@ -133,7 +120,6 @@ class CartResourceIT {
         List<Cart> cartList = cartRepository.findAll().collectList().block();
         assertThat(cartList).hasSize(databaseSizeBeforeCreate + 1);
         Cart testCart = cartList.get(cartList.size() - 1);
-        assertThat(testCart.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
         assertThat(testCart.getDate()).isEqualTo(DEFAULT_DATE);
     }
 
@@ -157,27 +143,6 @@ class CartResourceIT {
         // Validate the Cart in the database
         List<Cart> cartList = cartRepository.findAll().collectList().block();
         assertThat(cartList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    void checkQuantityIsRequired() throws Exception {
-        int databaseSizeBeforeTest = cartRepository.findAll().collectList().block().size();
-        // set the field null
-        cart.setQuantity(null);
-
-        // Create the Cart, which fails.
-
-        webTestClient
-            .post()
-            .uri(ENTITY_API_URL)
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(TestUtil.convertObjectToJsonBytes(cart))
-            .exchange()
-            .expectStatus()
-            .isBadRequest();
-
-        List<Cart> cartList = cartRepository.findAll().collectList().block();
-        assertThat(cartList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -224,7 +189,6 @@ class CartResourceIT {
         assertThat(cartList).isNotNull();
         assertThat(cartList).hasSize(1);
         Cart testCart = cartList.get(0);
-        assertThat(testCart.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
         assertThat(testCart.getDate()).isEqualTo(DEFAULT_DATE);
     }
 
@@ -246,8 +210,6 @@ class CartResourceIT {
             .expectBody()
             .jsonPath("$.[*].id")
             .value(hasItem(cart.getId().intValue()))
-            .jsonPath("$.[*].quantity")
-            .value(hasItem(DEFAULT_QUANTITY))
             .jsonPath("$.[*].date")
             .value(hasItem(DEFAULT_DATE.toString()));
     }
@@ -270,8 +232,6 @@ class CartResourceIT {
             .expectBody()
             .jsonPath("$.id")
             .value(is(cart.getId().intValue()))
-            .jsonPath("$.quantity")
-            .value(is(DEFAULT_QUANTITY))
             .jsonPath("$.date")
             .value(is(DEFAULT_DATE.toString()));
     }
@@ -297,7 +257,7 @@ class CartResourceIT {
 
         // Update the cart
         Cart updatedCart = cartRepository.findById(cart.getId()).block();
-        updatedCart.quantity(UPDATED_QUANTITY).date(UPDATED_DATE);
+        updatedCart.date(UPDATED_DATE);
 
         webTestClient
             .put()
@@ -312,7 +272,6 @@ class CartResourceIT {
         List<Cart> cartList = cartRepository.findAll().collectList().block();
         assertThat(cartList).hasSize(databaseSizeBeforeUpdate);
         Cart testCart = cartList.get(cartList.size() - 1);
-        assertThat(testCart.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testCart.getDate()).isEqualTo(UPDATED_DATE);
     }
 
@@ -387,7 +346,7 @@ class CartResourceIT {
         Cart partialUpdatedCart = new Cart();
         partialUpdatedCart.setId(cart.getId());
 
-        partialUpdatedCart.quantity(UPDATED_QUANTITY);
+        partialUpdatedCart.date(UPDATED_DATE);
 
         webTestClient
             .patch()
@@ -402,8 +361,7 @@ class CartResourceIT {
         List<Cart> cartList = cartRepository.findAll().collectList().block();
         assertThat(cartList).hasSize(databaseSizeBeforeUpdate);
         Cart testCart = cartList.get(cartList.size() - 1);
-        assertThat(testCart.getQuantity()).isEqualTo(UPDATED_QUANTITY);
-        assertThat(testCart.getDate()).isEqualTo(DEFAULT_DATE);
+        assertThat(testCart.getDate()).isEqualTo(UPDATED_DATE);
     }
 
     @Test
@@ -417,7 +375,7 @@ class CartResourceIT {
         Cart partialUpdatedCart = new Cart();
         partialUpdatedCart.setId(cart.getId());
 
-        partialUpdatedCart.quantity(UPDATED_QUANTITY).date(UPDATED_DATE);
+        partialUpdatedCart.date(UPDATED_DATE);
 
         webTestClient
             .patch()
@@ -432,7 +390,6 @@ class CartResourceIT {
         List<Cart> cartList = cartRepository.findAll().collectList().block();
         assertThat(cartList).hasSize(databaseSizeBeforeUpdate);
         Cart testCart = cartList.get(cartList.size() - 1);
-        assertThat(testCart.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testCart.getDate()).isEqualTo(UPDATED_DATE);
     }
 

@@ -30,7 +30,7 @@ public class ProductCategory implements Serializable {
     private String description;
 
     @Transient
-    @JsonIgnoreProperties(value = { "productCategory" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "productCategory", "ratings" }, allowSetters = true)
     private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

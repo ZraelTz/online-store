@@ -21,6 +21,7 @@ public class CartItem implements Serializable {
     private Long id;
 
     @NotNull(message = "must not be null")
+    @Min(value = 0)
     @Column("quantity")
     private Integer quantity;
 
@@ -28,7 +29,7 @@ public class CartItem implements Serializable {
     private Product product;
 
     @Transient
-    @JsonIgnoreProperties(value = { "user", "items" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "checkout", "cartItems" }, allowSetters = true)
     private Cart cart;
 
     @Column("product_id")

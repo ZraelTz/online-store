@@ -24,9 +24,9 @@
         <thead>
           <tr>
             <th scope="row"><span v-text="$t('global.field.id')">ID</span></th>
-            <th scope="row"><span v-text="$t('storeApp.cart.quantity')">Quantity</span></th>
             <th scope="row"><span v-text="$t('storeApp.cart.date')">Date</span></th>
             <th scope="row"><span v-text="$t('storeApp.cart.user')">User</span></th>
+            <th scope="row"><span v-text="$t('storeApp.cart.checkout')">Checkout</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -35,10 +35,16 @@
             <td>
               <router-link :to="{ name: 'CartView', params: { cartId: cart.id } }">{{ cart.id }}</router-link>
             </td>
-            <td>{{ cart.quantity }}</td>
             <td>{{ cart.date ? $d(Date.parse(cart.date), 'short') : '' }}</td>
             <td>
               {{ cart.user ? cart.user.login : '' }}
+            </td>
+            <td>
+              <div v-if="cart.checkout">
+                <router-link :to="{ name: 'CheckoutView', params: { checkoutId: cart.checkout.id } }">{{
+                  cart.checkout.totalPrice
+                }}</router-link>
+              </div>
             </td>
             <td class="text-right">
               <div class="btn-group">

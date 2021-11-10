@@ -7,12 +7,6 @@
         </h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span v-text="$t('storeApp.cart.quantity')">Quantity</span>
-          </dt>
-          <dd>
-            <span>{{ cart.quantity }}</span>
-          </dd>
-          <dt>
             <span v-text="$t('storeApp.cart.date')">Date</span>
           </dt>
           <dd>
@@ -23,6 +17,16 @@
           </dt>
           <dd>
             {{ cart.user ? cart.user.login : '' }}
+          </dd>
+          <dt>
+            <span v-text="$t('storeApp.cart.checkout')">Checkout</span>
+          </dt>
+          <dd>
+            <div v-if="cart.checkout">
+              <router-link :to="{ name: 'CheckoutView', params: { checkoutId: cart.checkout.id } }">{{
+                cart.checkout.totalPrice
+              }}</router-link>
+            </div>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

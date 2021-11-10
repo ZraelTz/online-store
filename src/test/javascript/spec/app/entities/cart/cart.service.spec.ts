@@ -33,7 +33,7 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new CartService();
       currentDate = new Date();
-      elemDefault = new Cart(123, 0, currentDate);
+      elemDefault = new Cart(123, currentDate);
     });
 
     describe('Service methods', () => {
@@ -96,7 +96,6 @@ describe('Service Tests', () => {
       it('should update a Cart', async () => {
         const returnedFromService = Object.assign(
           {
-            quantity: 1,
             date: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault
@@ -157,7 +156,6 @@ describe('Service Tests', () => {
       it('should return a list of Cart', async () => {
         const returnedFromService = Object.assign(
           {
-            quantity: 1,
             date: dayjs(currentDate).format(DATE_TIME_FORMAT),
           },
           elemDefault

@@ -8,6 +8,9 @@ import { required, decimal, minValue } from 'vuelidate/lib/validators';
 import ProductCategoryService from '@/entities/product-category/product-category.service';
 import { IProductCategory } from '@/shared/model/product-category.model';
 
+import ProductRatingService from '@/entities/product-rating/product-rating.service';
+import { IProductRating } from '@/shared/model/product-rating.model';
+
 import { IProduct, Product } from '@/shared/model/product.model';
 import ProductService from './product.service';
 
@@ -43,6 +46,10 @@ export default class ProductUpdate extends mixins(JhiDataUtils) {
   @Inject('productCategoryService') private productCategoryService: () => ProductCategoryService;
 
   public productCategories: IProductCategory[] = [];
+
+  @Inject('productRatingService') private productRatingService: () => ProductRatingService;
+
+  public productRatings: IProductRating[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -131,6 +138,11 @@ export default class ProductUpdate extends mixins(JhiDataUtils) {
       .retrieve()
       .then(res => {
         this.productCategories = res.data;
+      });
+    this.productRatingService()
+      .retrieve()
+      .then(res => {
+        this.productRatings = res.data;
       });
   }
 }

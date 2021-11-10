@@ -18,10 +18,10 @@
         "title": "Cart"
       },
       "id": "ID",
-      "quantity": "Quantity",
       "date": "Date",
       "user": "User",
-      "item": "Item"
+      "checkout": "Checkout",
+      "cartItem": "Cart Item"
     }
   }
 }

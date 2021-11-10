@@ -30,6 +30,9 @@
               <small class="form-text text-danger" v-if="!$v.cartItem.quantity.required" v-text="$t('entity.validation.required')">
                 This field is required.
               </small>
+              <small class="form-text text-danger" v-if="!$v.cartItem.quantity.min" v-text="$t('entity.validation.min', { min: 0 })">
+                This field should be at least 0.
+              </small>
               <small class="form-text text-danger" v-if="!$v.cartItem.quantity.numeric" v-text="$t('entity.validation.number')">
                 This field should be a number.
               </small>

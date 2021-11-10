@@ -24,10 +24,6 @@ public class Cart implements Serializable {
     private Long id;
 
     @NotNull(message = "must not be null")
-    @Column("quantity")
-    private Integer quantity;
-
-    @NotNull(message = "must not be null")
     @Column("date")
     private Instant date;
 
@@ -35,11 +31,17 @@ public class Cart implements Serializable {
     private User user;
 
     @Transient
+    private Checkout checkout;
+
+    @Transient
     @JsonIgnoreProperties(value = { "product", "cart" }, allowSetters = true)
-    private Set<CartItem> items = new HashSet<>();
+    private Set<CartItem> cartItems = new HashSet<>();
 
     @Column("user_id")
     private Long userId;
+
+    @Column("checkout_id")
+    private Long checkoutId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -54,19 +56,6 @@ public class Cart implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getQuantity() {
-        return this.quantity;
-    }
-
-    public Cart quantity(Integer quantity) {
-        this.setQuantity(quantity);
-        return this;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 
     public Instant getDate() {
@@ -96,33 +85,47 @@ public class Cart implements Serializable {
         return this;
     }
 
-    public Set<CartItem> getItems() {
-        return this.items;
+    public Checkout getCheckout() {
+        return this.checkout;
     }
 
-    public void setItems(Set<CartItem> cartItems) {
-        if (this.items != null) {
-            this.items.forEach(i -> i.setCart(null));
+    public void setCheckout(Checkout checkout) {
+        this.checkout = checkout;
+        this.checkoutId = checkout != null ? checkout.getId() : null;
+    }
+
+    public Cart checkout(Checkout checkout) {
+        this.setCheckout(checkout);
+        return this;
+    }
+
+    public Set<CartItem> getCartItems() {
+        return this.cartItems;
+    }
+
+    public void setCartItems(Set<CartItem> cartItems) {
+        if (this.cartItems != null) {
+            this.cartItems.forEach(i -> i.setCart(null));
         }
         if (cartItems != null) {
             cartItems.forEach(i -> i.setCart(this));
         }
-        this.items = cartItems;
+        this.cartItems = cartItems;
     }
 
-    public Cart items(Set<CartItem> cartItems) {
-        this.setItems(cartItems);
+    public Cart cartItems(Set<CartItem> cartItems) {
+        this.setCartItems(cartItems);
         return this;
     }
 
-    public Cart addItem(CartItem cartItem) {
-        this.items.add(cartItem);
+    public Cart addCartItem(CartItem cartItem) {
+        this.cartItems.add(cartItem);
         cartItem.setCart(this);
         return this;
     }
 
-    public Cart removeItem(CartItem cartItem) {
-        this.items.remove(cartItem);
+    public Cart removeCartItem(CartItem cartItem) {
+        this.cartItems.remove(cartItem);
         cartItem.setCart(null);
         return this;
     }
@@ -133,6 +136,14 @@ public class Cart implements Serializable {
 
     public void setUserId(Long user) {
         this.userId = user;
+    }
+
+    public Long getCheckoutId() {
+        return this.checkoutId;
+    }
+
+    public void setCheckoutId(Long checkout) {
+        this.checkoutId = checkout;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -159,7 +170,6 @@ public class Cart implements Serializable {
     public String toString() {
         return "Cart{" +
             "id=" + getId() +
-            ", quantity=" + getQuantity() +
             ", date='" + getDate() + "'" +
             "}";
     }

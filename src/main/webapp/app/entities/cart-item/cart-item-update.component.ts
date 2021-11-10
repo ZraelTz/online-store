@@ -1,6 +1,6 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 
-import { numeric, required } from 'vuelidate/lib/validators';
+import { numeric, required, minValue } from 'vuelidate/lib/validators';
 
 import ProductService from '@/entities/product/product.service';
 import { IProduct } from '@/shared/model/product.model';
@@ -16,6 +16,7 @@ const validations: any = {
     quantity: {
       required,
       numeric,
+      min: minValue(0),
     },
     product: {
       required,

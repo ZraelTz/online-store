@@ -13,6 +13,8 @@ import CartService from '@/entities/cart/cart.service';
 
 import UserService from '@/admin/user-management/user-management.service';
 
+import CheckoutService from '@/entities/checkout/checkout.service';
+
 import CartItemService from '@/entities/cart-item/cart-item.service';
 
 const localVue = createLocalVue();
@@ -46,6 +48,8 @@ describe('Component Tests', () => {
           cartService: () => cartServiceStub,
 
           userService: () => new UserService(),
+
+          checkoutService: () => new CheckoutService(),
 
           cartItemService: () => new CartItemService(),
         },

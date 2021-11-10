@@ -10,6 +10,8 @@ import ProductService from '@/entities/product/product.service';
 
 import ProductCategoryService from '@/entities/product-category/product-category.service';
 
+import ProductRatingService from '@/entities/product-rating/product-rating.service';
+
 const localVue = createLocalVue();
 
 config.initVueApp(localVue);
@@ -41,6 +43,8 @@ describe('Component Tests', () => {
           productService: () => productServiceStub,
 
           productCategoryService: () => new ProductCategoryService(),
+
+          productRatingService: () => new ProductRatingService(),
         },
       });
       comp = wrapper.vm;

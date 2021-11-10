@@ -54,9 +54,10 @@
       "Vendor",
       "ProductRating",
       "Cart",
-      "CartItem"
+      "CartItem",
+      "Checkout"
     ],
-    "lastLiquibaseTimestamp": 1636032585000,
+    "lastLiquibaseTimestamp": 1636286669000,
     "gradleEnterpriseHost": "",
     "packageFolder": "com/ztech/store",
     "applicationIndex": 0,

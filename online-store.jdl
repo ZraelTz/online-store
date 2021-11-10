@@ -23,6 +23,10 @@ entity OrderedItem {
   totalPrice BigDecimal required min(0)
   status OrderedItemStatus required
 }
+entity Checkout {
+  quantity Integer required min(0)
+  totalPrice BigDecimal required min(0)
+}
 entity Product {
   name String required
   material String
@@ -50,11 +54,10 @@ entity Shipment {
   details String
 }
 entity Cart {
-  quantity Integer required
   date Instant required
 }
 entity CartItem {
-  quantity Integer required 
+  quantity Integer required min(0)
 }
 entity Vendor {
   firstName String required
@@ -112,6 +115,7 @@ relationship OneToOne {
   Vendor{user(login) required} to User
   Cart{user(login) required} to User
   CartItem{product(name) required} to Product
+  Cart{checkout(totalPrice)} to Checkout{cart required}
 }
 relationship OneToMany {
   ProductOrder{invoice} to Invoice{productOrder(code) required}
@@ -119,12 +123,12 @@ relationship OneToMany {
   ProductCategory{product} to Product{productCategory(name) required}
   Customer{order} to ProductOrder{customer(email) required}
   Invoice{shipment} to Shipment{invoice(code) required}
-  Cart{item(quantity) required} to CartItem
+  Cart{cartItem} to CartItem{cart}
 }
 relationship ManyToOne {
   OrderedItem{product(name) required} to Product
-  ProductRating{product(name) required} to Product
+  ProductRating{product(name) required} to Product{rating}
 }
 
 paginate Customer, Invoice, OrderedItem, Product, ProductOrder, Shipment with pagination
-service Customer, Invoice, OrderedItem, Product, ProductCategory, ProductOrder, ProductRating, Cart, CartItem, Shipment, Vendor with serviceClass
+service Customer, Invoice, OrderedItem, Product, ProductCategory, ProductOrder, ProductRating, Cart, CartItem, Checkout, Shipment, Vendor with serviceClass

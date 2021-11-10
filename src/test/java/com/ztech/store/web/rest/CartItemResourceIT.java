@@ -33,8 +33,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @WithMockUser
 class CartItemResourceIT {
 
-    private static final Integer DEFAULT_QUANTITY = 1;
-    private static final Integer UPDATED_QUANTITY = 2;
+    private static final Integer DEFAULT_QUANTITY = 0;
+    private static final Integer UPDATED_QUANTITY = 1;
 
     private static final String ENTITY_API_URL = "/api/cart-items";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";

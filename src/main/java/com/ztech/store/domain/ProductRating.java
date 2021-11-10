@@ -35,7 +35,7 @@ public class ProductRating implements Serializable {
     private User user;
 
     @Transient
-    @JsonIgnoreProperties(value = { "productCategory" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "productCategory", "ratings" }, allowSetters = true)
     private Product product;
 
     @Column("user_id")

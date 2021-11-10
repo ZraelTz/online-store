@@ -1,10 +1,13 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 
-import { numeric, required } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import dayjs from 'dayjs';
 import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 
 import UserService from '@/admin/user-management/user-management.service';
+
+import CheckoutService from '@/entities/checkout/checkout.service';
+import { ICheckout } from '@/shared/model/checkout.model';
 
 import CartItemService from '@/entities/cart-item/cart-item.service';
 import { ICartItem } from '@/shared/model/cart-item.model';
@@ -14,17 +17,10 @@ import CartService from './cart.service';
 
 const validations: any = {
   cart: {
-    quantity: {
-      required,
-      numeric,
-    },
     date: {
       required,
     },
     user: {
-      required,
-    },
-    item: {
       required,
     },
   },
@@ -40,6 +36,10 @@ export default class CartUpdate extends Vue {
   @Inject('userService') private userService: () => UserService;
 
   public users: Array<any> = [];
+
+  @Inject('checkoutService') private checkoutService: () => CheckoutService;
+
+  public checkouts: ICheckout[] = [];
 
   @Inject('cartItemService') private cartItemService: () => CartItemService;
 
@@ -142,6 +142,11 @@ export default class CartUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.users = res.data;
+      });
+    this.checkoutService()
+      .retrieve()
+      .then(res => {
+        this.checkouts = res.data;
       });
     this.cartItemService()
       .retrieve()

@@ -40,6 +40,12 @@
       "relationshipValidateRules": "required",
       "relationshipName": "productCategory",
       "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "productRating",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "rating"
     }
   ],
   "entityTableName": "product",
