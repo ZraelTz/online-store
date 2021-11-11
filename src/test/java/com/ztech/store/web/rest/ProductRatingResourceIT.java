@@ -11,6 +11,8 @@ import com.ztech.store.domain.User;
 import com.ztech.store.repository.ProductRatingRepository;
 import com.ztech.store.service.EntityManager;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -34,14 +36,11 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @WithMockUser
 class ProductRatingResourceIT {
 
-    private static final Float DEFAULT_VALUE = 0F;
-    private static final Float UPDATED_VALUE = 1F;
+    private static final Float DEFAULT_RATING = 0F;
+    private static final Float UPDATED_RATING = 1F;
 
-    private static final Long DEFAULT_PRODUCT_ID = 1L;
-    private static final Long UPDATED_PRODUCT_ID = 2L;
-
-    private static final Long DEFAULT_USER_ID = 1L;
-    private static final Long UPDATED_USER_ID = 2L;
+    private static final Instant DEFAULT_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/product-ratings";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -67,14 +66,14 @@ class ProductRatingResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ProductRating createEntity(EntityManager em) {
-        ProductRating productRating = new ProductRating().value(DEFAULT_VALUE).productId(DEFAULT_PRODUCT_ID).userId(DEFAULT_USER_ID);
+        ProductRating productRating = new ProductRating().rating(DEFAULT_RATING).date(DEFAULT_DATE);
+        // Add required entity
+        User user = em.insert(UserResourceIT.createEntity(em)).block();
+        productRating.setUser(user);
         // Add required entity
         Product product;
         product = em.insert(ProductResourceIT.createEntity(em)).block();
-        productRating.setProductRating(product);
-        // Add required entity
-        User user = em.insert(UserResourceIT.createEntity(em)).block();
-        productRating.setRating(user);
+        productRating.setProduct(product);
         return productRating;
     }
 
@@ -85,14 +84,14 @@ class ProductRatingResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ProductRating createUpdatedEntity(EntityManager em) {
-        ProductRating productRating = new ProductRating().value(UPDATED_VALUE).productId(UPDATED_PRODUCT_ID).userId(UPDATED_USER_ID);
+        ProductRating productRating = new ProductRating().rating(UPDATED_RATING).date(UPDATED_DATE);
+        // Add required entity
+        User user = em.insert(UserResourceIT.createEntity(em)).block();
+        productRating.setUser(user);
         // Add required entity
         Product product;
         product = em.insert(ProductResourceIT.createUpdatedEntity(em)).block();
-        productRating.setProductRating(product);
-        // Add required entity
-        User user = em.insert(UserResourceIT.createEntity(em)).block();
-        productRating.setRating(user);
+        productRating.setProduct(product);
         return productRating;
     }
 
@@ -102,8 +101,8 @@ class ProductRatingResourceIT {
         } catch (Exception e) {
             // It can fail, if other entities are still referring this - it will be removed later.
         }
-        ProductResourceIT.deleteEntities(em);
         UserResourceIT.deleteEntities(em);
+        ProductResourceIT.deleteEntities(em);
     }
 
     @AfterEach
@@ -134,9 +133,8 @@ class ProductRatingResourceIT {
         List<ProductRating> productRatingList = productRatingRepository.findAll().collectList().block();
         assertThat(productRatingList).hasSize(databaseSizeBeforeCreate + 1);
         ProductRating testProductRating = productRatingList.get(productRatingList.size() - 1);
-        assertThat(testProductRating.getValue()).isEqualTo(DEFAULT_VALUE);
-        assertThat(testProductRating.getProductId()).isEqualTo(DEFAULT_PRODUCT_ID);
-        assertThat(testProductRating.getUserId()).isEqualTo(DEFAULT_USER_ID);
+        assertThat(testProductRating.getRating()).isEqualTo(DEFAULT_RATING);
+        assertThat(testProductRating.getDate()).isEqualTo(DEFAULT_DATE);
     }
 
     @Test
@@ -162,10 +160,10 @@ class ProductRatingResourceIT {
     }
 
     @Test
-    void checkValueIsRequired() throws Exception {
+    void checkRatingIsRequired() throws Exception {
         int databaseSizeBeforeTest = productRatingRepository.findAll().collectList().block().size();
         // set the field null
-        productRating.setValue(null);
+        productRating.setRating(null);
 
         // Create the ProductRating, which fails.
 
@@ -183,31 +181,10 @@ class ProductRatingResourceIT {
     }
 
     @Test
-    void checkProductIdIsRequired() throws Exception {
+    void checkDateIsRequired() throws Exception {
         int databaseSizeBeforeTest = productRatingRepository.findAll().collectList().block().size();
         // set the field null
-        productRating.setProductId(null);
-
-        // Create the ProductRating, which fails.
-
-        webTestClient
-            .post()
-            .uri(ENTITY_API_URL)
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(TestUtil.convertObjectToJsonBytes(productRating))
-            .exchange()
-            .expectStatus()
-            .isBadRequest();
-
-        List<ProductRating> productRatingList = productRatingRepository.findAll().collectList().block();
-        assertThat(productRatingList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    void checkUserIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = productRatingRepository.findAll().collectList().block().size();
-        // set the field null
-        productRating.setUserId(null);
+        productRating.setDate(null);
 
         // Create the ProductRating, which fails.
 
@@ -247,9 +224,8 @@ class ProductRatingResourceIT {
         assertThat(productRatingList).isNotNull();
         assertThat(productRatingList).hasSize(1);
         ProductRating testProductRating = productRatingList.get(0);
-        assertThat(testProductRating.getValue()).isEqualTo(DEFAULT_VALUE);
-        assertThat(testProductRating.getProductId()).isEqualTo(DEFAULT_PRODUCT_ID);
-        assertThat(testProductRating.getUserId()).isEqualTo(DEFAULT_USER_ID);
+        assertThat(testProductRating.getRating()).isEqualTo(DEFAULT_RATING);
+        assertThat(testProductRating.getDate()).isEqualTo(DEFAULT_DATE);
     }
 
     @Test
@@ -270,12 +246,10 @@ class ProductRatingResourceIT {
             .expectBody()
             .jsonPath("$.[*].id")
             .value(hasItem(productRating.getId().intValue()))
-            .jsonPath("$.[*].value")
-            .value(hasItem(DEFAULT_VALUE.doubleValue()))
-            .jsonPath("$.[*].productId")
-            .value(hasItem(DEFAULT_PRODUCT_ID.intValue()))
-            .jsonPath("$.[*].userId")
-            .value(hasItem(DEFAULT_USER_ID.intValue()));
+            .jsonPath("$.[*].rating")
+            .value(hasItem(DEFAULT_RATING.doubleValue()))
+            .jsonPath("$.[*].date")
+            .value(hasItem(DEFAULT_DATE.toString()));
     }
 
     @Test
@@ -296,12 +270,10 @@ class ProductRatingResourceIT {
             .expectBody()
             .jsonPath("$.id")
             .value(is(productRating.getId().intValue()))
-            .jsonPath("$.value")
-            .value(is(DEFAULT_VALUE.doubleValue()))
-            .jsonPath("$.productId")
-            .value(is(DEFAULT_PRODUCT_ID.intValue()))
-            .jsonPath("$.userId")
-            .value(is(DEFAULT_USER_ID.intValue()));
+            .jsonPath("$.rating")
+            .value(is(DEFAULT_RATING.doubleValue()))
+            .jsonPath("$.date")
+            .value(is(DEFAULT_DATE.toString()));
     }
 
     @Test
@@ -325,7 +297,7 @@ class ProductRatingResourceIT {
 
         // Update the productRating
         ProductRating updatedProductRating = productRatingRepository.findById(productRating.getId()).block();
-        updatedProductRating.value(UPDATED_VALUE).productId(UPDATED_PRODUCT_ID).userId(UPDATED_USER_ID);
+        updatedProductRating.rating(UPDATED_RATING).date(UPDATED_DATE);
 
         webTestClient
             .put()
@@ -340,9 +312,8 @@ class ProductRatingResourceIT {
         List<ProductRating> productRatingList = productRatingRepository.findAll().collectList().block();
         assertThat(productRatingList).hasSize(databaseSizeBeforeUpdate);
         ProductRating testProductRating = productRatingList.get(productRatingList.size() - 1);
-        assertThat(testProductRating.getValue()).isEqualTo(UPDATED_VALUE);
-        assertThat(testProductRating.getProductId()).isEqualTo(UPDATED_PRODUCT_ID);
-        assertThat(testProductRating.getUserId()).isEqualTo(UPDATED_USER_ID);
+        assertThat(testProductRating.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testProductRating.getDate()).isEqualTo(UPDATED_DATE);
     }
 
     @Test
@@ -416,7 +387,7 @@ class ProductRatingResourceIT {
         ProductRating partialUpdatedProductRating = new ProductRating();
         partialUpdatedProductRating.setId(productRating.getId());
 
-        partialUpdatedProductRating.value(UPDATED_VALUE).userId(UPDATED_USER_ID);
+        partialUpdatedProductRating.rating(UPDATED_RATING);
 
         webTestClient
             .patch()
@@ -431,9 +402,8 @@ class ProductRatingResourceIT {
         List<ProductRating> productRatingList = productRatingRepository.findAll().collectList().block();
         assertThat(productRatingList).hasSize(databaseSizeBeforeUpdate);
         ProductRating testProductRating = productRatingList.get(productRatingList.size() - 1);
-        assertThat(testProductRating.getValue()).isEqualTo(UPDATED_VALUE);
-        assertThat(testProductRating.getProductId()).isEqualTo(DEFAULT_PRODUCT_ID);
-        assertThat(testProductRating.getUserId()).isEqualTo(UPDATED_USER_ID);
+        assertThat(testProductRating.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testProductRating.getDate()).isEqualTo(DEFAULT_DATE);
     }
 
     @Test
@@ -447,7 +417,7 @@ class ProductRatingResourceIT {
         ProductRating partialUpdatedProductRating = new ProductRating();
         partialUpdatedProductRating.setId(productRating.getId());
 
-        partialUpdatedProductRating.value(UPDATED_VALUE).productId(UPDATED_PRODUCT_ID).userId(UPDATED_USER_ID);
+        partialUpdatedProductRating.rating(UPDATED_RATING).date(UPDATED_DATE);
 
         webTestClient
             .patch()
@@ -462,9 +432,8 @@ class ProductRatingResourceIT {
         List<ProductRating> productRatingList = productRatingRepository.findAll().collectList().block();
         assertThat(productRatingList).hasSize(databaseSizeBeforeUpdate);
         ProductRating testProductRating = productRatingList.get(productRatingList.size() - 1);
-        assertThat(testProductRating.getValue()).isEqualTo(UPDATED_VALUE);
-        assertThat(testProductRating.getProductId()).isEqualTo(UPDATED_PRODUCT_ID);
-        assertThat(testProductRating.getUserId()).isEqualTo(UPDATED_USER_ID);
+        assertThat(testProductRating.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testProductRating.getDate()).isEqualTo(UPDATED_DATE);
     }
 
     @Test

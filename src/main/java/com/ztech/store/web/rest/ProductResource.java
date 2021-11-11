@@ -198,25 +198,6 @@ public class ProductResource {
             });
     }
 
-    @GetMapping("/all-products")
-    public Mono<ResponseEntity<List<Product>>> getAllProductsUnauthenticated(Pageable pageable, ServerHttpRequest request) {
-        log.debug("REST request to get a page of Products Unauthenticated");
-        return productService
-            .countAll()
-            .zipWith(productService.findAll(pageable).collectList())
-            .map(countWithEntities -> {
-                return ResponseEntity
-                    .ok()
-                    .headers(
-                        PaginationUtil.generatePaginationHttpHeaders(
-                            UriComponentsBuilder.fromHttpRequest(request),
-                            new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                        )
-                    )
-                    .body(countWithEntities.getT2());
-            });
-    }
-
     /**
      * {@code GET  /products/:id} : get the "id" product.
      *

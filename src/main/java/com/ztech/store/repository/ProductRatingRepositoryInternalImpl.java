@@ -10,6 +10,7 @@ import com.ztech.store.repository.rowmapper.UserRowMapper;
 import com.ztech.store.service.EntityManager;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,26 +40,26 @@ class ProductRatingRepositoryInternalImpl implements ProductRatingRepositoryInte
     private final R2dbcEntityTemplate r2dbcEntityTemplate;
     private final EntityManager entityManager;
 
-    private final ProductRowMapper productMapper;
     private final UserRowMapper userMapper;
+    private final ProductRowMapper productMapper;
     private final ProductRatingRowMapper productratingMapper;
 
     private static final Table entityTable = Table.aliased("product_rating", EntityManager.ENTITY_ALIAS);
-    private static final Table productRatingTable = Table.aliased("product", "productRating");
-    private static final Table ratingTable = Table.aliased("jhi_user", "rating");
+    private static final Table userTable = Table.aliased("jhi_user", "e_user");
+    private static final Table productTable = Table.aliased("product", "product");
 
     public ProductRatingRepositoryInternalImpl(
         R2dbcEntityTemplate template,
         EntityManager entityManager,
-        ProductRowMapper productMapper,
         UserRowMapper userMapper,
+        ProductRowMapper productMapper,
         ProductRatingRowMapper productratingMapper
     ) {
         this.db = template.getDatabaseClient();
         this.r2dbcEntityTemplate = template;
         this.entityManager = entityManager;
-        this.productMapper = productMapper;
         this.userMapper = userMapper;
+        this.productMapper = productMapper;
         this.productratingMapper = productratingMapper;
     }
 
@@ -74,18 +75,18 @@ class ProductRatingRepositoryInternalImpl implements ProductRatingRepositoryInte
 
     RowsFetchSpec<ProductRating> createQuery(Pageable pageable, Criteria criteria) {
         List<Expression> columns = ProductRatingSqlHelper.getColumns(entityTable, EntityManager.ENTITY_ALIAS);
-        columns.addAll(ProductSqlHelper.getColumns(productRatingTable, "productRating"));
-        columns.addAll(UserSqlHelper.getColumns(ratingTable, "rating"));
+        columns.addAll(UserSqlHelper.getColumns(userTable, "user"));
+        columns.addAll(ProductSqlHelper.getColumns(productTable, "product"));
         SelectFromAndJoinCondition selectFrom = Select
             .builder()
             .select(columns)
             .from(entityTable)
-            .leftOuterJoin(productRatingTable)
-            .on(Column.create("product_rating_id", entityTable))
-            .equals(Column.create("id", productRatingTable))
-            .leftOuterJoin(ratingTable)
-            .on(Column.create("rating_id", entityTable))
-            .equals(Column.create("id", ratingTable));
+            .leftOuterJoin(userTable)
+            .on(Column.create("user_id", entityTable))
+            .equals(Column.create("id", userTable))
+            .leftOuterJoin(productTable)
+            .on(Column.create("product_id", entityTable))
+            .equals(Column.create("id", productTable));
 
         String select = entityManager.createSelect(selectFrom, ProductRating.class, pageable, criteria);
         String alias = entityTable.getReferenceName().getReference();
@@ -117,8 +118,8 @@ class ProductRatingRepositoryInternalImpl implements ProductRatingRepositoryInte
 
     private ProductRating process(Row row, RowMetadata metadata) {
         ProductRating entity = productratingMapper.apply(row, "e");
-        entity.setProductRating(productMapper.apply(row, "productRating"));
-        entity.setRating(userMapper.apply(row, "rating"));
+        entity.setUser(userMapper.apply(row, "user"));
+        entity.setProduct(productMapper.apply(row, "product"));
         return entity;
     }
 
@@ -154,12 +155,11 @@ class ProductRatingSqlHelper {
     static List<Expression> getColumns(Table table, String columnPrefix) {
         List<Expression> columns = new ArrayList<>();
         columns.add(Column.aliased("id", table, columnPrefix + "_id"));
-        columns.add(Column.aliased("value", table, columnPrefix + "_value"));
-        columns.add(Column.aliased("product_id", table, columnPrefix + "_product_id"));
-        columns.add(Column.aliased("user_id", table, columnPrefix + "_user_id"));
+        columns.add(Column.aliased("rating", table, columnPrefix + "_rating"));
+        columns.add(Column.aliased("date", table, columnPrefix + "_date"));
 
-        columns.add(Column.aliased("product_rating_id", table, columnPrefix + "_product_rating_id"));
-        columns.add(Column.aliased("rating_id", table, columnPrefix + "_rating_id"));
+        columns.add(Column.aliased("user_id", table, columnPrefix + "_user_id"));
+        columns.add(Column.aliased("product_id", table, columnPrefix + "_product_id"));
         return columns;
     }
 }

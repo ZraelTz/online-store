@@ -10,7 +10,6 @@
         <router-link :to="{ name: 'InvoiceCreate' }" custom v-slot="{ navigate }">
           <button
             @click="navigate"
-            v-if="hasAnyAuthority('ROLE_ADMIN')"
             id="jh-create-entity"
             data-cy="entityCreateButton"
             class="btn btn-primary jh-create-entity create-invoice"
@@ -62,8 +61,8 @@
               <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'code'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('productOrder.code')">
-              <span v-text="$t('storeApp.invoice.productOrder')">Order</span>
-              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'productOrder.code'"></jhi-sort-indicator>
+              <span v-text="$t('storeApp.invoice.productOrder')">Product Order</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'productOrder.code'"></jhi-sort-indicator>
             </th>
             <th scope="row"></th>
           </tr>
@@ -96,19 +95,13 @@
                   </button>
                 </router-link>
                 <router-link :to="{ name: 'InvoiceEdit', params: { invoiceId: invoice.id } }" custom v-slot="{ navigate }">
-                  <button
-                    @click="navigate"
-                    v-if="hasAnyAuthority('ROLE_ADMIN')"
-                    class="btn btn-primary btn-sm edit"
-                    data-cy="entityEditButton"
-                  >
+                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline" v-text="$t('entity.action.edit')">Edit</span>
                   </button>
                 </router-link>
                 <b-button
                   v-on:click="prepareRemove(invoice)"
-                  v-if="hasAnyAuthority('ROLE_ADMIN')"
                   variant="danger"
                   class="btn btn-sm"
                   data-cy="entityDeleteButton"

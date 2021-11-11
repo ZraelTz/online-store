@@ -15,17 +15,17 @@ import reactor.core.publisher.Mono;
 @SuppressWarnings("unused")
 @Repository
 public interface ProductRatingRepository extends R2dbcRepository<ProductRating, Long>, ProductRatingRepositoryInternal {
-    @Query("SELECT * FROM product_rating entity WHERE entity.product_rating_id = :id")
-    Flux<ProductRating> findByProductRating(Long id);
+    @Query("SELECT * FROM product_rating entity WHERE entity.user_id = :id")
+    Flux<ProductRating> findByUser(Long id);
 
-    @Query("SELECT * FROM product_rating entity WHERE entity.product_rating_id IS NULL")
-    Flux<ProductRating> findAllWhereProductRatingIsNull();
+    @Query("SELECT * FROM product_rating entity WHERE entity.user_id IS NULL")
+    Flux<ProductRating> findAllWhereUserIsNull();
 
-    @Query("SELECT * FROM product_rating entity WHERE entity.rating_id = :id")
-    Flux<ProductRating> findByRating(Long id);
+    @Query("SELECT * FROM product_rating entity WHERE entity.product_id = :id")
+    Flux<ProductRating> findByProduct(Long id);
 
-    @Query("SELECT * FROM product_rating entity WHERE entity.rating_id IS NULL")
-    Flux<ProductRating> findAllWhereRatingIsNull();
+    @Query("SELECT * FROM product_rating entity WHERE entity.product_id IS NULL")
+    Flux<ProductRating> findAllWhereProductIsNull();
 
     // just to avoid having unambigous methods
     @Override

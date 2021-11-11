@@ -1,35 +1,32 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 
-import { decimal, required, minValue, maxValue, numeric } from 'vuelidate/lib/validators';
+import { decimal, required, minValue, maxValue } from 'vuelidate/lib/validators';
+import dayjs from 'dayjs';
+import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
+
+import UserService from '@/admin/user-management/user-management.service';
 
 import ProductService from '@/entities/product/product.service';
 import { IProduct } from '@/shared/model/product.model';
-
-import UserService from '@/admin/user-management/user-management.service';
 
 import { IProductRating, ProductRating } from '@/shared/model/product-rating.model';
 import ProductRatingService from './product-rating.service';
 
 const validations: any = {
   productRating: {
-    value: {
+    rating: {
       required,
       decimal,
       min: minValue(0),
       max: maxValue(5),
     },
-    productId: {
-      required,
-      numeric,
-    },
-    userId: {
-      required,
-      numeric,
-    },
-    productRating: {
+    date: {
       required,
     },
-    rating: {
+    user: {
+      required,
+    },
+    product: {
       required,
     },
   },
@@ -42,13 +39,13 @@ export default class ProductRatingUpdate extends Vue {
   @Inject('productRatingService') private productRatingService: () => ProductRatingService;
   public productRating: IProductRating = new ProductRating();
 
-  @Inject('productService') private productService: () => ProductService;
-
-  public products: IProduct[] = [];
-
   @Inject('userService') private userService: () => UserService;
 
   public users: Array<any> = [];
+
+  @Inject('productService') private productService: () => ProductService;
+
+  public products: IProduct[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -106,10 +103,34 @@ export default class ProductRatingUpdate extends Vue {
     }
   }
 
+  public convertDateTimeFromServer(date: Date): string {
+    if (date && dayjs(date).isValid()) {
+      return dayjs(date).format(DATE_TIME_LONG_FORMAT);
+    }
+    return null;
+  }
+
+  public updateInstantField(field, event) {
+    if (event.target.value) {
+      this.productRating[field] = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+    } else {
+      this.productRating[field] = null;
+    }
+  }
+
+  public updateZonedDateTimeField(field, event) {
+    if (event.target.value) {
+      this.productRating[field] = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+    } else {
+      this.productRating[field] = null;
+    }
+  }
+
   public retrieveProductRating(productRatingId): void {
     this.productRatingService()
       .find(productRatingId)
       .then(res => {
+        res.date = new Date(res.date);
         this.productRating = res;
       });
   }
@@ -119,15 +140,15 @@ export default class ProductRatingUpdate extends Vue {
   }
 
   public initRelationships(): void {
-    this.productService()
-      .retrieve()
-      .then(res => {
-        this.products = res.data;
-      });
     this.userService()
       .retrieve()
       .then(res => {
         this.users = res.data;
+      });
+    this.productService()
+      .retrieve()
+      .then(res => {
+        this.products = res.data;
       });
   }
 }

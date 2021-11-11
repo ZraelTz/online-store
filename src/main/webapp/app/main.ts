@@ -36,6 +36,9 @@ import ProductOrderService from '@/entities/product-order/product-order.service'
 import ShipmentService from '@/entities/shipment/shipment.service';
 import VendorService from '@/entities/vendor/vendor.service';
 import ProductRatingService from '@/entities/product-rating/product-rating.service';
+import CartService from '@/entities/cart/cart.service';
+import CartItemService from '@/entities/cart-item/cart-item.service';
+import CheckoutService from '@/entities/checkout/checkout.service';
 // jhipster-needle-add-entity-service-to-main-import - JHipster will import entities services here
 
 /* tslint:enable */
@@ -103,6 +106,9 @@ new Vue({
     shipmentService: () => new ShipmentService(),
     vendorService: () => new VendorService(),
     productRatingService: () => new ProductRatingService(),
+    cartService: () => new CartService(),
+    cartItemService: () => new CartItemService(),
+    checkoutService: () => new CheckoutService(),
     // jhipster-needle-add-entity-service-to-main - JHipster will import entities services here
     accountService: () => accountService,
   },

@@ -29,11 +29,10 @@
         <thead>
           <tr>
             <th scope="row"><span v-text="$t('global.field.id')">ID</span></th>
-            <th scope="row"><span v-text="$t('storeApp.productRating.value')">Value</span></th>
-            <th scope="row"><span v-text="$t('storeApp.productRating.productId')">Product Id</span></th>
-            <th scope="row"><span v-text="$t('storeApp.productRating.userId')">User Id</span></th>
-            <th scope="row"><span v-text="$t('storeApp.productRating.productRating')">Product Rating</span></th>
             <th scope="row"><span v-text="$t('storeApp.productRating.rating')">Rating</span></th>
+            <th scope="row"><span v-text="$t('storeApp.productRating.date')">Date</span></th>
+            <th scope="row"><span v-text="$t('storeApp.productRating.user')">User</span></th>
+            <th scope="row"><span v-text="$t('storeApp.productRating.product')">Product</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -44,18 +43,17 @@
                 productRating.id
               }}</router-link>
             </td>
-            <td>{{ productRating.value }}</td>
-            <td>{{ productRating.productId }}</td>
-            <td>{{ productRating.userId }}</td>
+            <td>{{ productRating.rating }}</td>
+            <td>{{ productRating.date ? $d(Date.parse(productRating.date), 'short') : '' }}</td>
             <td>
-              <div v-if="productRating.productRating">
-                <router-link :to="{ name: 'ProductView', params: { productId: productRating.productRating.id } }">{{
-                  productRating.productRating.id
-                }}</router-link>
-              </div>
+              {{ productRating.user ? productRating.user.login : '' }}
             </td>
             <td>
-              {{ productRating.rating ? productRating.rating.login : '' }}
+              <div v-if="productRating.product">
+                <router-link :to="{ name: 'ProductView', params: { productId: productRating.product.id } }">{{
+                  productRating.product.name
+                }}</router-link>
+              </div>
             </td>
             <td class="text-right">
               <div class="btn-group">

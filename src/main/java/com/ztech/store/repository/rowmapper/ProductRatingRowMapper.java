@@ -3,6 +3,7 @@ package com.ztech.store.repository.rowmapper;
 import com.ztech.store.domain.ProductRating;
 import com.ztech.store.service.ColumnConverter;
 import io.r2dbc.spi.Row;
+import java.time.Instant;
 import java.util.function.BiFunction;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +27,10 @@ public class ProductRatingRowMapper implements BiFunction<Row, String, ProductRa
     public ProductRating apply(Row row, String prefix) {
         ProductRating entity = new ProductRating();
         entity.setId(converter.fromRow(row, prefix + "_id", Long.class));
-        entity.setValue(converter.fromRow(row, prefix + "_value", Float.class));
-        entity.setProductId(converter.fromRow(row, prefix + "_product_id", Long.class));
+        entity.setRating(converter.fromRow(row, prefix + "_rating", Float.class));
+        entity.setDate(converter.fromRow(row, prefix + "_date", Instant.class));
         entity.setUserId(converter.fromRow(row, prefix + "_user_id", Long.class));
-        entity.setProductRatingId(converter.fromRow(row, prefix + "_product_rating_id", Long.class));
-        entity.setRatingId(converter.fromRow(row, prefix + "_rating_id", Long.class));
+        entity.setProductId(converter.fromRow(row, prefix + "_product_id", Long.class));
         return entity;
     }
 }

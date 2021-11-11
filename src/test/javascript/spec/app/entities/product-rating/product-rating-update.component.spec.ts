@@ -3,14 +3,17 @@ import { shallowMount, createLocalVue, Wrapper } from '@vue/test-utils';
 import sinon, { SinonStubbedInstance } from 'sinon';
 import Router from 'vue-router';
 
+import dayjs from 'dayjs';
+import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
+
 import * as config from '@/shared/config/config';
 import ProductRatingUpdateComponent from '@/entities/product-rating/product-rating-update.vue';
 import ProductRatingClass from '@/entities/product-rating/product-rating-update.component';
 import ProductRatingService from '@/entities/product-rating/product-rating.service';
 
-import ProductService from '@/entities/product/product.service';
-
 import UserService from '@/admin/user-management/user-management.service';
+
+import ProductService from '@/entities/product/product.service';
 
 const localVue = createLocalVue();
 
@@ -42,12 +45,29 @@ describe('Component Tests', () => {
         provide: {
           productRatingService: () => productRatingServiceStub,
 
-          productService: () => new ProductService(),
-
           userService: () => new UserService(),
+
+          productService: () => new ProductService(),
         },
       });
       comp = wrapper.vm;
+    });
+
+    describe('load', () => {
+      it('Should convert date from string', () => {
+        // GIVEN
+        const date = new Date('2019-10-15T11:42:02Z');
+
+        // WHEN
+        const convertedDate = comp.convertDateTimeFromServer(date);
+
+        // THEN
+        expect(convertedDate).toEqual(dayjs(date).format(DATE_TIME_LONG_FORMAT));
+      });
+
+      it('Should not convert date if date is not present', () => {
+        expect(comp.convertDateTimeFromServer(null)).toBeNull();
+      });
     });
 
     describe('save', () => {

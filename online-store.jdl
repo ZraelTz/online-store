@@ -23,6 +23,10 @@ entity OrderedItem {
   totalPrice BigDecimal required min(0)
   status OrderedItemStatus required
 }
+entity Checkout {
+  quantity Integer required min(0)
+  totalPrice BigDecimal required min(0)
+}
 entity Product {
   name String required
   material String
@@ -40,10 +44,20 @@ entity ProductOrder {
   status OrderStatus required
   code String required
 }
+entity ProductRating {
+  rating Float required min(0) max(5)
+  date Instant required
+}
 entity Shipment {
   trackingCode String
   date Instant required
   details String
+}
+entity Cart {
+  date Instant required
+}
+entity CartItem {
+  quantity Integer required min(0)
 }
 entity Vendor {
   firstName String required
@@ -97,18 +111,25 @@ enum OrderStatus {
 
 relationship OneToOne {
   Customer{user(login) required} to User
+  ProductRating{user(login) required} to User
   Vendor{user(login) required} to User
+  Customer to Cart{customer(email) required}
+  CartItem{product(name) required} to Product
+  Cart{checkout(totalPrice)} to Checkout{cart required}
 }
 relationship OneToMany {
   ProductOrder{invoice} to Invoice{productOrder(code) required}
   ProductOrder{orderedItem} to OrderedItem{productOrder(code) required}
   ProductCategory{product} to Product{productCategory(name) required}
   Customer{order} to ProductOrder{customer(email) required}
+  Customer{cartItem} to CartItem{customer(email) required}
   Invoice{shipment} to Shipment{invoice(code) required}
+  Cart{cartItem} to CartItem{cart}
 }
 relationship ManyToOne {
   OrderedItem{product(name) required} to Product
+  ProductRating{product(name) required} to Product{rating}
 }
 
-paginate Customer, Invoice, OrderedItem, Product, ProductOrder, Shipment with pagination
-service Customer, Invoice, OrderedItem, Product, ProductCategory, ProductOrder, Shipment, Vendor with serviceClass
+paginate Customer, Invoice, OrderedItem, Product, ProductOrder, CartItem, Shipment with pagination
+service Customer, Invoice, OrderedItem, Product, ProductCategory, ProductOrder, ProductRating, Cart, CartItem, Checkout, Shipment, Vendor with serviceClass

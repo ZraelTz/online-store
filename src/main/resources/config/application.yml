@@ -149,7 +149,11 @@ jhipster:
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
 # to have type-safe configuration, like in the JHipsterProperties above
-#
+
+stripe:
+  api:
+    key: 'sk_test_51JrVtnHAZKKMgr6KtCAFy9VMpiPFOIi1n2apoDr6Ev74XWvJR74DTthq9l5ndUDPUzOIDUAt7kriBPtxYvKJzQaE00xvnX3sr8'
+
 # More documentation is available at:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================

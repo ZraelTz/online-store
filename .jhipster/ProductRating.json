@@ -1,40 +1,35 @@
 {
   "fields": [
     {
-      "fieldName": "value",
+      "fieldName": "rating",
       "fieldType": "Float",
       "fieldValidateRules": ["required", "min", "max"],
       "fieldValidateRulesMin": "0",
       "fieldValidateRulesMax": "5"
     },
     {
-      "fieldName": "productId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "userId",
-      "fieldType": "Long",
+      "fieldName": "date",
+      "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [
     {
-      "relationshipName": "productRating",
-      "otherEntityName": "product",
-      "relationshipType": "many-to-one",
-      "relationshipValidateRules": ["required"],
-      "otherEntityField": "id"
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "productRating",
+      "relationshipValidateRules": "required",
+      "relationshipName": "user",
+      "otherEntityField": "login",
+      "ownerSide": true
     },
     {
-      "relationshipName": "rating",
-      "otherEntityName": "user",
-      "relationshipType": "one-to-one",
-      "relationshipValidateRules": ["required"],
-      "otherEntityField": "login",
-      "ownerSide": true,
-      "id": false,
-      "otherEntityRelationshipName": "productRating"
+      "relationshipType": "many-to-one",
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "rating",
+      "relationshipValidateRules": "required",
+      "relationshipName": "product",
+      "otherEntityField": "name"
     }
   ],
   "service": "serviceClass",
@@ -43,5 +38,9 @@
   "readOnly": false,
   "pagination": "no",
   "name": "ProductRating",
-  "changelogDate": "20211027122450"
+  "changelogDate": "20211027122450",
+  "entityTableName": "product_rating",
+  "fluentMethods": true,
+  "embedded": false,
+  "applications": "*"
 }

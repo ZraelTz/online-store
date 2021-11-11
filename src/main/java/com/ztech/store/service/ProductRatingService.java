@@ -48,14 +48,11 @@ public class ProductRatingService {
         return productRatingRepository
             .findById(productRating.getId())
             .map(existingProductRating -> {
-                if (productRating.getValue() != null) {
-                    existingProductRating.setValue(productRating.getValue());
+                if (productRating.getRating() != null) {
+                    existingProductRating.setRating(productRating.getRating());
                 }
-                if (productRating.getProductId() != null) {
-                    existingProductRating.setProductId(productRating.getProductId());
-                }
-                if (productRating.getUserId() != null) {
-                    existingProductRating.setUserId(productRating.getUserId());
+                if (productRating.getDate() != null) {
+                    existingProductRating.setDate(productRating.getDate());
                 }
 
                 return existingProductRating;
