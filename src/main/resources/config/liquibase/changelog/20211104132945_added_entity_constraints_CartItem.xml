@@ -14,12 +14,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="product"/>
 
-        <addForeignKeyConstraint baseColumnNames="customer_id"
-                                 baseTableName="cart_item"
-                                 constraintName="fk_cart_item__customer_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="customer"/>
-
         <addForeignKeyConstraint baseColumnNames="cart_id"
                                  baseTableName="cart_item"
                                  constraintName="fk_cart_item__cart_id"

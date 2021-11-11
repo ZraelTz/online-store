@@ -23,16 +23,6 @@
             </div>
           </dd>
           <dt>
-            <span v-text="$t('storeApp.cartItem.customer')">Customer</span>
-          </dt>
-          <dd>
-            <div v-if="cartItem.customer">
-              <router-link :to="{ name: 'CustomerView', params: { customerId: cartItem.customer.id } }">{{
-                cartItem.customer.email
-              }}</router-link>
-            </div>
-          </dd>
-          <dt>
             <span v-text="$t('storeApp.cartItem.cart')">Cart</span>
           </dt>
           <dd>

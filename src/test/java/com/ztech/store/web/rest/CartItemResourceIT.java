@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.is;
 
 import com.ztech.store.IntegrationTest;
 import com.ztech.store.domain.CartItem;
-import com.ztech.store.domain.Customer;
 import com.ztech.store.domain.Product;
 import com.ztech.store.repository.CartItemRepository;
 import com.ztech.store.service.EntityManager;
@@ -66,10 +65,6 @@ class CartItemResourceIT {
         Product product;
         product = em.insert(ProductResourceIT.createEntity(em)).block();
         cartItem.setProduct(product);
-        // Add required entity
-        Customer customer;
-        customer = em.insert(CustomerResourceIT.createEntity(em)).block();
-        cartItem.setCustomer(customer);
         return cartItem;
     }
 
@@ -85,10 +80,6 @@ class CartItemResourceIT {
         Product product;
         product = em.insert(ProductResourceIT.createUpdatedEntity(em)).block();
         cartItem.setProduct(product);
-        // Add required entity
-        Customer customer;
-        customer = em.insert(CustomerResourceIT.createUpdatedEntity(em)).block();
-        cartItem.setCustomer(customer);
         return cartItem;
     }
 
@@ -99,7 +90,6 @@ class CartItemResourceIT {
             // It can fail, if other entities are still referring this - it will be removed later.
         }
         ProductResourceIT.deleteEntities(em);
-        CustomerResourceIT.deleteEntities(em);
     }
 
     @AfterEach
@@ -174,6 +164,32 @@ class CartItemResourceIT {
 
         List<CartItem> cartItemList = cartItemRepository.findAll().collectList().block();
         assertThat(cartItemList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    void getAllCartItemsAsStream() {
+        // Initialize the database
+        cartItemRepository.save(cartItem).block();
+
+        List<CartItem> cartItemList = webTestClient
+            .get()
+            .uri(ENTITY_API_URL)
+            .accept(MediaType.APPLICATION_NDJSON)
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .expectHeader()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_NDJSON)
+            .returnResult(CartItem.class)
+            .getResponseBody()
+            .filter(cartItem::equals)
+            .collectList()
+            .block(Duration.ofSeconds(5));
+
+        assertThat(cartItemList).isNotNull();
+        assertThat(cartItemList).hasSize(1);
+        CartItem testCartItem = cartItemList.get(0);
+        assertThat(testCartItem.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
     }
 
     @Test

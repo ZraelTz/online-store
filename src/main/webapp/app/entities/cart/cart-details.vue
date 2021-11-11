@@ -13,12 +13,10 @@
             <span v-if="cart.date">{{ $d(Date.parse(cart.date), 'long') }}</span>
           </dd>
           <dt>
-            <span v-text="$t('storeApp.cart.customer')">Customer</span>
+            <span v-text="$t('storeApp.cart.user')">User</span>
           </dt>
           <dd>
-            <div v-if="cart.customer">
-              <router-link :to="{ name: 'CustomerView', params: { customerId: cart.customer.id } }">{{ cart.customer.email }}</router-link>
-            </div>
+            {{ cart.user ? cart.user.login : '' }}
           </dd>
           <dt>
             <span v-text="$t('storeApp.cart.checkout')">Checkout</span>

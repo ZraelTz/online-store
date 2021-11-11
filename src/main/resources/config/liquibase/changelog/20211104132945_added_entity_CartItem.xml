@@ -20,9 +20,6 @@
             <column name="product_id" type="bigint">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_cart_item__product_id" />
             </column>
-            <column name="customer_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
             <column name="cart_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -49,7 +46,6 @@
             <column name="id" type="numeric"/>
             <column name="quantity" type="numeric"/>
             <column name="product_id" type="numeric"/>
-            <column name="customer_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

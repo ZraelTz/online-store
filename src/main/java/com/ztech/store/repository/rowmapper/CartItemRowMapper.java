@@ -28,7 +28,6 @@ public class CartItemRowMapper implements BiFunction<Row, String, CartItem> {
         entity.setId(converter.fromRow(row, prefix + "_id", Long.class));
         entity.setQuantity(converter.fromRow(row, prefix + "_quantity", Integer.class));
         entity.setProductId(converter.fromRow(row, prefix + "_product_id", Long.class));
-        entity.setCustomerId(converter.fromRow(row, prefix + "_customer_id", Long.class));
         entity.setCartId(converter.fromRow(row, prefix + "_cart_id", Long.class));
         return entity;
     }

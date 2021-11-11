@@ -5,9 +5,6 @@ import { numeric, required, minValue } from 'vuelidate/lib/validators';
 import ProductService from '@/entities/product/product.service';
 import { IProduct } from '@/shared/model/product.model';
 
-import CustomerService from '@/entities/customer/customer.service';
-import { ICustomer } from '@/shared/model/customer.model';
-
 import CartService from '@/entities/cart/cart.service';
 import { ICart } from '@/shared/model/cart.model';
 
@@ -24,9 +21,6 @@ const validations: any = {
     product: {
       required,
     },
-    customer: {
-      required,
-    },
   },
 };
 
@@ -40,10 +34,6 @@ export default class CartItemUpdate extends Vue {
   @Inject('productService') private productService: () => ProductService;
 
   public products: IProduct[] = [];
-
-  @Inject('customerService') private customerService: () => CustomerService;
-
-  public customers: ICustomer[] = [];
 
   @Inject('cartService') private cartService: () => CartService;
 
@@ -122,11 +112,6 @@ export default class CartItemUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.products = res.data;
-      });
-    this.customerService()
-      .retrieve()
-      .then(res => {
-        this.customers = res.data;
       });
     this.cartService()
       .retrieve()

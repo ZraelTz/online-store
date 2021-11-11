@@ -18,6 +18,9 @@ public interface CheckoutRepository extends R2dbcRepository<Checkout, Long>, Che
     @Query("SELECT * FROM checkout entity WHERE entity.id not in (select checkout_id from cart)")
     Flux<Checkout> findAllWhereCartIsNull();
 
+    @Query("select * from checkout co cross join customer c cross join jhi_user u where co.customer_id=c.id and c.user_id=u.id and u.login=:login")
+    Flux<Checkout> findAllByCustomerUserLogin(String userLogin);
+
     // just to avoid having unambigous methods
     @Override
     Flux<Checkout> findAll();

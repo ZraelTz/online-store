@@ -6,7 +6,6 @@ import static org.springframework.data.relational.core.query.Query.query;
 import com.ztech.store.domain.CartItem;
 import com.ztech.store.repository.rowmapper.CartItemRowMapper;
 import com.ztech.store.repository.rowmapper.CartRowMapper;
-import com.ztech.store.repository.rowmapper.CustomerRowMapper;
 import com.ztech.store.repository.rowmapper.ProductRowMapper;
 import com.ztech.store.service.EntityManager;
 import io.r2dbc.spi.Row;
@@ -41,20 +40,17 @@ class CartItemRepositoryInternalImpl implements CartItemRepositoryInternal {
     private final EntityManager entityManager;
 
     private final ProductRowMapper productMapper;
-    private final CustomerRowMapper customerMapper;
     private final CartRowMapper cartMapper;
     private final CartItemRowMapper cartitemMapper;
 
     private static final Table entityTable = Table.aliased("cart_item", EntityManager.ENTITY_ALIAS);
     private static final Table productTable = Table.aliased("product", "product");
-    private static final Table customerTable = Table.aliased("customer", "customer");
     private static final Table cartTable = Table.aliased("cart", "cart");
 
     public CartItemRepositoryInternalImpl(
         R2dbcEntityTemplate template,
         EntityManager entityManager,
         ProductRowMapper productMapper,
-        CustomerRowMapper customerMapper,
         CartRowMapper cartMapper,
         CartItemRowMapper cartitemMapper
     ) {
@@ -62,7 +58,6 @@ class CartItemRepositoryInternalImpl implements CartItemRepositoryInternal {
         this.r2dbcEntityTemplate = template;
         this.entityManager = entityManager;
         this.productMapper = productMapper;
-        this.customerMapper = customerMapper;
         this.cartMapper = cartMapper;
         this.cartitemMapper = cartitemMapper;
     }
@@ -80,7 +75,6 @@ class CartItemRepositoryInternalImpl implements CartItemRepositoryInternal {
     RowsFetchSpec<CartItem> createQuery(Pageable pageable, Criteria criteria) {
         List<Expression> columns = CartItemSqlHelper.getColumns(entityTable, EntityManager.ENTITY_ALIAS);
         columns.addAll(ProductSqlHelper.getColumns(productTable, "product"));
-        columns.addAll(CustomerSqlHelper.getColumns(customerTable, "customer"));
         columns.addAll(CartSqlHelper.getColumns(cartTable, "cart"));
         SelectFromAndJoinCondition selectFrom = Select
             .builder()
@@ -89,9 +83,6 @@ class CartItemRepositoryInternalImpl implements CartItemRepositoryInternal {
             .leftOuterJoin(productTable)
             .on(Column.create("product_id", entityTable))
             .equals(Column.create("id", productTable))
-            .leftOuterJoin(customerTable)
-            .on(Column.create("customer_id", entityTable))
-            .equals(Column.create("id", customerTable))
             .leftOuterJoin(cartTable)
             .on(Column.create("cart_id", entityTable))
             .equals(Column.create("id", cartTable));
@@ -127,7 +118,6 @@ class CartItemRepositoryInternalImpl implements CartItemRepositoryInternal {
     private CartItem process(Row row, RowMetadata metadata) {
         CartItem entity = cartitemMapper.apply(row, "e");
         entity.setProduct(productMapper.apply(row, "product"));
-        entity.setCustomer(customerMapper.apply(row, "customer"));
         entity.setCart(cartMapper.apply(row, "cart"));
         return entity;
     }
@@ -167,7 +157,6 @@ class CartItemSqlHelper {
         columns.add(Column.aliased("quantity", table, columnPrefix + "_quantity"));
 
         columns.add(Column.aliased("product_id", table, columnPrefix + "_product_id"));
-        columns.add(Column.aliased("customer_id", table, columnPrefix + "_customer_id"));
         columns.add(Column.aliased("cart_id", table, columnPrefix + "_cart_id"));
         return columns;
     }

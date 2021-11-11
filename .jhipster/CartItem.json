@@ -20,14 +20,6 @@
     },
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "customer",
-      "otherEntityRelationshipName": "cartItem",
-      "relationshipValidateRules": "required",
-      "relationshipName": "customer",
-      "otherEntityField": "email"
-    },
-    {
-      "relationshipType": "many-to-one",
       "otherEntityName": "cart",
       "otherEntityRelationshipName": "cartItem",
       "relationshipName": "cart"
@@ -35,7 +27,7 @@
   ],
   "entityTableName": "cart_item",
   "dto": "no",
-  "pagination": "pagination",
+  "pagination": "no",
   "service": "serviceClass",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,

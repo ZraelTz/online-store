@@ -29,18 +29,11 @@ public class CartItem implements Serializable {
     private Product product;
 
     @Transient
-    @JsonIgnoreProperties(value = { "user", "orders", "cartItems" }, allowSetters = true)
-    private Customer customer;
-
-    @Transient
-    @JsonIgnoreProperties(value = { "customer", "checkout", "cartItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "checkout", "cartItems" }, allowSetters = true)
     private Cart cart;
 
     @Column("product_id")
     private Long productId;
-
-    @Column("customer_id")
-    private Long customerId;
 
     @Column("cart_id")
     private Long cartId;
@@ -87,20 +80,6 @@ public class CartItem implements Serializable {
         return this;
     }
 
-    public Customer getCustomer() {
-        return this.customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-        this.customerId = customer != null ? customer.getId() : null;
-    }
-
-    public CartItem customer(Customer customer) {
-        this.setCustomer(customer);
-        return this;
-    }
-
     public Cart getCart() {
         return this.cart;
     }
@@ -121,14 +100,6 @@ public class CartItem implements Serializable {
 
     public void setProductId(Long product) {
         this.productId = product;
-    }
-
-    public Long getCustomerId() {
-        return this.customerId;
-    }
-
-    public void setCustomerId(Long customer) {
-        this.customerId = customer;
     }
 
     public Long getCartId() {

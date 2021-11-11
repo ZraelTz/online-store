@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.is;
 
 import com.ztech.store.IntegrationTest;
 import com.ztech.store.domain.Cart;
-import com.ztech.store.domain.Customer;
+import com.ztech.store.domain.User;
 import com.ztech.store.repository.CartRepository;
 import com.ztech.store.service.EntityManager;
 import java.time.Duration;
@@ -64,9 +64,8 @@ class CartResourceIT {
     public static Cart createEntity(EntityManager em) {
         Cart cart = new Cart().date(DEFAULT_DATE);
         // Add required entity
-        Customer customer;
-        customer = em.insert(CustomerResourceIT.createEntity(em)).block();
-        cart.setCustomer(customer);
+        User user = em.insert(UserResourceIT.createEntity(em)).block();
+        cart.setUser(user);
         return cart;
     }
 
@@ -79,9 +78,8 @@ class CartResourceIT {
     public static Cart createUpdatedEntity(EntityManager em) {
         Cart cart = new Cart().date(UPDATED_DATE);
         // Add required entity
-        Customer customer;
-        customer = em.insert(CustomerResourceIT.createUpdatedEntity(em)).block();
-        cart.setCustomer(customer);
+        User user = em.insert(UserResourceIT.createEntity(em)).block();
+        cart.setUser(user);
         return cart;
     }
 
@@ -91,7 +89,7 @@ class CartResourceIT {
         } catch (Exception e) {
             // It can fail, if other entities are still referring this - it will be removed later.
         }
-        CustomerResourceIT.deleteEntities(em);
+        UserResourceIT.deleteEntities(em);
     }
 
     @AfterEach

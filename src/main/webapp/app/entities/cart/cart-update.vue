@@ -39,20 +39,20 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" v-text="$t('storeApp.cart.customer')" for="cart-customer">Customer</label>
-            <select class="form-control" id="cart-customer" data-cy="customer" name="customer" v-model="cart.customer" required>
-              <option v-if="!cart.customer" v-bind:value="null" selected></option>
+            <label class="form-control-label" v-text="$t('storeApp.cart.user')" for="cart-user">User</label>
+            <select class="form-control" id="cart-user" data-cy="user" name="user" v-model="cart.user" required>
+              <option v-if="!cart.user" v-bind:value="null" selected></option>
               <option
-                v-bind:value="cart.customer && customerOption.id === cart.customer.id ? cart.customer : customerOption"
-                v-for="customerOption in customers"
-                :key="customerOption.id"
+                v-bind:value="cart.user && userOption.id === cart.user.id ? cart.user : userOption"
+                v-for="userOption in users"
+                :key="userOption.id"
               >
-                {{ customerOption.email }}
+                {{ userOption.login }}
               </option>
             </select>
           </div>
-          <div v-if="$v.cart.customer.$anyDirty && $v.cart.customer.$invalid">
-            <small class="form-text text-danger" v-if="!$v.cart.customer.required" v-text="$t('entity.validation.required')">
+          <div v-if="$v.cart.user.$anyDirty && $v.cart.user.$invalid">
+            <small class="form-text text-danger" v-if="!$v.cart.user.required" v-text="$t('entity.validation.required')">
               This field is required.
             </small>
           </div>

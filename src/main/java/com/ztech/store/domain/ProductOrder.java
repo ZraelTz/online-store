@@ -45,7 +45,7 @@ public class ProductOrder implements Serializable {
     private Set<OrderedItem> orderedItems = new HashSet<>();
 
     @Transient
-    @JsonIgnoreProperties(value = { "user", "orders", "cartItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "orders" }, allowSetters = true)
     private Customer customer;
 
     @Column("customer_id")

@@ -8,11 +8,11 @@
     -->
     <changeSet id="20211104132944-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="customer_id"
+        <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="cart"
-                                 constraintName="fk_cart__customer_id"
+                                 constraintName="fk_cart__user_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="customer"/>
+                                 referencedTableName="jhi_user"/>
 
         <addForeignKeyConstraint baseColumnNames="checkout_id"
                                  baseTableName="cart"

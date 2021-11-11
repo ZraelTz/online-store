@@ -6,7 +6,7 @@ import static org.springframework.data.relational.core.query.Query.query;
 import com.ztech.store.domain.Cart;
 import com.ztech.store.repository.rowmapper.CartRowMapper;
 import com.ztech.store.repository.rowmapper.CheckoutRowMapper;
-import com.ztech.store.repository.rowmapper.CustomerRowMapper;
+import com.ztech.store.repository.rowmapper.UserRowMapper;
 import com.ztech.store.service.EntityManager;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
@@ -40,25 +40,25 @@ class CartRepositoryInternalImpl implements CartRepositoryInternal {
     private final R2dbcEntityTemplate r2dbcEntityTemplate;
     private final EntityManager entityManager;
 
-    private final CustomerRowMapper customerMapper;
+    private final UserRowMapper userMapper;
     private final CheckoutRowMapper checkoutMapper;
     private final CartRowMapper cartMapper;
 
     private static final Table entityTable = Table.aliased("cart", EntityManager.ENTITY_ALIAS);
-    private static final Table customerTable = Table.aliased("customer", "customer");
+    private static final Table userTable = Table.aliased("jhi_user", "e_user");
     private static final Table checkoutTable = Table.aliased("checkout", "checkout");
 
     public CartRepositoryInternalImpl(
         R2dbcEntityTemplate template,
         EntityManager entityManager,
-        CustomerRowMapper customerMapper,
+        UserRowMapper userMapper,
         CheckoutRowMapper checkoutMapper,
         CartRowMapper cartMapper
     ) {
         this.db = template.getDatabaseClient();
         this.r2dbcEntityTemplate = template;
         this.entityManager = entityManager;
-        this.customerMapper = customerMapper;
+        this.userMapper = userMapper;
         this.checkoutMapper = checkoutMapper;
         this.cartMapper = cartMapper;
     }
@@ -75,15 +75,15 @@ class CartRepositoryInternalImpl implements CartRepositoryInternal {
 
     RowsFetchSpec<Cart> createQuery(Pageable pageable, Criteria criteria) {
         List<Expression> columns = CartSqlHelper.getColumns(entityTable, EntityManager.ENTITY_ALIAS);
-        columns.addAll(CustomerSqlHelper.getColumns(customerTable, "customer"));
+        columns.addAll(UserSqlHelper.getColumns(userTable, "user"));
         columns.addAll(CheckoutSqlHelper.getColumns(checkoutTable, "checkout"));
         SelectFromAndJoinCondition selectFrom = Select
             .builder()
             .select(columns)
             .from(entityTable)
-            .leftOuterJoin(customerTable)
-            .on(Column.create("customer_id", entityTable))
-            .equals(Column.create("id", customerTable))
+            .leftOuterJoin(userTable)
+            .on(Column.create("user_id", entityTable))
+            .equals(Column.create("id", userTable))
             .leftOuterJoin(checkoutTable)
             .on(Column.create("checkout_id", entityTable))
             .equals(Column.create("id", checkoutTable));
@@ -118,7 +118,7 @@ class CartRepositoryInternalImpl implements CartRepositoryInternal {
 
     private Cart process(Row row, RowMetadata metadata) {
         Cart entity = cartMapper.apply(row, "e");
-        entity.setCustomer(customerMapper.apply(row, "customer"));
+        entity.setUser(userMapper.apply(row, "user"));
         entity.setCheckout(checkoutMapper.apply(row, "checkout"));
         return entity;
     }
@@ -157,7 +157,7 @@ class CartSqlHelper {
         columns.add(Column.aliased("id", table, columnPrefix + "_id"));
         columns.add(Column.aliased("date", table, columnPrefix + "_date"));
 
-        columns.add(Column.aliased("customer_id", table, columnPrefix + "_customer_id"));
+        columns.add(Column.aliased("user_id", table, columnPrefix + "_user_id"));
         columns.add(Column.aliased("checkout_id", table, columnPrefix + "_checkout_id"));
         return columns;
     }
