@@ -32,8 +32,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 @IntegrationTest
 @AutoConfigureWebTestClient
-@WithMockUser(username="admin", authorities={"ROLE_ADMIN"},
-password = "admin")
+@WithMockUser
 class ShipmentResourceIT {
 
     private static final String DEFAULT_TRACKING_CODE = "AAAAAAAAAA";

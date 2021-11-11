@@ -1,5 +1,6 @@
 import { IUser } from '@/shared/model/user.model';
 import { IProductOrder } from '@/shared/model/product-order.model';
+import { ICartItem } from '@/shared/model/cart-item.model';
 
 import { Gender } from '@/shared/model/enumerations/gender.model';
 export interface ICustomer {
@@ -15,6 +16,7 @@ export interface ICustomer {
   countryState?: string;
   user?: IUser;
   orders?: IProductOrder[] | null;
+  cartItems?: ICartItem[] | null;
 }
 
 export class Customer implements ICustomer {
@@ -30,6 +32,7 @@ export class Customer implements ICustomer {
     public city?: string,
     public countryState?: string,
     public user?: IUser,
-    public orders?: IProductOrder[] | null
+    public orders?: IProductOrder[] | null,
+    public cartItems?: ICartItem[] | null
   ) {}
 }

@@ -63,6 +63,12 @@
       "otherEntityName": "productOrder",
       "otherEntityRelationshipName": "customer",
       "relationshipName": "order"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "cartItem",
+      "otherEntityRelationshipName": "customer",
+      "relationshipName": "cartItem"
     }
   ],
   "entityTableName": "customer",

@@ -113,7 +113,7 @@ relationship OneToOne {
   Customer{user(login) required} to User
   ProductRating{user(login) required} to User
   Vendor{user(login) required} to User
-  Customer to Cart{customer(email) required}
+  Cart{customer(email) required} to Customer
   CartItem{product(name) required} to Product
   Cart{checkout(totalPrice)} to Checkout{cart required}
 }

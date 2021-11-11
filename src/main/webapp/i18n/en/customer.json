@@ -28,7 +28,8 @@
       "city": "City",
       "countryState": "Country State",
       "user": "User",
-      "order": "Order"
+      "order": "Order",
+      "cartItem": "Cart Item"
     }
   }
 }

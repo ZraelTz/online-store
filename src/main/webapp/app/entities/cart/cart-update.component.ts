@@ -4,7 +4,8 @@ import { required } from 'vuelidate/lib/validators';
 import dayjs from 'dayjs';
 import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 
-import UserService from '@/admin/user-management/user-management.service';
+import CustomerService from '@/entities/customer/customer.service';
+import { ICustomer } from '@/shared/model/customer.model';
 
 import CheckoutService from '@/entities/checkout/checkout.service';
 import { ICheckout } from '@/shared/model/checkout.model';
@@ -20,7 +21,7 @@ const validations: any = {
     date: {
       required,
     },
-    user: {
+    customer: {
       required,
     },
   },
@@ -33,9 +34,9 @@ export default class CartUpdate extends Vue {
   @Inject('cartService') private cartService: () => CartService;
   public cart: ICart = new Cart();
 
-  @Inject('userService') private userService: () => UserService;
+  @Inject('customerService') private customerService: () => CustomerService;
 
-  public users: Array<any> = [];
+  public customers: ICustomer[] = [];
 
   @Inject('checkoutService') private checkoutService: () => CheckoutService;
 
@@ -138,10 +139,10 @@ export default class CartUpdate extends Vue {
   }
 
   public initRelationships(): void {
-    this.userService()
+    this.customerService()
       .retrieve()
       .then(res => {
-        this.users = res.data;
+        this.customers = res.data;
       });
     this.checkoutService()
       .retrieve()

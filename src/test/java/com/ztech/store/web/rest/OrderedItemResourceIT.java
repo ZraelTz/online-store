@@ -34,8 +34,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 @IntegrationTest
 @AutoConfigureWebTestClient
-@WithMockUser(username="admin", authorities={"ROLE_ADMIN"},
-password = "admin")
+@WithMockUser
 class OrderedItemResourceIT {
 
     private static final Integer DEFAULT_QUANTITY = 0;

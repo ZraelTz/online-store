@@ -23,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -63,7 +62,6 @@ public class OrderedItemResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new orderedItem, or with status {@code 400 (Bad Request)} if the orderedItem has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/ordered-items")
     public Mono<ResponseEntity<OrderedItem>> createOrderedItem(@Valid @RequestBody OrderedItem orderedItem) throws URISyntaxException {
         log.debug("REST request to save OrderedItem : {}", orderedItem);
@@ -94,7 +92,6 @@ public class OrderedItemResource {
      * or with status {@code 500 (Internal Server Error)} if the orderedItem couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/ordered-items/{id}")
     public Mono<ResponseEntity<OrderedItem>> updateOrderedItem(
         @PathVariable(value = "id", required = false) final Long id,
@@ -138,7 +135,6 @@ public class OrderedItemResource {
      * or with status {@code 500 (Internal Server Error)} if the orderedItem couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping(value = "/ordered-items/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<OrderedItem>> partialUpdateOrderedItem(
         @PathVariable(value = "id", required = false) final Long id,
@@ -179,7 +175,6 @@ public class OrderedItemResource {
      * @param request a {@link ServerHttpRequest} request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of orderedItems in body.
      */
-
     @GetMapping("/ordered-items")
     public Mono<ResponseEntity<List<OrderedItem>>> getAllOrderedItems(Pageable pageable, ServerHttpRequest request) {
         log.debug("REST request to get a page of OrderedItems");
@@ -205,7 +200,6 @@ public class OrderedItemResource {
      * @param id the id of the orderedItem to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the orderedItem, or with status {@code 404 (Not Found)}.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/ordered-items/{id}")
     public Mono<ResponseEntity<OrderedItem>> getOrderedItem(@PathVariable Long id) {
         log.debug("REST request to get OrderedItem : {}", id);
@@ -219,7 +213,6 @@ public class OrderedItemResource {
      * @param id the id of the orderedItem to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/ordered-items/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> deleteOrderedItem(@PathVariable Long id) {

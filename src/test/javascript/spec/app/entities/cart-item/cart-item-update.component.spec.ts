@@ -10,6 +10,8 @@ import CartItemService from '@/entities/cart-item/cart-item.service';
 
 import ProductService from '@/entities/product/product.service';
 
+import CustomerService from '@/entities/customer/customer.service';
+
 import CartService from '@/entities/cart/cart.service';
 
 const localVue = createLocalVue();
@@ -43,6 +45,8 @@ describe('Component Tests', () => {
           cartItemService: () => cartItemServiceStub,
 
           productService: () => new ProductService(),
+
+          customerService: () => new CustomerService(),
 
           cartService: () => new CartService(),
         },

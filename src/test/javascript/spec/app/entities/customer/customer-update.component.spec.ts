@@ -12,6 +12,8 @@ import UserService from '@/admin/user-management/user-management.service';
 
 import ProductOrderService from '@/entities/product-order/product-order.service';
 
+import CartItemService from '@/entities/cart-item/cart-item.service';
+
 const localVue = createLocalVue();
 
 config.initVueApp(localVue);
@@ -45,6 +47,8 @@ describe('Component Tests', () => {
           userService: () => new UserService(),
 
           productOrderService: () => new ProductOrderService(),
+
+          cartItemService: () => new CartItemService(),
         },
       });
       comp = wrapper.vm;

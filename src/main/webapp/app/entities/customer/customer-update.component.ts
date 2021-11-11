@@ -7,6 +7,9 @@ import UserService from '@/admin/user-management/user-management.service';
 import ProductOrderService from '@/entities/product-order/product-order.service';
 import { IProductOrder } from '@/shared/model/product-order.model';
 
+import CartItemService from '@/entities/cart-item/cart-item.service';
+import { ICartItem } from '@/shared/model/cart-item.model';
+
 import { ICustomer, Customer } from '@/shared/model/customer.model';
 import CustomerService from './customer.service';
 
@@ -57,6 +60,10 @@ export default class CustomerUpdate extends Vue {
   @Inject('productOrderService') private productOrderService: () => ProductOrderService;
 
   public productOrders: IProductOrder[] = [];
+
+  @Inject('cartItemService') private cartItemService: () => CartItemService;
+
+  public cartItems: ICartItem[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -136,6 +143,11 @@ export default class CustomerUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.productOrders = res.data;
+      });
+    this.cartItemService()
+      .retrieve()
+      .then(res => {
+        this.cartItems = res.data;
       });
   }
 }

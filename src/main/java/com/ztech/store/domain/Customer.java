@@ -66,6 +66,10 @@ public class Customer implements Serializable {
     @JsonIgnoreProperties(value = { "invoices", "orderedItems", "customer" }, allowSetters = true)
     private Set<ProductOrder> orders = new HashSet<>();
 
+    @Transient
+    @JsonIgnoreProperties(value = { "product", "customer", "cart" }, allowSetters = true)
+    private Set<CartItem> cartItems = new HashSet<>();
+
     @Column("user_id")
     private Long userId;
 
@@ -243,6 +247,37 @@ public class Customer implements Serializable {
     public Customer removeOrder(ProductOrder productOrder) {
         this.orders.remove(productOrder);
         productOrder.setCustomer(null);
+        return this;
+    }
+
+    public Set<CartItem> getCartItems() {
+        return this.cartItems;
+    }
+
+    public void setCartItems(Set<CartItem> cartItems) {
+        if (this.cartItems != null) {
+            this.cartItems.forEach(i -> i.setCustomer(null));
+        }
+        if (cartItems != null) {
+            cartItems.forEach(i -> i.setCustomer(this));
+        }
+        this.cartItems = cartItems;
+    }
+
+    public Customer cartItems(Set<CartItem> cartItems) {
+        this.setCartItems(cartItems);
+        return this;
+    }
+
+    public Customer addCartItem(CartItem cartItem) {
+        this.cartItems.add(cartItem);
+        cartItem.setCustomer(this);
+        return this;
+    }
+
+    public Customer removeCartItem(CartItem cartItem) {
+        this.cartItems.remove(cartItem);
+        cartItem.setCustomer(null);
         return this;
     }
 
