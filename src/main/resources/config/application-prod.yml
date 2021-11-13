@@ -40,6 +40,8 @@ spring:
     port: 587
     username: testhospitalmanagement@yahoo.com
     password: mxdgqxqqepdngthn
+    protocol: smtp
+    tls: true
         
     properties:
       mail:
