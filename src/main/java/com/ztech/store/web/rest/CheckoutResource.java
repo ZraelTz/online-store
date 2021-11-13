@@ -1,19 +1,11 @@
 package com.ztech.store.web.rest;
 
-import com.google.gson.Gson;
-import com.stripe.Stripe;
-import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.PaymentIntentCreateParams;
 import com.ztech.store.domain.Checkout;
-import com.ztech.store.domain.CreatePayment;
-import com.ztech.store.domain.CreatePaymentResponse;
 import com.ztech.store.repository.CheckoutRepository;
 import com.ztech.store.service.CheckoutService;
 import com.ztech.store.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -50,13 +42,9 @@ public class CheckoutResource {
 
     private final CheckoutRepository checkoutRepository;
 
-    @Value("${stripe.api.key}")
-    private String stripeApiKey;
-
     public CheckoutResource(CheckoutService checkoutService, CheckoutRepository checkoutRepository) {
         this.checkoutService = checkoutService;
         this.checkoutRepository = checkoutRepository;
-        Stripe.apiKey = stripeApiKey;
     }
 
     /**
@@ -229,25 +217,5 @@ public class CheckoutResource {
                     .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
                     .build()
             );
-    }
-
-    @PostMapping("/create-payment-intent")
-    public Mono<CreatePaymentResponse> createPaymentIntent(@Valid @RequestBody Checkout checkout) throws StripeException{
-
-            List<String> paymentMethodTypes = new ArrayList<>();
-            paymentMethodTypes.add("sepa_debit");
-            paymentMethodTypes.add("card");
-            PaymentIntentCreateParams params =
-              PaymentIntentCreateParams.builder()
-                .setAmount(checkout.getTotalPrice().longValue() * 100L)
-                .setCurrency("usd")
-                .addAllPaymentMethodType(paymentMethodTypes)
-                .build();
-      
-            // Create a PaymentIntent with the order amount and currency
-            PaymentIntent paymentIntent = PaymentIntent.create(params);
-      
-            return Mono.just(new CreatePaymentResponse(paymentIntent.getClientSecret()));
-            
     }
 }

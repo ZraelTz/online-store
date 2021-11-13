@@ -28,7 +28,7 @@ public class Cart implements Serializable {
     private Instant date;
 
     @Transient
-    private User user;
+    private Customer customer;
 
     @Transient
     private Checkout checkout;
@@ -37,8 +37,8 @@ public class Cart implements Serializable {
     @JsonIgnoreProperties(value = { "product", "cart" }, allowSetters = true)
     private Set<CartItem> cartItems = new HashSet<>();
 
-    @Column("user_id")
-    private Long userId;
+    @Column("customer_id")
+    private Long customerId;
 
     @Column("checkout_id")
     private Long checkoutId;
@@ -71,17 +71,17 @@ public class Cart implements Serializable {
         this.date = date;
     }
 
-    public User getUser() {
-        return this.user;
+    public Customer getCustomer() {
+        return this.customer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-        this.userId = user != null ? user.getId() : null;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+        this.customerId = customer != null ? customer.getId() : null;
     }
 
-    public Cart user(User user) {
-        this.setUser(user);
+    public Cart customer(Customer customer) {
+        this.setCustomer(customer);
         return this;
     }
 
@@ -130,12 +130,12 @@ public class Cart implements Serializable {
         return this;
     }
 
-    public Long getUserId() {
-        return this.userId;
+    public Long getCustomerId() {
+        return this.customerId;
     }
 
-    public void setUserId(Long user) {
-        this.userId = user;
+    public void setCustomerId(Long customer) {
+        this.customerId = customer;
     }
 
     public Long getCheckoutId() {

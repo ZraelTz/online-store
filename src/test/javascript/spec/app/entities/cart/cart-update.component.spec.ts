@@ -11,7 +11,7 @@ import CartUpdateComponent from '@/entities/cart/cart-update.vue';
 import CartClass from '@/entities/cart/cart-update.component';
 import CartService from '@/entities/cart/cart.service';
 
-import UserService from '@/admin/user-management/user-management.service';
+import CustomerService from '@/entities/customer/customer.service';
 
 import CheckoutService from '@/entities/checkout/checkout.service';
 
@@ -47,7 +47,7 @@ describe('Component Tests', () => {
         provide: {
           cartService: () => cartServiceStub,
 
-          userService: () => new UserService(),
+          customerService: () => new CustomerService(),
 
           checkoutService: () => new CheckoutService(),
 

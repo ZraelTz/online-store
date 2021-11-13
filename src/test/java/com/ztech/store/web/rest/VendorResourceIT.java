@@ -31,8 +31,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
  */
 @IntegrationTest
 @AutoConfigureWebTestClient
-@WithMockUser(username="admin", authorities={"ROLE_ADMIN"},
-password = "admin")
+@WithMockUser
 class VendorResourceIT {
 
     private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";

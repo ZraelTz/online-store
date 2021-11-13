@@ -10,11 +10,11 @@
   "relationships": [
     {
       "relationshipType": "one-to-one",
-      "otherEntityName": "user",
+      "otherEntityName": "customer",
       "otherEntityRelationshipName": "cart",
       "relationshipValidateRules": "required",
-      "relationshipName": "user",
-      "otherEntityField": "login",
+      "relationshipName": "customer",
+      "otherEntityField": "email",
       "ownerSide": true
     },
     {

@@ -2,9 +2,6 @@ package com.ztech.store.service;
 
 import com.ztech.store.domain.OrderedItem;
 import com.ztech.store.repository.OrderedItemRepository;
-import com.ztech.store.security.AuthoritiesConstants;
-import com.ztech.store.security.SecurityUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -75,19 +72,7 @@ public class OrderedItemService {
     @Transactional(readOnly = true)
     public Flux<OrderedItem> findAll(Pageable pageable) {
         log.debug("Request to get all OrderedItems");
-        
-        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
-        .flatMapMany(result -> {
-            if(result){
-                return orderedItemRepository.findAllBy(pageable); 
-            } else {
-                return SecurityUtils.getCurrentUserLogin()
-                .flatMapMany(currentUserLogin -> {
-                    return orderedItemRepository
-                    .findAllByOrderCustomerUserLogin(currentUserLogin, pageable);
-                });
-            }
-        });
+        return orderedItemRepository.findAllBy(pageable);
     }
 
     /**

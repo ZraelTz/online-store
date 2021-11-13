@@ -2,9 +2,6 @@ package com.ztech.store.service;
 
 import com.ztech.store.domain.Shipment;
 import com.ztech.store.repository.ShipmentRepository;
-import com.ztech.store.security.AuthoritiesConstants;
-import com.ztech.store.security.SecurityUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -75,19 +72,7 @@ public class ShipmentService {
     @Transactional(readOnly = true)
     public Flux<Shipment> findAll(Pageable pageable) {
         log.debug("Request to get all Shipments");
-
-        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
-        .flatMapMany(result -> {
-            if(result){
-                return shipmentRepository.findAllBy(pageable); 
-            } else {
-                return SecurityUtils.getCurrentUserLogin()
-                .flatMapMany(currentUserLogin -> {
-                    return shipmentRepository
-                    .findAllByInvoiceOrderCustomerUserLogin(currentUserLogin, pageable);
-                });
-            }
-        });
+        return shipmentRepository.findAllBy(pageable);
     }
 
     /**
