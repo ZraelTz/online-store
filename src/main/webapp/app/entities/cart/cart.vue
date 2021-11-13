@@ -25,7 +25,7 @@
           <tr>
             <th scope="row"><span v-text="$t('global.field.id')">ID</span></th>
             <th scope="row"><span v-text="$t('storeApp.cart.date')">Date</span></th>
-            <th scope="row"><span v-text="$t('storeApp.cart.user')">User</span></th>
+            <th scope="row"><span v-text="$t('storeApp.cart.customer')">Customer</span></th>
             <th scope="row"><span v-text="$t('storeApp.cart.checkout')">Checkout</span></th>
             <th scope="row"></th>
           </tr>
@@ -37,7 +37,11 @@
             </td>
             <td>{{ cart.date ? $d(Date.parse(cart.date), 'short') : '' }}</td>
             <td>
-              {{ cart.user ? cart.user.login : '' }}
+              <div v-if="cart.customer">
+                <router-link :to="{ name: 'CustomerView', params: { customerId: cart.customer.id } }">{{
+                  cart.customer.email
+                }}</router-link>
+              </div>
             </td>
             <td>
               <div v-if="cart.checkout">

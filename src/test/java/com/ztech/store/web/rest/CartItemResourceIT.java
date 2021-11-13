@@ -167,32 +167,6 @@ class CartItemResourceIT {
     }
 
     @Test
-    void getAllCartItemsAsStream() {
-        // Initialize the database
-        cartItemRepository.save(cartItem).block();
-
-        List<CartItem> cartItemList = webTestClient
-            .get()
-            .uri(ENTITY_API_URL)
-            .accept(MediaType.APPLICATION_NDJSON)
-            .exchange()
-            .expectStatus()
-            .isOk()
-            .expectHeader()
-            .contentTypeCompatibleWith(MediaType.APPLICATION_NDJSON)
-            .returnResult(CartItem.class)
-            .getResponseBody()
-            .filter(cartItem::equals)
-            .collectList()
-            .block(Duration.ofSeconds(5));
-
-        assertThat(cartItemList).isNotNull();
-        assertThat(cartItemList).hasSize(1);
-        CartItem testCartItem = cartItemList.get(0);
-        assertThat(testCartItem.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
-    }
-
-    @Test
     void getAllCartItems() {
         // Initialize the database
         cartItemRepository.save(cartItem).block();

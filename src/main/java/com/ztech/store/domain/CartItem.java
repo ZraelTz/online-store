@@ -29,7 +29,7 @@ public class CartItem implements Serializable {
     private Product product;
 
     @Transient
-    @JsonIgnoreProperties(value = { "user", "checkout", "cartItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "customer", "checkout", "cartItems" }, allowSetters = true)
     private Cart cart;
 
     @Column("product_id")

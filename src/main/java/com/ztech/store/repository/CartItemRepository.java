@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 @SuppressWarnings("unused")
 @Repository
 public interface CartItemRepository extends R2dbcRepository<CartItem, Long>, CartItemRepositoryInternal {
+    Flux<CartItem> findAllBy(Pageable pageable);
+
     @Query("SELECT * FROM cart_item entity WHERE entity.product_id = :id")
     Flux<CartItem> findByProduct(Long id);
 
@@ -26,10 +28,6 @@ public interface CartItemRepository extends R2dbcRepository<CartItem, Long>, Car
 
     @Query("SELECT * FROM cart_item entity WHERE entity.cart_id IS NULL")
     Flux<CartItem> findAllWhereCartIsNull();
-
-    @Query("select * from cart_item ci cross join customer c cross join jhi_user u where ci.customer_id=c.id and c.user_id=u.id and u.login=:login")
-    Flux<CartItem> findAllByCustomerUserLogin(String userLogin);
-
 
     // just to avoid having unambigous methods
     @Override

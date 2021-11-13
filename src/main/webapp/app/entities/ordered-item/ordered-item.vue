@@ -30,23 +30,23 @@
           <tr>
             <th scope="row" v-on:click="changeOrder('id')">
               <span v-text="$t('global.field.id')">ID</span>
-              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('quantity')">
               <span v-text="$t('storeApp.orderedItem.quantity')">Quantity</span>
-              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'quantity'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'quantity'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('totalPrice')">
               <span v-text="$t('storeApp.orderedItem.totalPrice')">Total Price</span>
-              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'totalPrice'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'totalPrice'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('status')">
               <span v-text="$t('storeApp.orderedItem.status')">Status</span>
-              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'status'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'status'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('product.name')">
               <span v-text="$t('storeApp.orderedItem.product')">Product</span>
-              <jhi-sort-indicator :current-productOrder="propOrder" :reverse="reverse" :field-name="'product.name'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'product.name'"></jhi-sort-indicator>
             </th>
             <th scope="row" v-on:click="changeOrder('productOrder.code')">
               <span v-text="$t('storeApp.orderedItem.productOrder')">Product Order</span>

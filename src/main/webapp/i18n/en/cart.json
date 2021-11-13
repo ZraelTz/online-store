@@ -19,7 +19,7 @@
       },
       "id": "ID",
       "date": "Date",
-      "user": "User",
+      "customer": "Customer",
       "checkout": "Checkout",
       "cartItem": "Cart Item"
     }
