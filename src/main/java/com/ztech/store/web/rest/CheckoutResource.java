@@ -1,5 +1,7 @@
 package com.ztech.store.web.rest;
 
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import com.ztech.store.domain.Checkout;
@@ -39,6 +41,9 @@ public class CheckoutResource {
 
     private static final String ENTITY_NAME = "checkout";
 
+    @Value("${stripe.api.key}")
+    private String stripeApiKey;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -49,6 +54,7 @@ public class CheckoutResource {
     public CheckoutResource(CheckoutService checkoutService, CheckoutRepository checkoutRepository) {
         this.checkoutService = checkoutService;
         this.checkoutRepository = checkoutRepository;
+        this.stripeApiKey = Stripe.apiKey;
     }
 
     /**

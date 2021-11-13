@@ -1,6 +1,8 @@
 package com.ztech.store.repository;
 
 import com.ztech.store.domain.Cart;
+
+import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
@@ -26,6 +28,12 @@ public interface CartRepository extends R2dbcRepository<Cart, Long>, CartReposit
 
     @Query("SELECT * FROM cart entity WHERE entity.checkout_id IS NULL")
     Flux<Cart> findAllWhereCheckoutIsNull();
+
+    @Query("select * from cart ct cross join customer c cross join jhi_user u where ct.customer_id=c.id and c.user_id=u.id and u.login=:login")
+    Flux<Cart> findAllByCustomerUserLogin(String currentUserLogin);
+    
+    @Query("select * from cart ct cross join customer c cross join jhi_user u where ct.customer_id=c.id and c.user_id=u.id and u.login=:login and ct.id=:id")
+    Mono<Cart> findOneByIdAndCustomerUserLogin(Long id, String currentUserLogin);
 
     // just to avoid having unambigous methods
     @Override

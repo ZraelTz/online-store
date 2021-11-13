@@ -114,7 +114,19 @@ public class ProductOrderService {
     @Transactional(readOnly = true)
     public Mono<ProductOrder> findOne(Long id) {
         log.debug("Request to get ProductOrder : {}", id);
-        return productOrderRepository.findById(id);
+
+        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
+                .flatMap(result -> {
+                    if(result){
+                        return productOrderRepository.findById(id); 
+                    } else {
+                        return SecurityUtils.getCurrentUserLogin()
+                        .flatMap(currentUserLogin -> {
+                            return productOrderRepository
+                            .findOneByIdAndCustomerUserLogin(id, currentUserLogin);
+                        });
+                    }
+                });
     }
 
     /**

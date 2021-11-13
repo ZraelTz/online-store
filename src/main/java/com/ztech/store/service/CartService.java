@@ -2,6 +2,9 @@ package com.ztech.store.service;
 
 import com.ztech.store.domain.Cart;
 import com.ztech.store.repository.CartRepository;
+import com.ztech.store.security.AuthoritiesConstants;
+import com.ztech.store.security.SecurityUtils;
+
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +68,19 @@ public class CartService {
     @Transactional(readOnly = true)
     public Flux<Cart> findAll() {
         log.debug("Request to get all Carts");
-        return cartRepository.findAll();
+
+        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
+        .flatMapMany(result -> {
+            if(result){
+                return cartRepository.findAll(); 
+            } else {
+                return SecurityUtils.getCurrentUserLogin()
+                .flatMapMany(currentUserLogin -> {
+                    return cartRepository
+                    .findAllByCustomerUserLogin(currentUserLogin);
+                });
+            }
+        });
     }
 
     /**
@@ -86,7 +101,19 @@ public class CartService {
     @Transactional(readOnly = true)
     public Mono<Cart> findOne(Long id) {
         log.debug("Request to get Cart : {}", id);
-        return cartRepository.findById(id);
+
+                return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
+                .flatMap(result -> {
+                    if(result){
+                        return cartRepository.findById(id); 
+                    } else {
+                        return SecurityUtils.getCurrentUserLogin()
+                        .flatMap(currentUserLogin -> {
+                            return cartRepository
+                            .findOneByIdAndCustomerUserLogin(id, currentUserLogin);
+                        });
+                    }
+                });
     }
 
     /**

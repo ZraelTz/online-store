@@ -27,6 +27,9 @@ public interface ProductOrderRepository extends R2dbcRepository<ProductOrder, Lo
     Flux<ProductOrder> findAllByCustomerUserLogin(String currentUserLogin,
     Pageable pageable);
 
+    @Query("select * from product_order po cross join customer c cross join jhi_user u where po.customer_id=c.id and c.user_id=u.id and u.login=:login and po.id=:id")
+    Mono<ProductOrder> findOneByIdAndCustomerUserLogin(Long id, String currentUserLogin);
+
     // just to avoid having unambigous methods
     @Override
     Flux<ProductOrder> findAll();

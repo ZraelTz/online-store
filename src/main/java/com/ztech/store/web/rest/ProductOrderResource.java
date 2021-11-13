@@ -63,7 +63,6 @@ public class ProductOrderResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new productOrder, or with status {@code 400 (Bad Request)} if the productOrder has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/product-orders")
     public Mono<ResponseEntity<ProductOrder>> createProductOrder(@Valid @RequestBody ProductOrder productOrder) throws URISyntaxException {
         log.debug("REST request to save ProductOrder : {}", productOrder);
@@ -94,7 +93,6 @@ public class ProductOrderResource {
      * or with status {@code 500 (Internal Server Error)} if the productOrder couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/product-orders/{id}")
     public Mono<ResponseEntity<ProductOrder>> updateProductOrder(
         @PathVariable(value = "id", required = false) final Long id,
@@ -138,7 +136,6 @@ public class ProductOrderResource {
      * or with status {@code 500 (Internal Server Error)} if the productOrder couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping(value = "/product-orders/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<ProductOrder>> partialUpdateProductOrder(
         @PathVariable(value = "id", required = false) final Long id,
@@ -179,7 +176,7 @@ public class ProductOrderResource {
      * @param request a {@link ServerHttpRequest} request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of productOrders in body.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')") 
+
     @GetMapping("/product-orders")
     public Mono<ResponseEntity<List<ProductOrder>>> getAllProductOrders(Pageable pageable, ServerHttpRequest request) {
         log.debug("REST request to get a page of ProductOrders");
@@ -205,7 +202,6 @@ public class ProductOrderResource {
      * @param id the id of the productOrder to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the productOrder, or with status {@code 404 (Not Found)}.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/product-orders/{id}")
     public Mono<ResponseEntity<ProductOrder>> getProductOrder(@PathVariable Long id) {
         log.debug("REST request to get ProductOrder : {}", id);

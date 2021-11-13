@@ -2,6 +2,9 @@ package com.ztech.store.service;
 
 import com.ztech.store.domain.CartItem;
 import com.ztech.store.repository.CartItemRepository;
+import com.ztech.store.security.AuthoritiesConstants;
+import com.ztech.store.security.SecurityUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -66,7 +69,19 @@ public class CartItemService {
     @Transactional(readOnly = true)
     public Flux<CartItem> findAll(Pageable pageable) {
         log.debug("Request to get all CartItems");
-        return cartItemRepository.findAllBy(pageable);
+        
+        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
+        .flatMapMany(result -> {
+            if(result){
+                return cartItemRepository.findAllBy(pageable); 
+            } else {
+                return SecurityUtils.getCurrentUserLogin()
+                .flatMapMany(currentUserLogin -> {
+                    return cartItemRepository
+                    .findAllByCustomerUserLogin(currentUserLogin, pageable);
+                });
+            }
+        });
     }
 
     /**
@@ -87,7 +102,19 @@ public class CartItemService {
     @Transactional(readOnly = true)
     public Mono<CartItem> findOne(Long id) {
         log.debug("Request to get CartItem : {}", id);
-        return cartItemRepository.findById(id);
+
+        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
+        .flatMap(result -> {
+            if(result){
+                return cartItemRepository.findById(id); 
+            } else {
+                return SecurityUtils.getCurrentUserLogin()
+                .flatMap(currentUserLogin -> {
+                    return cartItemRepository
+                    .findOneByIdAndCustomerUserLogin(id, currentUserLogin);
+                });
+            }
+        });
     }
 
     /**

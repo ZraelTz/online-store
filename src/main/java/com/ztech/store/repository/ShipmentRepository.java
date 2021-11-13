@@ -26,6 +26,9 @@ public interface ShipmentRepository extends R2dbcRepository<Shipment, Long>, Shi
     @Query("select * from shipment sh cross join product_order po cross join customer c cross join jhi_user u where sh.invoice_id=po.id and po.customer_id=c.id and c.user_id=u.id and u.login=:login")
     Flux<Shipment> findAllByInvoiceOrderCustomerUserLogin(String currentUserLogin, Pageable pageable);
 
+    @Query("select * from shipment sh cross join product_order po cross join customer c cross join jhi_user u where sh.invoice_id=po.id and po.customer_id=c.id and c.user_id=u.id and u.login=:login and sh.id=:id")
+    Mono<Shipment> findOneByIdAndCustomerUserLogin(Long id, String currentUserLogin);
+
     // just to avoid having unambigous methods
     @Override
     Flux<Shipment> findAll();

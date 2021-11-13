@@ -108,7 +108,19 @@ public class OrderedItemService {
     @Transactional(readOnly = true)
     public Mono<OrderedItem> findOne(Long id) {
         log.debug("Request to get OrderedItem : {}", id);
-        return orderedItemRepository.findById(id);
+        
+        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
+        .flatMap(result -> {
+            if(result){
+                return orderedItemRepository.findById(id); 
+            } else {
+                return SecurityUtils.getCurrentUserLogin()
+                .flatMap(currentUserLogin -> {
+                    return orderedItemRepository
+                    .findOneByIdAndCustomerUserLogin(id, currentUserLogin);
+                });
+            }
+        });
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.ztech.store.repository;
 
 import com.ztech.store.domain.Checkout;
+
+import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
@@ -17,6 +19,12 @@ import reactor.core.publisher.Mono;
 public interface CheckoutRepository extends R2dbcRepository<Checkout, Long>, CheckoutRepositoryInternal {
     @Query("SELECT * FROM checkout entity WHERE entity.id not in (select checkout_id from cart)")
     Flux<Checkout> findAllWhereCartIsNull();
+
+    @Query("select * from checkout co cross join cart ct cross join customer c cross join jhi_user u where co.id=ct.id and ct.customer_id=c.id and c.user_id=u.id and u.login=:login")
+    Flux<Checkout> findAllByCustomerUserLogin(String currentUserLogin);
+
+    @Query("select * from checkout co cross join cart ct cross join customer c cross join jhi_user u where co.id=ct.id and ct.customer_id=c.id and c.user_id=u.id and u.login=:login and co.id=:id")
+    Mono<Checkout> findOneByIdAndCustomerUserLogin(Long id, String currentUserLogin);
 
     // just to avoid having unambigous methods
     @Override

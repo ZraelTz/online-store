@@ -32,6 +32,8 @@ public interface OrderedItemRepository extends R2dbcRepository<OrderedItem, Long
     @Query("select * from ordered_item it cross join product_order po cross join customer c cross join jhi_user u where it.product_order_id=po.id and po.customer_id=c.id and c.user_id=u.id and u.login=:login")
     Flux<OrderedItem> findAllByOrderCustomerUserLogin(String currentUserLogin, Pageable pageable);
 
+    @Query("select * from ordered_item it cross join product_order po cross join customer c cross join jhi_user u where it.product_order_id=po.id and po.customer_id=c.id and c.user_id=u.id and u.login=:login and it.id=:id")
+    Mono<OrderedItem> findOneByIdAndCustomerUserLogin(Long id, String currentUserLogin);
 
     // just to avoid having unambigous methods
     @Override

@@ -108,7 +108,19 @@ public class ShipmentService {
     @Transactional(readOnly = true)
     public Mono<Shipment> findOne(Long id) {
         log.debug("Request to get Shipment : {}", id);
-        return shipmentRepository.findById(id);
+                
+        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
+        .flatMap(result -> {
+            if(result){
+                return shipmentRepository.findById(id); 
+            } else {
+                return SecurityUtils.getCurrentUserLogin()
+                .flatMap(currentUserLogin -> {
+                    return shipmentRepository
+                    .findOneByIdAndCustomerUserLogin(id, currentUserLogin);
+                });
+            }
+        });
     }
 
     /**

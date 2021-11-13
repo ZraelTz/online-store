@@ -100,8 +100,6 @@ public class InvoiceService {
                 });
             }
         });
-        
-        //return invoiceRepository.findAllBy(pageable);
     }
 
     /**
@@ -122,7 +120,19 @@ public class InvoiceService {
     @Transactional(readOnly = true)
     public Mono<Invoice> findOne(Long id) {
         log.debug("Request to get Invoice : {}", id);
-        return invoiceRepository.findById(id);
+
+        return SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)
+        .flatMap(result -> {
+            if(result){
+                return invoiceRepository.findById(id); 
+            } else {
+                return SecurityUtils.getCurrentUserLogin()
+                .flatMap(currentUserLogin -> {
+                    return invoiceRepository
+                    .findOneByIdAndCustomerUserLogin(id, currentUserLogin);
+                });
+            }
+        });
     }
 
     /**
