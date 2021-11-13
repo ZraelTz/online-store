@@ -1,11 +1,15 @@
 package com.ztech.store.web.rest;
 
+import com.stripe.model.PaymentIntent;
+import com.stripe.param.PaymentIntentCreateParams;
 import com.ztech.store.domain.Checkout;
+import com.ztech.store.domain.CreatePaymentResponse;
 import com.ztech.store.repository.CheckoutRepository;
 import com.ztech.store.service.CheckoutService;
 import com.ztech.store.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -218,4 +222,25 @@ public class CheckoutResource {
                     .build()
             );
     }
+
+    @PostMapping("/create-payment-intent")
+    public Mono<CreatePaymentResponse> createPaymentIntent(@Valid @RequestBody Checkout checkout) throws StripeException{
+
+            List<String> paymentMethodTypes = new ArrayList<>();
+            paymentMethodTypes.add("sepa_debit");
+            paymentMethodTypes.add("card");
+            PaymentIntentCreateParams params =
+              PaymentIntentCreateParams.builder()
+                .setAmount(checkout.getTotalPrice().longValue() * 100L)
+                .setCurrency("usd")
+                .addAllPaymentMethodType(paymentMethodTypes)
+                .build();
+      
+            // Create a PaymentIntent with the order amount and currency
+            PaymentIntent paymentIntent = PaymentIntent.create(params);
+      
+            return Mono.just(new CreatePaymentResponse(paymentIntent.getClientSecret()));
+            
+    }
+
 }
