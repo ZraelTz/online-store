@@ -1,8 +1,6 @@
 package com.ztech.store.repository;
 
 import com.ztech.store.domain.CartItem;
-
-import org.reactivestreams.Publisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
@@ -19,17 +17,17 @@ import reactor.core.publisher.Mono;
 public interface CartItemRepository extends R2dbcRepository<CartItem, Long>, CartItemRepositoryInternal {
     Flux<CartItem> findAllBy(Pageable pageable);
 
-    @Query("SELECT * FROM cart_item entity WHERE entity.product_id = :id")
-    Flux<CartItem> findByProduct(Long id);
-
-    @Query("SELECT * FROM cart_item entity WHERE entity.product_id IS NULL")
-    Flux<CartItem> findAllWhereProductIsNull();
-
     @Query("SELECT * FROM cart_item entity WHERE entity.cart_id = :id")
     Flux<CartItem> findByCart(Long id);
 
     @Query("SELECT * FROM cart_item entity WHERE entity.cart_id IS NULL")
     Flux<CartItem> findAllWhereCartIsNull();
+
+    @Query("SELECT * FROM cart_item entity WHERE entity.product_id = :id")
+    Flux<CartItem> findByProduct(Long id);
+
+    @Query("SELECT * FROM cart_item entity WHERE entity.product_id IS NULL")
+    Flux<CartItem> findAllWhereProductIsNull();
 
     @Query("select * from cart_item ci cross join cart ct cross join customer c cross join jhi_user u where ci.id=ct.id and ct.customer_id=c.id and c.user_id=u.id and u.login=:login")
     Flux<CartItem> findAllByCustomerUserLogin(String currentUserLogin, Pageable pageable);
@@ -46,8 +44,6 @@ public interface CartItemRepository extends R2dbcRepository<CartItem, Long>, Car
 
     @Override
     <S extends CartItem> Mono<S> save(S entity);
-
-    
 }
 
 interface CartItemRepositoryInternal {

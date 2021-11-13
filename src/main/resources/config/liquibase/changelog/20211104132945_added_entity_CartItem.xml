@@ -17,11 +17,11 @@
             <column name="quantity" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="product_id" type="bigint">
-                <constraints nullable="false" unique="true" uniqueConstraintName="ux_cart_item__product_id" />
-            </column>
             <column name="cart_id" type="bigint">
                 <constraints nullable="true" />
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>

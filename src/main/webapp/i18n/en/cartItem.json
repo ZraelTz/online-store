@@ -19,8 +19,8 @@
       },
       "id": "ID",
       "quantity": "Quantity",
-      "product": "Product",
-      "cart": "Cart"
+      "cart": "Cart",
+      "product": "Product"
     }
   }
 }

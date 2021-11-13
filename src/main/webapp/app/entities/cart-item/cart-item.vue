@@ -36,13 +36,13 @@
               <span v-text="$t('storeApp.cartItem.quantity')">Quantity</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'quantity'"></jhi-sort-indicator>
             </th>
-            <th scope="row" v-on:click="changeOrder('product.name')">
-              <span v-text="$t('storeApp.cartItem.product')">Product</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'product.name'"></jhi-sort-indicator>
-            </th>
             <th scope="row" v-on:click="changeOrder('cart.id')">
               <span v-text="$t('storeApp.cartItem.cart')">Cart</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'cart.id'"></jhi-sort-indicator>
+            </th>
+            <th scope="row" v-on:click="changeOrder('product.name')">
+              <span v-text="$t('storeApp.cartItem.product')">Product</span>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'product.name'"></jhi-sort-indicator>
             </th>
             <th scope="row"></th>
           </tr>
@@ -54,15 +54,15 @@
             </td>
             <td>{{ cartItem.quantity }}</td>
             <td>
+              <div v-if="cartItem.cart">
+                <router-link :to="{ name: 'CartView', params: { cartId: cartItem.cart.id } }">{{ cartItem.cart.id }}</router-link>
+              </div>
+            </td>
+            <td>
               <div v-if="cartItem.product">
                 <router-link :to="{ name: 'ProductView', params: { productId: cartItem.product.id } }">{{
                   cartItem.product.name
                 }}</router-link>
-              </div>
-            </td>
-            <td>
-              <div v-if="cartItem.cart">
-                <router-link :to="{ name: 'CartView', params: { cartId: cartItem.cart.id } }">{{ cartItem.cart.id }}</router-link>
               </div>
             </td>
             <td class="text-right">

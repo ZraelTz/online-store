@@ -114,7 +114,6 @@ relationship OneToOne {
   ProductRating{user(login) required} to User
   Vendor{user(login) required} to User
   Cart{customer(email) required} to Customer
-  CartItem{product(name) required} to Product
   Cart{checkout(totalPrice)} to Checkout{cart required}
 }
 relationship OneToMany {

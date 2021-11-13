@@ -23,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -63,7 +62,6 @@ public class OrderedItemResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new orderedItem, or with status {@code 400 (Bad Request)} if the orderedItem has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
- 
     @PostMapping("/ordered-items")
     public Mono<ResponseEntity<OrderedItem>> createOrderedItem(@Valid @RequestBody OrderedItem orderedItem) throws URISyntaxException {
         log.debug("REST request to save OrderedItem : {}", orderedItem);
@@ -177,7 +175,6 @@ public class OrderedItemResource {
      * @param request a {@link ServerHttpRequest} request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of orderedItems in body.
      */
-
     @GetMapping("/ordered-items")
     public Mono<ResponseEntity<List<OrderedItem>>> getAllOrderedItems(Pageable pageable, ServerHttpRequest request) {
         log.debug("REST request to get a page of OrderedItems");
@@ -216,7 +213,6 @@ public class OrderedItemResource {
      * @param id the id of the orderedItem to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/ordered-items/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> deleteOrderedItem(@PathVariable Long id) {

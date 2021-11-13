@@ -39,26 +39,26 @@ class CartItemRepositoryInternalImpl implements CartItemRepositoryInternal {
     private final R2dbcEntityTemplate r2dbcEntityTemplate;
     private final EntityManager entityManager;
 
-    private final ProductRowMapper productMapper;
     private final CartRowMapper cartMapper;
+    private final ProductRowMapper productMapper;
     private final CartItemRowMapper cartitemMapper;
 
     private static final Table entityTable = Table.aliased("cart_item", EntityManager.ENTITY_ALIAS);
-    private static final Table productTable = Table.aliased("product", "product");
     private static final Table cartTable = Table.aliased("cart", "cart");
+    private static final Table productTable = Table.aliased("product", "product");
 
     public CartItemRepositoryInternalImpl(
         R2dbcEntityTemplate template,
         EntityManager entityManager,
-        ProductRowMapper productMapper,
         CartRowMapper cartMapper,
+        ProductRowMapper productMapper,
         CartItemRowMapper cartitemMapper
     ) {
         this.db = template.getDatabaseClient();
         this.r2dbcEntityTemplate = template;
         this.entityManager = entityManager;
-        this.productMapper = productMapper;
         this.cartMapper = cartMapper;
+        this.productMapper = productMapper;
         this.cartitemMapper = cartitemMapper;
     }
 
@@ -74,18 +74,18 @@ class CartItemRepositoryInternalImpl implements CartItemRepositoryInternal {
 
     RowsFetchSpec<CartItem> createQuery(Pageable pageable, Criteria criteria) {
         List<Expression> columns = CartItemSqlHelper.getColumns(entityTable, EntityManager.ENTITY_ALIAS);
-        columns.addAll(ProductSqlHelper.getColumns(productTable, "product"));
         columns.addAll(CartSqlHelper.getColumns(cartTable, "cart"));
+        columns.addAll(ProductSqlHelper.getColumns(productTable, "product"));
         SelectFromAndJoinCondition selectFrom = Select
             .builder()
             .select(columns)
             .from(entityTable)
-            .leftOuterJoin(productTable)
-            .on(Column.create("product_id", entityTable))
-            .equals(Column.create("id", productTable))
             .leftOuterJoin(cartTable)
             .on(Column.create("cart_id", entityTable))
-            .equals(Column.create("id", cartTable));
+            .equals(Column.create("id", cartTable))
+            .leftOuterJoin(productTable)
+            .on(Column.create("product_id", entityTable))
+            .equals(Column.create("id", productTable));
 
         String select = entityManager.createSelect(selectFrom, CartItem.class, pageable, criteria);
         String alias = entityTable.getReferenceName().getReference();
@@ -117,8 +117,8 @@ class CartItemRepositoryInternalImpl implements CartItemRepositoryInternal {
 
     private CartItem process(Row row, RowMetadata metadata) {
         CartItem entity = cartitemMapper.apply(row, "e");
-        entity.setProduct(productMapper.apply(row, "product"));
         entity.setCart(cartMapper.apply(row, "cart"));
+        entity.setProduct(productMapper.apply(row, "product"));
         return entity;
     }
 
@@ -156,8 +156,8 @@ class CartItemSqlHelper {
         columns.add(Column.aliased("id", table, columnPrefix + "_id"));
         columns.add(Column.aliased("quantity", table, columnPrefix + "_quantity"));
 
-        columns.add(Column.aliased("product_id", table, columnPrefix + "_product_id"));
         columns.add(Column.aliased("cart_id", table, columnPrefix + "_cart_id"));
+        columns.add(Column.aliased("product_id", table, columnPrefix + "_product_id"));
         return columns;
     }
 }

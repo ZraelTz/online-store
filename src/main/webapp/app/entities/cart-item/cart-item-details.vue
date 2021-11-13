@@ -13,6 +13,14 @@
             <span>{{ cartItem.quantity }}</span>
           </dd>
           <dt>
+            <span v-text="$t('storeApp.cartItem.cart')">Cart</span>
+          </dt>
+          <dd>
+            <div v-if="cartItem.cart">
+              <router-link :to="{ name: 'CartView', params: { cartId: cartItem.cart.id } }">{{ cartItem.cart.id }}</router-link>
+            </div>
+          </dd>
+          <dt>
             <span v-text="$t('storeApp.cartItem.product')">Product</span>
           </dt>
           <dd>
@@ -20,14 +28,6 @@
               <router-link :to="{ name: 'ProductView', params: { productId: cartItem.product.id } }">{{
                 cartItem.product.name
               }}</router-link>
-            </div>
-          </dd>
-          <dt>
-            <span v-text="$t('storeApp.cartItem.cart')">Cart</span>
-          </dt>
-          <dd>
-            <div v-if="cartItem.cart">
-              <router-link :to="{ name: 'CartView', params: { cartId: cartItem.cart.id } }">{{ cartItem.cart.id }}</router-link>
             </div>
           </dd>
         </dl>

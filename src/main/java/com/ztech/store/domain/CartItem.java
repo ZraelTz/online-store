@@ -26,17 +26,18 @@ public class CartItem implements Serializable {
     private Integer quantity;
 
     @Transient
-    private Product product;
-
-    @Transient
     @JsonIgnoreProperties(value = { "customer", "checkout", "cartItems" }, allowSetters = true)
     private Cart cart;
 
-    @Column("product_id")
-    private Long productId;
+    @Transient
+    @JsonIgnoreProperties(value = { "productCategory", "ratings" }, allowSetters = true)
+    private Product product;
 
     @Column("cart_id")
     private Long cartId;
+
+    @Column("product_id")
+    private Long productId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -66,20 +67,6 @@ public class CartItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public Product getProduct() {
-        return this.product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-        this.productId = product != null ? product.getId() : null;
-    }
-
-    public CartItem product(Product product) {
-        this.setProduct(product);
-        return this;
-    }
-
     public Cart getCart() {
         return this.cart;
     }
@@ -94,12 +81,18 @@ public class CartItem implements Serializable {
         return this;
     }
 
-    public Long getProductId() {
-        return this.productId;
+    public Product getProduct() {
+        return this.product;
     }
 
-    public void setProductId(Long product) {
-        this.productId = product;
+    public void setProduct(Product product) {
+        this.product = product;
+        this.productId = product != null ? product.getId() : null;
+    }
+
+    public CartItem product(Product product) {
+        this.setProduct(product);
+        return this;
     }
 
     public Long getCartId() {
@@ -108,6 +101,14 @@ public class CartItem implements Serializable {
 
     public void setCartId(Long cart) {
         this.cartId = cart;
+    }
+
+    public Long getProductId() {
+        return this.productId;
+    }
+
+    public void setProductId(Long product) {
+        this.productId = product;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

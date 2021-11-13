@@ -2,11 +2,11 @@ import { Component, Vue, Inject } from 'vue-property-decorator';
 
 import { numeric, required, minValue } from 'vuelidate/lib/validators';
 
-import ProductService from '@/entities/product/product.service';
-import { IProduct } from '@/shared/model/product.model';
-
 import CartService from '@/entities/cart/cart.service';
 import { ICart } from '@/shared/model/cart.model';
+
+import ProductService from '@/entities/product/product.service';
+import { IProduct } from '@/shared/model/product.model';
 
 import { ICartItem, CartItem } from '@/shared/model/cart-item.model';
 import CartItemService from './cart-item.service';
@@ -31,13 +31,13 @@ export default class CartItemUpdate extends Vue {
   @Inject('cartItemService') private cartItemService: () => CartItemService;
   public cartItem: ICartItem = new CartItem();
 
-  @Inject('productService') private productService: () => ProductService;
-
-  public products: IProduct[] = [];
-
   @Inject('cartService') private cartService: () => CartService;
 
   public carts: ICart[] = [];
+
+  @Inject('productService') private productService: () => ProductService;
+
+  public products: IProduct[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -108,15 +108,15 @@ export default class CartItemUpdate extends Vue {
   }
 
   public initRelationships(): void {
-    this.productService()
-      .retrieve()
-      .then(res => {
-        this.products = res.data;
-      });
     this.cartService()
       .retrieve()
       .then(res => {
         this.carts = res.data;
+      });
+    this.productService()
+      .retrieve()
+      .then(res => {
+        this.products = res.data;
       });
   }
 }

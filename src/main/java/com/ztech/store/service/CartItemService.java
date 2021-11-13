@@ -66,6 +66,7 @@ public class CartItemService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
+
     @Transactional(readOnly = true)
     public Flux<CartItem> findAll(Pageable pageable) {
         log.debug("Request to get all CartItems");

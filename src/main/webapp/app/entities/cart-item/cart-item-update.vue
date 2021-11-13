@@ -39,6 +39,19 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="form-control-label" v-text="$t('storeApp.cartItem.cart')" for="cart-item-cart">Cart</label>
+            <select class="form-control" id="cart-item-cart" data-cy="cart" name="cart" v-model="cartItem.cart">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="cartItem.cart && cartOption.id === cartItem.cart.id ? cartItem.cart : cartOption"
+                v-for="cartOption in carts"
+                :key="cartOption.id"
+              >
+                {{ cartOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
             <label class="form-control-label" v-text="$t('storeApp.cartItem.product')" for="cart-item-product">Product</label>
             <select class="form-control" id="cart-item-product" data-cy="product" name="product" v-model="cartItem.product" required>
               <option v-if="!cartItem.product" v-bind:value="null" selected></option>
@@ -55,19 +68,6 @@
             <small class="form-text text-danger" v-if="!$v.cartItem.product.required" v-text="$t('entity.validation.required')">
               This field is required.
             </small>
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" v-text="$t('storeApp.cartItem.cart')" for="cart-item-cart">Cart</label>
-            <select class="form-control" id="cart-item-cart" data-cy="cart" name="cart" v-model="cartItem.cart">
-              <option v-bind:value="null"></option>
-              <option
-                v-bind:value="cartItem.cart && cartOption.id === cartItem.cart.id ? cartItem.cart : cartOption"
-                v-for="cartOption in carts"
-                :key="cartOption.id"
-              >
-                {{ cartOption.id }}
-              </option>
-            </select>
           </div>
         </div>
         <div>

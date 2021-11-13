@@ -8,9 +8,9 @@ import CartItemUpdateComponent from '@/entities/cart-item/cart-item-update.vue';
 import CartItemClass from '@/entities/cart-item/cart-item-update.component';
 import CartItemService from '@/entities/cart-item/cart-item.service';
 
-import ProductService from '@/entities/product/product.service';
-
 import CartService from '@/entities/cart/cart.service';
+
+import ProductService from '@/entities/product/product.service';
 
 const localVue = createLocalVue();
 
@@ -42,9 +42,9 @@ describe('Component Tests', () => {
         provide: {
           cartItemService: () => cartItemServiceStub,
 
-          productService: () => new ProductService(),
-
           cartService: () => new CartService(),
+
+          productService: () => new ProductService(),
         },
       });
       comp = wrapper.vm;
