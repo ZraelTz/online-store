@@ -58,7 +58,7 @@ spring:
   r2dbc:
     url: r2dbc:mysql://i5m4xo211jf2wl67:fjg5nuyn0ydky3gz@x8autxobia7sgh74.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/sjvnh8wvs5olkhp9
     username: i5m4xo211jf2wl67
-    password: fjg5nuyn0ydky3gz
+    password: gxsdi9v385m4gzx3
   thymeleaf:
     cache: true
   sleuth:
