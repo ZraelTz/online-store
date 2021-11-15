@@ -34,7 +34,7 @@ spring:
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod, faker
-    url: jdbc:
+    url: jdbc:mysql://bc87dd719fd2e6:b7f9acb1@us-cdbr-east-04.cleardb.com/heroku_0ed37fe8edd1db7?reconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
   mail:
     host: smtp.mail.yahoo.com
     port: 587
@@ -56,9 +56,9 @@ spring:
           timeout: 5000
           writetimeout: 5000
   r2dbc:
-    url: r2dbc:
+    url: r2dbc:mysql://bc87dd719fd2e6:b7f9acb1@us-cdbr-east-04.cleardb.com/heroku_0ed37fe8edd1db7?reconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username:
-    password:
+    password: 
   thymeleaf:
     cache: true
   sleuth:
