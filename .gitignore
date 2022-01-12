@@ -4,7 +4,7 @@
 /src/main/webapp/content/css/main.css
 /build/resources/main/static/**
 /src/test/javascript/coverage/
-/src/main/resources/config/
+/src/main/resources/config/**
 
 ######################
 # Node
@@ -124,7 +124,7 @@ Desktop.ini
 ######################
 /bin/
 /deploy/
-/src/main/resources/config/*
+/src/main/resources/config/**
 
 ######################
 # Logs
